@@ -6,17 +6,30 @@
 
 package game2;
 
+import javalib.funworld.*;
+import javalib.colors.*;
+import javalib.worldimages.*;
+import java.util.*;
+
 /**
  *
  * @author ldbruby95
  */
-public class Game2 {
+
+
+// based off of legend of zelda
+public class Game2 extends World {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
+    }
+
+    @Override
+    public WorldImage makeImage() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
