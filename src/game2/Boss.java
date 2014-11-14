@@ -10,6 +10,6 @@ package game2;
  *
  * @author ldbruby95
  */
-public class Enemies {
+public class Boss {
     
 }

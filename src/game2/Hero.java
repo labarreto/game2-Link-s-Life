@@ -29,7 +29,7 @@ public class Hero {
         link = new FromFileImage(pin, heroFileName);
         this.width = link.getWidth();
         this.height = link.getHeight();
-    }
+    }   
      public Hero(Posn pin) {
         this.pin = pin;
         heroFileName = "link.png";
@@ -48,6 +48,7 @@ public class Hero {
         int outBoundsLeft = 0;
         int outBoundsUp = 0;
         int outBoundsDown = 500;
+
         
         Hero link = new Hero(new Posn(Utility.randInt(0, width),Utility.randInt(0,height)));
 
