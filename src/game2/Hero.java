@@ -27,11 +27,6 @@ public class Hero {
 
     public Hero() {
         this(new Posn(SCREENWIDTH/2, SCREENHEIGHT/2));
-//        this.pin = new Posn(Utility.randInt(0, width), Utility.randInt(0, height));
-//        heroFileName = "link.png";
-//        link = new FromFileImage(pin, heroFileName);
-//        this.width = link.getWidth();
-//        this.height = link.getHeight();
     }   
      public Hero(Posn pin) {
         this.pin = pin;
