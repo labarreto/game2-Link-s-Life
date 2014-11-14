@@ -22,13 +22,16 @@ public class Hero {
     WorldImage link;
     int width;
     int height;
+    static int SCREENWIDTH = 700;
+    static int SCREENHEIGHT = 500;
 
     public Hero() {
-        this.pin = new Posn(Utility.randInt(0, width), Utility.randInt(0, height));
-        heroFileName = "link.png";
-        link = new FromFileImage(pin, heroFileName);
-        this.width = link.getWidth();
-        this.height = link.getHeight();
+        this(new Posn(SCREENWIDTH/2, SCREENHEIGHT/2));
+//        this.pin = new Posn(Utility.randInt(0, width), Utility.randInt(0, height));
+//        heroFileName = "link.png";
+//        link = new FromFileImage(pin, heroFileName);
+//        this.width = link.getWidth();
+//        this.height = link.getHeight();
     }   
      public Hero(Posn pin) {
         this.pin = pin;
