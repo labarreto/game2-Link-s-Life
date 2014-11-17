@@ -17,8 +17,8 @@ import java.util.*;
 // based off of legend of zelda
 public class Game2 extends World {
 
-    int screenWIDTH = 700;
-    int screenHEIGHT = 500;
+    static int screenWIDTH = 700;
+    static int screenHEIGHT = 500;
     Hero hero;
     int lives;
     int score;
@@ -61,7 +61,7 @@ public class Game2 extends World {
             //(should always be true until world end
             Enemy listNourishment = yay.next();
             if (listNourishment.collisionHuh(hero)) {
-
+                lives--;
                 yay.remove();
             }
         }
@@ -95,13 +95,11 @@ public class Game2 extends World {
         if (lives < 1) {
             return new WorldEnd(true,
                     new OverlayImages(background,
-                            new OverlayImages(new TextImage(new Posn(250, 25), 
-                                    "Linky Lanes!", 20, 1, new Black()),
-                                    new OverlayImages(new TextImage(new Posn(250, 300),
+                            new OverlayImages(new TextImage(new Posn(250, 300),
                                             "GAME OVER!!!!", 30, 1, new Black()),
                                             new TextImage(new Posn(250, 400), 
                                                     "Final Score:   " + score, 
-                                                    20, 1, new Black())))));
+                                                    20, 1, new Black()))));
         } else {
             return new WorldEnd(false, this.makeImage());
         }
@@ -111,8 +109,8 @@ public class Game2 extends World {
                LinkedList yayNora = new LinkedList();
         yayNora.add(new Enemy());
 
-        Game2 game = new Game2(500, 700, 15, 0, new Hero(), yayNora);
-        game.bigBang(500, 700, 0.125);
+        Game2 game = new Game2(screenWIDTH, screenHEIGHT, 15, 0, new Hero(), yayNora);
+        game.bigBang(screenWIDTH, screenHEIGHT, 0.2);
     }
 
 }
