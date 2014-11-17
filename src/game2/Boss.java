@@ -39,5 +39,7 @@ public class Boss {
      public WorldImage bossImage() {
          return boss.getMovedTo(pin);
      }
+     
+     
     
 }

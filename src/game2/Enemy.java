@@ -45,8 +45,6 @@ public class Enemy {
     }
 
     public Enemy moveEnemy() {
-        int outBoundsLeft = 0;
-        int outBoundsDown = 500;
         int x = this.pin.x;
         int y = this.pin.y;
         //down first, (+10 y)
