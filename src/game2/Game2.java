@@ -48,7 +48,7 @@ public class Game2 extends World {
         LinkedList<Enemy> enList = new LinkedList<Enemy>();
         
         Enemy enemy = new Enemy();        
-        if (Utility.coinToss()) {
+        if (Utility.biasCoinToss()) {
             enList.add(new Enemy());
         }
 
@@ -102,7 +102,7 @@ public class Game2 extends World {
                     new OverlayImages(background,
                             new OverlayImages(new TextImage(new Posn(screenWIDTH/2, screenHEIGHT/2),
                                             "GAME OVER!!!!", 30, 1, new Black()),
-                                            new TextImage(new Posn(screenWIDTH/2, screenHEIGHT/2 + 10), 
+                                            new TextImage(new Posn(screenWIDTH/2, screenHEIGHT/2 + 20), 
                                                     "Final Score:   " + score, 
                                                     20, 1, new Black()))));
         } else {

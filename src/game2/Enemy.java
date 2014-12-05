@@ -27,7 +27,7 @@ public class Enemy {
     boolean firstCallHuh;
 
     public Enemy() {
-        this(new Posn(Utility.randInt(0, SCREENWIDTH), 0), true);
+        this(new Posn(Utility.randInt(20, SCREENWIDTH+20), 0), true);
 
     }
 
@@ -49,12 +49,12 @@ public class Enemy {
         int y = this.pin.y;
         //down first, (+10 y)
         if (this.firstCallHuh) {
-            return new Enemy(new Posn(x, y + 10), false);
+            return new Enemy(new Posn(x, y + 20), false);
             //remembering the last action with the boolean
         } else {
             //turn left, (-10 x)
 
-            return new Enemy(new Posn(x - 10, y), true);
+            return new Enemy(new Posn(x - 20, y), true);
 
         }
     }

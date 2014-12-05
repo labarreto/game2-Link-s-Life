@@ -28,6 +28,22 @@ public class Utility {
         return randomNum;
     }
     
+    
+    public static boolean biasCoinToss() {
+        Random randomInts = new Random();
+        int scene = randomInts.nextInt();
+        Math.abs(scene);
+        int remainder = scene % 2;
+        return (remainder == 1);
+    }
+
+    public static int dieRoll(int numSides) {
+        Random randomInts = new Random();
+        int side = randomInts.nextInt();
+        Math.abs(side);
+        int remainder = side % numSides;
+        return remainder;
+    }
 
     
     
