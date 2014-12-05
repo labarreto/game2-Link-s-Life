@@ -19,11 +19,12 @@ public class Game2 extends World {
 
     static int screenWIDTH = 700;
     static int screenHEIGHT = 500;
+    String backFileName = new String("background.png");
     Hero hero;
     int lives;
     int score;
 
-    WorldImage background = new RectangleImage( new Posn(0,0), screenWIDTH, screenHEIGHT, new White());
+    WorldImage background;
     LinkedList<Enemy> enemies;
 
     public Game2(int width, int height, int lives, int score, Hero hero,
@@ -34,6 +35,7 @@ public class Game2 extends World {
         this.enemies = enemies;
         this.lives = lives;
         this.score = score;
+        background = new FromFileImage(new Posn(screenWIDTH/2, screenHEIGHT/2), backFileName);
     }
 
     public World onKeyEvent(String ke) {
@@ -43,19 +45,22 @@ public class Game2 extends World {
     }
 
     public Game2 onTick() {
-        Enemy enemy = new Enemy();
+        LinkedList<Enemy> enList = new LinkedList<Enemy>();
+        
+        Enemy enemy = new Enemy();        
         if (Utility.coinToss()) {
-            enemies.add(new Enemy());
+            enList.add(new Enemy());
         }
 
         Iterator<Enemy> yay = enemies.listIterator(0);
 
         while (yay.hasNext()) {
-            yay.next().moveEnemy();
+            Enemy newEn = yay.next().moveEnemy();
+            enList.add(newEn);
             //moves through list. 
         }
 
-        yay = enemies.listIterator(0);
+        yay = enList.listIterator(0);
 
         while (yay.hasNext()) { //while yay still has next, 
             //(should always be true until world end
@@ -66,7 +71,7 @@ public class Game2 extends World {
             }
         }
         return new Game2(this.screenWIDTH, this.screenHEIGHT, this.lives,
-                this.score, this.hero, this.enemies);
+                this.score, this.hero, enList);
     }
 
     
@@ -95,9 +100,9 @@ public class Game2 extends World {
         if (lives < 1) {
             return new WorldEnd(true,
                     new OverlayImages(background,
-                            new OverlayImages(new TextImage(new Posn(250, 300),
+                            new OverlayImages(new TextImage(new Posn(screenWIDTH/2, screenHEIGHT/2),
                                             "GAME OVER!!!!", 30, 1, new Black()),
-                                            new TextImage(new Posn(250, 400), 
+                                            new TextImage(new Posn(screenWIDTH/2, screenHEIGHT/2 + 10), 
                                                     "Final Score:   " + score, 
                                                     20, 1, new Black()))));
         } else {

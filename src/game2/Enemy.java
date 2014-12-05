@@ -54,7 +54,7 @@ public class Enemy {
         } else {
             //turn left, (-10 x)
 
-            return new Enemy(new Posn(x - 10, y + 10), true);
+            return new Enemy(new Posn(x - 10, y), true);
 
         }
     }
