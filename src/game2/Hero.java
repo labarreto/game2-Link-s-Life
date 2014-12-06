@@ -24,10 +24,6 @@ public class Hero {
     static int SCREENWIDTH = 700;
     static int SCREENHEIGHT = 500;
 
-
-    
-
-
     public Hero(Posn pin) {
         this.pin = pin;
         this.link = new FromFileImage(pin, "linkDOWN.png");
@@ -40,6 +36,14 @@ public class Hero {
         this.link = new FromFileImage(pin, heroFileName);
         this.width = link.getWidth();
         this.height = link.getHeight();
+    }
+
+    public Hero(Posn pin, WorldImage link) {
+        this.pin = pin;
+        this.link = link;
+        this.width = link.getWidth();
+        this.height = link.getHeight();
+
     }
 
     public WorldImage linkImage() {
@@ -56,20 +60,21 @@ public class Hero {
 
         if (ke.equals("right") && ((this.pin.x + 10) <= outBoundsRight)) {
             this.pin = new Posn(this.pin.x + 10, this.pin.y);
-            
+
             return new Hero(this.pin, "linkRIGHT.png");
-            
+
         } else if (ke.equals("left") && ((this.pin.x - 10) >= outBoundsLeft)) {
-            Posn pin2 = new Posn(this.pin.x - 10, this.pin.y);
-            return new Hero(pin2, "linkLEFT.png");
+            this.pin = new Posn(this.pin.x - 10, this.pin.y);
+            return new Hero(this.pin, "linkLEFT.png");
         } else if (ke.equals("up") && ((this.pin.y - 10) >= outBoundsUp)) {
-            Posn pin2 = new Posn(this.pin.x, this.pin.y - 10);
-            return new Hero(pin2, "linkUP.png");
+            this.pin = new Posn(this.pin.x, this.pin.y - 10);
+            return new Hero(this.pin, "linkUP.png");
         } else if (ke.equals("down") && ((this.pin.y + 10) <= outBoundsDown)) {
-            Posn pin2 = new Posn(this.pin.x, this.pin.y + 10);
-            return new Hero(pin2, "linkDOWN.png");
+            this.pin = new Posn(this.pin.x, this.pin.y + 10);
+            return new Hero(this.pin, "linkDOWN.png");
+        } else {
+            return this;
         }
-        return this;
     }
 
 }
