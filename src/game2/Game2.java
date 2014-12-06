@@ -114,7 +114,8 @@ public class Game2 extends World {
                LinkedList yayNora = new LinkedList();
         yayNora.add(new Enemy());
 
-        Game2 game = new Game2(screenWIDTH, screenHEIGHT, 15, 0, new Hero(), yayNora);
+        Game2 game = new Game2(screenWIDTH, screenHEIGHT, 15, 0, 
+                new Hero(new Posn(screenWIDTH/2, screenHEIGHT/2), "linkDOWN.png"), yayNora);
         game.bigBang(screenWIDTH, screenHEIGHT, 0.2);
     }
 

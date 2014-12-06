@@ -18,20 +18,26 @@ import java.awt.Color;
 public class Hero {
 
     Posn pin;
-    String heroFileName;
     WorldImage link;
     int width;
     int height;
     static int SCREENWIDTH = 700;
     static int SCREENHEIGHT = 500;
 
-    public Hero() {
-        this(new Posn(SCREENWIDTH/2, SCREENHEIGHT/2));
-    }   
-     public Hero(Posn pin) {
+
+    
+
+
+    public Hero(Posn pin) {
         this.pin = pin;
-        heroFileName = "link.png";
-        link = new FromFileImage(pin, heroFileName);
+        this.link = new FromFileImage(pin, "linkDOWN.png");
+        this.width = link.getWidth();
+        this.height = link.getHeight();
+    }
+
+    public Hero(Posn pin, String heroFileName) {
+        this.pin = pin;
+        this.link = new FromFileImage(pin, heroFileName);
         this.width = link.getWidth();
         this.height = link.getHeight();
     }
@@ -39,33 +45,31 @@ public class Hero {
     public WorldImage linkImage() {
         return link.getMovedTo(pin);
     }
-    
-    
-        public Hero moveLink(String ke) {
+
+    public Hero moveLink(String ke) {
         int outBoundsRight = 700;
         int outBoundsLeft = 0;
         int outBoundsUp = 0;
         int outBoundsDown = 500;
-
-        
-        Hero link = new Hero(new Posn(Utility.randInt(0, width),Utility.randInt(0,height)));
+//
+//        Hero link = new Hero(new Posn(Utility.randInt(0, width), Utility.randInt(0, height)), "linkDOWN.png");
 
         if (ke.equals("right") && ((this.pin.x + 10) <= outBoundsRight)) {
             this.pin = new Posn(this.pin.x + 10, this.pin.y);
-            return new Hero(this.pin);
+            
+            return new Hero(this.pin, "linkRIGHT.png");
+            
         } else if (ke.equals("left") && ((this.pin.x - 10) >= outBoundsLeft)) {
-            this.pin = new Posn(this.pin.x - 10, this.pin.y);
-            return new Hero(this.pin);       
+            Posn pin2 = new Posn(this.pin.x - 10, this.pin.y);
+            return new Hero(pin2, "linkLEFT.png");
         } else if (ke.equals("up") && ((this.pin.y - 10) >= outBoundsUp)) {
-            this.pin = new Posn(this.pin.x, this.pin.y - 10);
-            return new Hero(this.pin);
+            Posn pin2 = new Posn(this.pin.x, this.pin.y - 10);
+            return new Hero(pin2, "linkUP.png");
         } else if (ke.equals("down") && ((this.pin.y + 10) <= outBoundsDown)) {
-            this.pin = new Posn(this.pin.x, this.pin.y + 10);
-            return new Hero(this.pin);
+            Posn pin2 = new Posn(this.pin.x, this.pin.y + 10);
+            return new Hero(pin2, "linkDOWN.png");
         }
         return this;
     }
 
 }
-
-

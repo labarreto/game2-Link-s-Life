@@ -65,11 +65,11 @@ public class Enemy {
         int c = this.pin.y;
         int d = hero.pin.y;
 
-        int halfFishWidth = hero.width / 2;
-        int halfFishHeight = hero.height / 2;
+        int halfHeroWidth = hero.width / 2;
+        int halfHeroHeight = hero.height / 2;
         
-        if (Math.abs(a - b) < (halfFishWidth)
-                && (Math.abs(c - d) < (halfFishHeight))) {
+        if (Math.abs(a - b) < (halfHeroWidth)
+                && (Math.abs(c - d) < (halfHeroHeight))) {
             return true;
         } else {
             return false;
