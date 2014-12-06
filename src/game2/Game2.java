@@ -39,8 +39,8 @@ public class Game2 extends World {
     }
 
     public World onKeyEvent(String ke) {
-        if ((ke.equals("up") || ke.equals("down") || ke.equals("right") || (ke.equals("left")))) {
-                hero.moveLink(ke); }
+        
+        hero = hero.moveLink(ke); 
         return new Game2(this.screenWIDTH, this.screenHEIGHT, this.lives,
                 this.score, hero, this.enemies);
     }
