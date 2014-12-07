@@ -23,6 +23,7 @@ public class Game2 extends World {
     Hero hero;
     int lives;
     int score;
+    
 
     WorldImage background;
     LinkedList<Enemy> enemies;

@@ -72,5 +72,25 @@ public class Hero {
             return this;
         }
     }
+    
+    public boolean collisionEnemy(Enemy enemy) {
+        
+        int a = this.pin.x;
+        int b = enemy.pin.x;
+        int c = this.pin.y;
+        int d = enemy.pin.y;
+        
+        int halfEnemyWidth = enemy.width/2;
+        int halfEnemyHeight = enemy.height/2;
+
+        
+        if (Math.abs(a - b) < (halfEnemyWidth)
+                && (Math.abs(c - d) < (halfEnemyHeight))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
+

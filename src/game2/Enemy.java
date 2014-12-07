@@ -27,8 +27,12 @@ public class Enemy {
     boolean firstCallHuh;
 
     public Enemy() {
-        this(new Posn(Utility.randInt(20, SCREENWIDTH+20), 0), true);
-
+//        if (Utility.coinToss()) {
+//            
+            this(new Posn(Utility.randInt(20, SCREENWIDTH + 20), 0), true);
+//        } else {
+//            this(new Posn(0, 0), true);
+//        }
     }
 
     public Enemy(Posn pin, boolean firstCallHuh) {
@@ -45,21 +49,30 @@ public class Enemy {
     }
 
     public Enemy moveEnemy() {
+
         int x = this.pin.x;
         int y = this.pin.y;
         //down first, (+10 y)
-        if (this.firstCallHuh) {
-            return new Enemy(new Posn(x, y + 20), false);
-            //remembering the last action with the boolean
+        if (Utility.coinToss()) {
+            if (this.firstCallHuh) {
+                return new Enemy(new Posn(x, y + 20), false);
+                //remembering the last action with the boolean
+            } else {
+                //turn left, (-10 x)
+
+                return new Enemy(new Posn(x - 20, y), true);
+
+            }
         } else {
-            //turn left, (-10 x)
-
-            return new Enemy(new Posn(x - 20, y), true);
-
+            if (this.firstCallHuh) {
+                return new Enemy(new Posn(x, y + 20), false);
+            } else {
+                return new Enemy(new Posn(x + 20, y), true);
+            }
         }
     }
-    
-        public boolean collisionHuh(Hero hero) {
+
+    public boolean collisionHuh(Hero hero) {
         int a = this.pin.x;
         int b = hero.pin.x;
         int c = this.pin.y;
@@ -67,7 +80,7 @@ public class Enemy {
 
         int halfHeroWidth = hero.width / 2;
         int halfHeroHeight = hero.height / 2;
-        
+
         if (Math.abs(a - b) < (halfHeroWidth)
                 && (Math.abs(c - d) < (halfHeroHeight))) {
             return true;
