@@ -24,6 +24,7 @@ public class Game2 extends World {
     int lives;
     int score;
     int nBombs;
+    int rupees;
 
     WorldImage background;
     LinkedList<Enemy> enemies;
