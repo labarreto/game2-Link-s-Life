@@ -38,7 +38,6 @@ public class Hero {
         this.link = link;
         this.width = link.getWidth();
         this.height = link.getHeight();
-
     }
 
     public WorldImage linkImage() {

@@ -23,10 +23,11 @@ public class Game2 extends World {
     Hero hero;
     int lives;
     int score;
-    
+    int nBombs;
 
     WorldImage background;
     LinkedList<Enemy> enemies;
+    LinkedList<Bomb> bombs;
 
     public Game2(int width, int height, int lives, int score, Hero hero,
             LinkedList<Enemy> enemies) {
