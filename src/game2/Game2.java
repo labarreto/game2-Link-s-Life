@@ -113,7 +113,7 @@ public class Game2 extends World {
             world = new OverlayImages(world, yay.next().enemyImage());
         }
 
-        return world;
+        return world; 
     }
 
     public WorldEnd worldEnds() {
