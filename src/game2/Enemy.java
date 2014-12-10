@@ -72,10 +72,6 @@ public class Enemy {
         }
     }
 
-    
-    public Posn getPosn() {
-        return pin;
-    }
     public boolean collisionHuh(Hero hero) {
         int a = this.pin.x;
         int b = hero.pin.x;
