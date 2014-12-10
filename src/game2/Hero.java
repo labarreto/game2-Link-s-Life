@@ -75,7 +75,7 @@ public class Hero {
     }
     
 
-    public boolean collisionHuh(Object object) {
+    public boolean collisionHuh(Enemy enemy) {
         
         int a = this.pin.x;
         int b = enemy.getPosn().x;
