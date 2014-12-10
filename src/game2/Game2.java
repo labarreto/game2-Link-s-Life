@@ -53,7 +53,6 @@ public class Game2 extends World {
                 
                 if (extra.collisionHuh(en.next())) {
                     canMove = false;
-                    lives--;
                 }
             }
             if (canMove) {
@@ -61,13 +60,11 @@ public class Game2 extends World {
                 return new Game2(this.screenWIDTH, this.screenHEIGHT, this.lives,
                         this.score, hero.moveLink(ke), this.enemies);
             } else {
-                return new Game2(this.screenWIDTH, this.screenHEIGHT, this.lives,
-                        this.score, hero, this.enemies);
+                return this;
             }
             
         } else {
-            return new Game2(this.screenWIDTH, this.screenHEIGHT, this.lives,
-                        this.score, hero, this.enemies); 
+            return this;
         }
     }
 
@@ -104,13 +101,7 @@ public class Game2 extends World {
     public WorldImage makeImage() {
 
         Iterator<Enemy> yay = enemies.listIterator(0);
-        WorldImage world = new OverlayImages(background,
-                new OverlayImages(
-                        new TextImage(new Posn(400, 20), "Lives:  " + lives,
-                                3, new Black()),
-                        new OverlayImages(
-                                new TextImage(new Posn(400, 40), "Score:  "
-                                        + score, 20, new Black()), hero.linkImage())));
+        WorldImage world = new OverlayImages(background, hero.linkImage());
 
         while (yay.hasNext()) {
             world = new OverlayImages(world, yay.next().enemyImage());
