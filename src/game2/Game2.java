@@ -60,11 +60,13 @@ public class Game2 extends World {
                 return new Game2(this.screenWIDTH, this.screenHEIGHT, this.lives,
                         this.score, hero.moveLink(ke), this.enemies);
             } else {
-                return this;
+                return new Game2(this.screenWIDTH, this.screenHEIGHT, this.lives,
+                        this.score, hero, this.enemies);
             }
             
         } else {
-            return this; 
+            return new Game2(this.screenWIDTH, this.screenHEIGHT, this.lives,
+                        this.score, hero, this.enemies); 
         }
     }
 

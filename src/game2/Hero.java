@@ -78,17 +78,17 @@ public class Hero {
     public boolean collisionHuh(Enemy enemy) {
         
         int a = this.pin.x;
-        int b = enemy.pin.x;
+        int b = enemy.getPosn().x;
         int c = this.pin.y;
-        int d = enemy.pin.y;
+        int d = enemy.getPosn().y;
         
         int halfEnemyWidth = enemy.width/2;
         int halfEnemyHeight = enemy.height/2;
-
+        int halfLinkWidth = this.width/2;
+        int halfLinkHeight = this.height/2;
         
-        if (Math.abs(a - b) < (halfEnemyWidth)
-                && (Math.abs(c - d) < (halfEnemyHeight))) {
-
+        if (Math.abs(a - b) < (halfEnemyWidth + halfLinkWidth)
+                && (Math.abs(c - d) < (halfEnemyHeight + halfLinkHeight))) {
             return true;
         } else {
             return false;
