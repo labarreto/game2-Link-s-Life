@@ -46,11 +46,11 @@ public class Game2 extends World {
         Iterator<Enemy> en = enemies.listIterator(0);
 
         if (ke.equals("up") || ke.equals("left") || ke.equals("right") || ke.equals("down")) {
-            
+
             boolean canMove = true;
             Hero extra = this.hero.moveLink(ke);
             while (en.hasNext()) {
-                
+
                 if (extra.collisionHuh(en.next())) {
                     canMove = false;
                 }
@@ -62,9 +62,9 @@ public class Game2 extends World {
             } else {
                 return this;
             }
-            
+
         } else {
-            return this; 
+            return this;
         }
     }
 
@@ -110,10 +110,12 @@ public class Game2 extends World {
                                         + score, 20, new Black()), hero.linkImage())));
 
         while (yay.hasNext()) {
-            world = new OverlayImages(world, yay.next().enemyImage());
+            world = new OverlayImages(world,
+                    new OverlayImages(yay.next().enemyImage(),
+                            hero.linkImage()));
         }
 
-        return world; 
+        return world;
     }
 
     public WorldEnd worldEnds() {
