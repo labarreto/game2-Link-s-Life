@@ -53,6 +53,7 @@ public class Game2 extends World {
                 
                 if (extra.collisionHuh(en.next())) {
                     canMove = false;
+                    lives--;
                 }
             }
             if (canMove) {
