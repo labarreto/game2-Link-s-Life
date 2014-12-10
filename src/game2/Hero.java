@@ -23,6 +23,8 @@ public class Hero {
     int height;
     static int SCREENWIDTH = 700;
     static int SCREENHEIGHT = 500;
+    Enemy enemy;
+
 
    
 
@@ -72,7 +74,8 @@ public class Hero {
         }
     }
     
-    public boolean collisionEnemy(Enemy enemy) {
+
+    public boolean collisionHuh(Enemy enemy) {
         
         int a = this.pin.x;
         int b = enemy.pin.x;
@@ -85,6 +88,7 @@ public class Hero {
         
         if (Math.abs(a - b) < (halfEnemyWidth)
                 && (Math.abs(c - d) < (halfEnemyHeight))) {
+
             return true;
         } else {
             return false;
