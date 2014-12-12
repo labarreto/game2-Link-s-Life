@@ -42,13 +42,21 @@ public class Boss {
     }
 
     Boss randomMove(int n) {
+        int outBoundsRight = 700;
+        int outBoundsLeft = 0;
+        int outBoundsUp = 0;
+        int outBoundsDown = 500;
+        if (this.pin.x < outBoundsRight || this.pin.x > outBoundsLeft ||
+                this.pin.y < outBoundsDown  || this.pin.y > outBoundsUp) {
         return new Boss(new Posn(this.pin.x + this.randomInt(n),
                 this.pin.y + this.randomInt(n)));
+    } else {
+            // move Boss back to center when going out of bounds.
+            return new Boss();
+        }
     }
 
-    /**
-     * helper method to generate a random number in the range -n to n
-     */
+
     int randomInt(int n) {
         return -n + (new Random().nextInt(2 * n + 1));
     }
