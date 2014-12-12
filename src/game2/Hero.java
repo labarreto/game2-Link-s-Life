@@ -87,13 +87,33 @@ public class Hero {
         int halfEnemyHeight = enemy.height/2;
 
         
-        if (Math.abs(a - b) < (halfEnemyWidth)
-                && (Math.abs(c - d) < (halfEnemyHeight))) {
+        if (Math.abs(a - b) < 15
+                && (Math.abs(c - d) < 15)) {
 
             return true;
         } else {
             return false;
         }
+    }
+    
+    
+    public boolean collectingRupees(Rupees rupees) {
+        int a = this.pin.x;
+        int b = rupees.pin.x;
+        int c = this.pin.y;
+        int d = rupees.pin.y;
+        
+        int rw = rupees.width/2;
+        int rh = rupees.height/2;
+        int hw = width /2 ;
+        int hh = height /2;
+        
+        if (Math.abs(a-b) < (rw+ hw) && (Math.abs(c - d) < (rh + hh))) {
+            return true;
+        } else {
+            return false;
+        
+    }
     }
 
 }

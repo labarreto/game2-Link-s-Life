@@ -24,6 +24,7 @@ public class Game2 extends World {
     Key key;
     int lives;
     int score;
+    int money;
 
     WorldImage background;
     LinkedList<Rupees> rupees;
@@ -31,10 +32,11 @@ public class Game2 extends World {
     LinkedList<Bomb> bombs;
 
     public Game2(int width, int height, int lives, int score, Hero hero,
-            LinkedList<Enemy> enemies) {
+            LinkedList<Enemy> enemies, LinkedList<Rupees> rupees) {
         this.screenWIDTH = width;
         this.screenHEIGHT = height;
         this.hero = hero;
+        this.rupees = rupees;
         this.enemies = enemies;
         this.lives = lives;
         this.score = score;
@@ -58,7 +60,7 @@ public class Game2 extends World {
             if (canMove) {
                 // hero = hero.moveLink(ke); //avoiding mutation
                 return new Game2(this.screenWIDTH, this.screenHEIGHT, this.lives,
-                        this.score, hero.moveLink(ke), this.enemies);
+                        this.score, hero.moveLink(ke), this.enemies, rupees);
             } else {
                 return this;
             }
@@ -77,6 +79,7 @@ public class Game2 extends World {
         }
 
         Iterator<Enemy> yay = enemies.listIterator(0);
+        Iterator<Rupees> rup = rupees.listIterator(0);
 
         while (yay.hasNext()) {
             Enemy newEn = yay.next().moveEnemy();
@@ -88,19 +91,28 @@ public class Game2 extends World {
 
         while (yay.hasNext()) { //while yay still has next, 
             //(should always be true until world end
-            Enemy listNourishment = yay.next();
-            if (listNourishment.collisionHuh(hero)) {
+            Enemy enn = yay.next();
+            if (enn.collisionHuh(hero)) {
                 lives--;
                 yay.remove();
             }
         }
+        
+        while (rup.hasNext()) {
+            Rupees r = rup.next();
+            if (hero.collectingRupees(r)) {
+                money++;
+                rup.remove();
+            }
+        }
         return new Game2(this.screenWIDTH, this.screenHEIGHT, this.lives,
-                this.score, this.hero, enList);
+                this.score, this.hero, enList, rupees);
     }
 
     public WorldImage makeImage() {
 
         Iterator<Enemy> yay = enemies.listIterator(0);
+        Iterator<Rupees> rup = rupees.listIterator(0);
         WorldImage world = new OverlayImages(background,
                 new OverlayImages(
                         new TextImage(new Posn(400, 20), "Lives:  " + lives,
@@ -111,10 +123,16 @@ public class Game2 extends World {
 
         while (yay.hasNext()) {
             world = new OverlayImages(world,
-                    new OverlayImages(yay.next().enemyImage(),
-                            hero.linkImage()));
+                   yay.next().enemyImage());
         }
-
+        
+        
+        while (rup.hasNext()) {
+            world = new OverlayImages(world,
+                    rup.next().rupeeImage());
+        }
+        world = new OverlayImages(world, hero.linkImage());
+       
         return world;
     }
 
@@ -135,9 +153,13 @@ public class Game2 extends World {
     public static void main(String[] args) {
         LinkedList yayNora = new LinkedList();
         yayNora.add(new Enemy());
-
+        LinkedList yayRupees = new LinkedList();
+        yayRupees.add(new Rupees());
+        yayRupees.add(new Rupees());
+        yayRupees.add(new Rupees());
+        yayRupees.add(new Rupees());
         Game2 game = new Game2(screenWIDTH, screenHEIGHT, 15, 0,
-                new Hero(new Posn(screenWIDTH / 2, screenHEIGHT / 2), "linkDOWN.png"), yayNora);
+                new Hero(new Posn(screenWIDTH / 2, screenHEIGHT / 2), "linkDOWN.png"), yayNora, yayRupees);
         game.bigBang(screenWIDTH, screenHEIGHT, 0.2);
     }
 

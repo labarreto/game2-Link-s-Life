@@ -23,16 +23,25 @@ public class Rupees {
     int height;
     int time;
     
-        public Rupees(Posn pin, int time) {
+        public Rupees(int time) {
         this.time = time;
-        this.pin = pin;
+        this.pin = new Posn(Utility.randInt(10,690), Utility.randInt(10,490));
         this.rupees = new FromFileImage(pin, "blueRupee.png");
         this.width = rupees.getWidth();
         this.height = rupees.getHeight();
     }
 
-    public Rupees(Posn pin) {
-        this(pin, 15);
+    public Rupees() {
+        this(15);
+        
+    }
+    
+    public WorldImage rupeeImage() {
+        return new FromFileImage(pin, "blueRupee.png");
+    }
+    
+    
+    public boolean beingCollected(Hero hero) {
         
     }
     
