@@ -60,14 +60,14 @@ public class Hero {
 
             return new Hero(this.pin, "linkRIGHT.png");
 
-        } else if (ke.equals("left") && ((this.pin.x - 10) >= outBoundsLeft)) {
-            this.pin = new Posn(this.pin.x - 10, this.pin.y);
+        } else if (ke.equals("left") && ((this.pin.x - 5) >= outBoundsLeft)) {
+            this.pin = new Posn(this.pin.x - 5, this.pin.y);
             return new Hero(this.pin, "linkLEFT.png");
-        } else if (ke.equals("up") && ((this.pin.y - 10) >= outBoundsUp)) {
-            this.pin = new Posn(this.pin.x, this.pin.y - 10);
+        } else if (ke.equals("up") && ((this.pin.y - 5) >= outBoundsUp)) {
+            this.pin = new Posn(this.pin.x, this.pin.y - 5);
             return new Hero(this.pin, "linkUP.png");
-        } else if (ke.equals("down") && ((this.pin.y + 10) <= outBoundsDown)) {
-            this.pin = new Posn(this.pin.x, this.pin.y + 10);
+        } else if (ke.equals("down") && ((this.pin.y + 5) <= outBoundsDown)) {
+            this.pin = new Posn(this.pin.x, this.pin.y + 5);
             return new Hero(this.pin, "linkDOWN.png");
         } else {
             return this;
@@ -99,22 +99,25 @@ public class Hero {
     
     public boolean collectingRupees(Rupees rupees) {
         int a = this.pin.x;
-        int b = rupees.pin.x;
+        int b = rupees.getPin().x;
         int c = this.pin.y;
-        int d = rupees.pin.y;
+        int d = rupees.getPin().y;
         
-        int rw = rupees.width/2;
-        int rh = rupees.height/2;
-        int hw = width /2 ;
-        int hh = height /2;
+        int rw = rupees.width / 2;
+        int rh = rupees.height / 2;
+        int hw = width / 2 ;
+        int hh = height / 2;
         
-        if (Math.abs(a-b) < (rw+ hw) && (Math.abs(c - d) < (rh + hh))) {
+        if ( ( Math.abs( a - b ) < (rw + hw) ) && 
+                ( Math.abs(c - d) < (rh + hh)  ) ) {
             return true;
         } else {
             return false;
         
     }
     }
-
+    public Posn getPin( ) {
+        return pin;
+    }
 }
 

@@ -40,9 +40,9 @@ public class Rupees {
         return new FromFileImage(pin, "blueRupee.png");
     }
     
-    
-    public boolean beingCollected(Hero hero) {
-        
+    public Posn getPin( ) {
+        return pin;
     }
+
     
 }

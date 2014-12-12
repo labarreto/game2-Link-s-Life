@@ -72,6 +72,7 @@ public class Game2 extends World {
 
     public Game2 onTick() {
         LinkedList<Enemy> enList = new LinkedList<Enemy>();
+        LinkedList<Rupees> rupList = new LinkedList<Rupees>();
 
         Enemy enemy = new Enemy();
         if (Utility.biasCoinToss()) {
@@ -101,12 +102,19 @@ public class Game2 extends World {
         while (rup.hasNext()) {
             Rupees r = rup.next();
             if (hero.collectingRupees(r)) {
-                money++;
-                rup.remove();
+                System.out.println("found a rupee!");
+                System.out.println("my position is:" + 
+                        hero.getPin().x + " " + hero.getPin().y);
+                System.out.println("The rupee's position is:"
+                        + r.getPin().x + " " + r.getPin( ).y);
+                score++;
+            }
+            else {
+                rupList.add( r );
             }
         }
         return new Game2(this.screenWIDTH, this.screenHEIGHT, this.lives,
-                this.score, this.hero, enList, rupees);
+                this.score, this.hero, enList, rupList);
     }
 
     public WorldImage makeImage() {
@@ -154,6 +162,10 @@ public class Game2 extends World {
         LinkedList yayNora = new LinkedList();
         yayNora.add(new Enemy());
         LinkedList yayRupees = new LinkedList();
+        yayRupees.add(new Rupees());
+        yayRupees.add(new Rupees());
+        yayRupees.add(new Rupees());
+        yayRupees.add(new Rupees());
         yayRupees.add(new Rupees());
         yayRupees.add(new Rupees());
         yayRupees.add(new Rupees());
