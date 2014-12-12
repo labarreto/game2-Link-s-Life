@@ -25,6 +25,7 @@ public class Game2 extends World {
     int lives;
     int score;
     int money;
+    int kills;
 
     WorldImage background;
     LinkedList<Rupees> rupees;
@@ -140,6 +141,10 @@ public class Game2 extends World {
                     rup.next().rupeeImage());
         }
         world = new OverlayImages(world, hero.linkImage());
+        
+        if (money == 20 && kills == 20) {
+            world = new OverlayImages(world, key.keyImage());
+        }
        
         return world;
     }

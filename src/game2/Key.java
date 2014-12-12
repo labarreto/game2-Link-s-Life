@@ -36,4 +36,8 @@ public class Key {
                 true);
     }
     
+    public WorldImage keyImage() {
+        return new FromFileImage(pin, "key.png");
+    }
+    
 }

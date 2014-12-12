@@ -11,10 +11,7 @@ import javalib.worldimages.*;
 import java.util.*;
 import java.awt.Color;
 
-/**
- *
- * @author ldbruby95
- */
+
 public class Boss {
 
     Posn pin;
@@ -60,4 +57,5 @@ public class Boss {
     int randomInt(int n) {
         return -n + (new Random().nextInt(2 * n + 1));
     }
+
 }
