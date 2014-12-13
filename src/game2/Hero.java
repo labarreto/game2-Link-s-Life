@@ -24,7 +24,8 @@ public class Hero {
     static int SCREENWIDTH = 700;
     static int SCREENHEIGHT = 500;
     Enemy enemy;
-
+    boolean hasKey;
+    String heroFileName = "linkDOWNpng";
 
    
 
@@ -41,6 +42,14 @@ public class Hero {
         this.width = link.getWidth();
         this.height = link.getHeight();
     }
+    
+    public Hero(Posn pin) {
+        this.pin = pin;
+        this.link = new FromFileImage(pin, heroFileName);
+        this.width = link.getWidth();
+        this.height = link.getHeight();
+    }
+     
 
     public WorldImage linkImage() {
 //        link.getMovedTo(pin);
