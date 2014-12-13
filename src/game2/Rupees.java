@@ -62,4 +62,23 @@ public class Rupees {
         }
     }
     
+    boolean explodingHuh(Explosion explosion) {
+         int a = this.pin.x;
+        int b = explosion.pin.x;
+        int c = this.pin.y;
+        int d = explosion.pin.y;
+
+        int halfEWidth = explosion.width / 2;
+        int halfEHeight = explosion.height / 2;
+        int halfRupWidth = width / 2;
+        int halfRupHeight = height / 2;
+
+        if (Math.abs(a - b) < (halfEWidth )
+                && (Math.abs(c - d) < (halfEHeight))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 }

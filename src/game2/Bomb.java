@@ -36,6 +36,21 @@ public class Bomb {
         
     }
     
+    public Bomb incTime() {
+        return new Bomb(pin, time+1);
+    }
+    
+    public boolean canIExplode() {
+        if (time > 15) {
+            return true;
+        } else {
+            return false;
+            
+        }
+    }
+    
+    
+    
 
 
 }
