@@ -44,7 +44,7 @@ public class Hero {
 
     public WorldImage linkImage() {
 //        link.getMovedTo(pin);
-        return link.getMovedImage(this.pin.x, this.pin.y);
+        return link.getMovedTo(pin);
     }
 
     public Hero moveLink(String ke) {
@@ -60,14 +60,14 @@ public class Hero {
 
             return new Hero(this.pin, "linkRIGHT.png");
 
-        } else if (ke.equals("left") && ((this.pin.x - 5) >= outBoundsLeft)) {
-            this.pin = new Posn(this.pin.x - 5, this.pin.y);
+        } else if (ke.equals("left") && ((this.pin.x - 10) >= outBoundsLeft)) {
+            this.pin = new Posn(this.pin.x - 10, this.pin.y);
             return new Hero(this.pin, "linkLEFT.png");
-        } else if (ke.equals("up") && ((this.pin.y - 5) >= outBoundsUp)) {
-            this.pin = new Posn(this.pin.x, this.pin.y - 5);
+        } else if (ke.equals("up") && ((this.pin.y - 10) >= outBoundsUp)) {
+            this.pin = new Posn(this.pin.x, this.pin.y - 10);
             return new Hero(this.pin, "linkUP.png");
-        } else if (ke.equals("down") && ((this.pin.y + 5) <= outBoundsDown)) {
-            this.pin = new Posn(this.pin.x, this.pin.y + 5);
+        } else if (ke.equals("down") && ((this.pin.y + 10) <= outBoundsDown)) {
+            this.pin = new Posn(this.pin.x, this.pin.y + 10);
             return new Hero(this.pin, "linkDOWN.png");
         } else {
             return this;
@@ -96,6 +96,10 @@ public class Hero {
         }
     }
     
+    
+//    public boolean explodingHuh(Explosion explosion) {
+//        
+//    }
     
     public boolean collectingRupees(Rupees rupees) {
         int a = this.pin.x;

@@ -63,7 +63,7 @@ public class BossLevel extends World {
             
             if (canMove) {
                 return new BossLevel(this.screenWIDTH, this.screenHEIGHT,
-                this.lives, this.score, extra, this.boss, this.rupees);
+                this.lives, this.bosslives, this.score, extra, this.boss, this.rupees);
             } else
                 return this;
         } else

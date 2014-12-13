@@ -26,13 +26,15 @@ public class Game2 extends World {
     int score;
     int money;
     int kills;
+    
 
     WorldImage background;
+    WorldImage background2;
     LinkedList<Rupees> rupees;
     LinkedList<Enemy> enemies;
     LinkedList<Bomb> bombs;
 
-    public Game2(int width, int height, int lives, int score, Hero hero,
+    public Game2(int width, int height, int lives, int score, int money, int kills, Hero hero,
             LinkedList<Enemy> enemies, LinkedList<Rupees> rupees) {
         this.screenWIDTH = width;
         this.screenHEIGHT = height;
@@ -41,7 +43,10 @@ public class Game2 extends World {
         this.enemies = enemies;
         this.lives = lives;
         this.score = score;
+        this.money = money;
+        this.kills = kills;
         background = new FromFileImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2), backFileName);
+        background2 = new RectangleImage(new Posn(0,0), screenWIDTH, screenHEIGHT, new White());
     }
 
     public World onKeyEvent(String ke) {
@@ -52,17 +57,19 @@ public class Game2 extends World {
 
             boolean canMove = true;
             Hero extra = this.hero.moveLink(ke);
+            
             while (en.hasNext()) {
 
                 if (en.next().collisionHuh(extra)) {
-                    extra = this.hero;
+                    //extra = this.hero;
                     canMove = false;
                 }
+
             }
             if (canMove) {
                 // hero = hero.moveLink(ke); //avoiding mutation
                 return new Game2(this.screenWIDTH, this.screenHEIGHT, this.lives,
-                        this.score, extra/*hero.moveLink(ke)*/, this.enemies, rupees);
+                        this.score, this.money, this.kills, extra/*hero.moveLink(ke)*/, this.enemies, rupees);
             } else {
                 return this;
             }
@@ -103,20 +110,19 @@ public class Game2 extends World {
         
         while (rup.hasNext()) {
             Rupees r = rup.next();
-            if (hero.collectingRupees(r)) {
-                System.out.println("found a rupee!");
-                System.out.println("my position is:" + 
-                        hero.getPin().x + " " + hero.getPin().y);
-                System.out.println("The rupee's position is:"
-                        + r.getPin().x + " " + r.getPin( ).y);
+            if (r.collectedHuh( hero )) {
+
                 score++;
+                money++;
             }
             else {
                 rupList.add( r );
             }
         }
         return new Game2(this.screenWIDTH, this.screenHEIGHT, this.lives,
-                this.score, this.hero, enList, rupList);
+                this.score, this.money, this.kills, this.hero, enList, rupList);
+        
+        // if pin.x > 1000, return bosslevel
     }
 
     public WorldImage makeImage() {
@@ -125,11 +131,17 @@ public class Game2 extends World {
         Iterator<Rupees> rup = rupees.listIterator(0);
         WorldImage world = new OverlayImages(background,
                 new OverlayImages(
-                        new TextImage(new Posn(400, 20), "Lives:  " + lives,
-                                3, new Black()),
+                        new TextImage(new Posn(50, 20), "Lives:  " + lives,
+                                20, new Black()),
                         new OverlayImages(
-                                new TextImage(new Posn(400, 40), "Score:  "
-                                        + score, 20, new Black()), hero.linkImage())));
+                                new TextImage(new Posn(150, 20), "Score:  "
+                                        + score, 20, new Black()), 
+                                new OverlayImages(
+                                        new TextImage(new Posn(250, 20), "Money:  " + money, 20, new Black()),
+                                        new OverlayImages(
+                                                new TextImage(new Posn(350, 20), "Kills:  " + kills, 20, new Black()),
+                                                hero.linkImage())))));
+
 
         while (yay.hasNext()) {
             world = new OverlayImages(world,
@@ -176,7 +188,7 @@ public class Game2 extends World {
         yayRupees.add(new Rupees());
         yayRupees.add(new Rupees());
         yayRupees.add(new Rupees());
-        Game2 game = new Game2(screenWIDTH, screenHEIGHT, 15, 0,
+        Game2 game = new Game2(screenWIDTH, screenHEIGHT, 15, 0, 0, 0,
                 new Hero(new Posn(screenWIDTH / 2, screenHEIGHT / 2), "linkDOWN.png"), yayNora, yayRupees);
         game.bigBang(screenWIDTH, screenHEIGHT, 0.2);
     }
