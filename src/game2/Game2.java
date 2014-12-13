@@ -54,14 +54,15 @@ public class Game2 extends World {
             Hero extra = this.hero.moveLink(ke);
             while (en.hasNext()) {
 
-                if (extra.collisionHuh(en.next())) {
+                if (en.next().collisionHuh(extra)) {
+                    extra = this.hero;
                     canMove = false;
                 }
             }
             if (canMove) {
                 // hero = hero.moveLink(ke); //avoiding mutation
                 return new Game2(this.screenWIDTH, this.screenHEIGHT, this.lives,
-                        this.score, hero.moveLink(ke), this.enemies, rupees);
+                        this.score, extra/*hero.moveLink(ke)*/, this.enemies, rupees);
             } else {
                 return this;
             }

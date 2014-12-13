@@ -38,5 +38,22 @@ public class Explosion {
         return new FromFileImage(pin, "explosion.png");
     }
     
+    boolean collisionHuh(Hero hero){
+          int a = this.pin.x;
+        int b = hero.pin.x;
+        int c = this.pin.y;
+        int d = hero.pin.y;
+
+        int halfHeroWidth = hero.width / 2;
+        int halfHeroHeight = hero.height / 2;
+
+        if (Math.abs(a - b) < (halfHeroWidth)
+                && (Math.abs(c - d) < (halfHeroHeight))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     
 }
