@@ -28,13 +28,14 @@ public class BossLevel extends World {
     int kills;
 
     Boss boss;
+    int bosslives;
 
     WorldImage background;
     LinkedList<Rupees> rupees;
     LinkedList<Enemy> enemies;
     LinkedList<Bomb> bombs;
 
-    public BossLevel(int width, int height, int lives, int score, Hero hero,
+    public BossLevel(int width, int height, int lives, int bosslives, int score, Hero hero,
             Boss boss, LinkedList<Rupees> rupees) {
         this.boss = boss;
         this.screenWIDTH = width;
@@ -43,8 +44,11 @@ public class BossLevel extends World {
         this.score = score;
         this.hero = hero;
         this.boss = boss;
+        this.bosslives = bosslives;
         this.rupees = rupees;
     }
+    
+   
 
     public World onKeyEvent(String ke) {
         if (ke.equals("up") || ke.equals("left") || ke.equals("right") || ke.equals("down")) {
