@@ -88,5 +88,22 @@ public class Enemy {
             return false;
         }
     }
+    
+    public boolean explodingHuh(Explosion e) {
+        int a = this.pin.x;
+        int b = e.pin.x;
+        int c = this.pin.y;
+        int d = e.pin.y;
+
+        int halfEWidth = e.width / 2;
+        int halfEHeight = e.height / 2;
+
+        if (Math.abs(a - b) < (halfEWidth)
+                && (Math.abs(c - d) < (halfEHeight))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }

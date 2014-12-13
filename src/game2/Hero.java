@@ -96,8 +96,8 @@ public class Hero {
         int halfEnemyHeight = enemy.height/2;
 
         
-        if (Math.abs(a - b) < 15
-                && (Math.abs(c - d) < 15)) {
+        if (Math.abs(a - b) < (halfEnemyWidth)
+                && (Math.abs(c - d) < (halfEnemyHeight))) {
 
             return true;
         } else {
