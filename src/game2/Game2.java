@@ -73,6 +73,7 @@ public class Game2 extends World {
             LinkedList<Explosion> explosions,
             LinkedList<Rupees> rupees,
             LinkedList<Enemy> enemies,
+            int lives,
             int score,
             int money,
             int kills,
@@ -117,7 +118,7 @@ public class Game2 extends World {
 
             bombs.add(new Bomb(hero.pin));
             return new Game2(hero, bombs, explosions, rupees, enemies,
-                    score, money, kills, bombN);
+                    lives, score, money, kills, bombN);
         }
         return this;
     }
@@ -291,6 +292,7 @@ public class Game2 extends World {
 
     public WorldEnd worldEnds() {
         if (lives < 1) {
+            System.out.println("lives:  " + lives);
             return new WorldEnd(true,
                     new OverlayImages(background,
                             new OverlayImages(new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
@@ -298,6 +300,7 @@ public class Game2 extends World {
                                     new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2 + 20),
                                             "Final Score:   " + score,
                                             20, 1, new Black()))));
+            
         } else {
             return new WorldEnd(false, this.makeImage());
         }
