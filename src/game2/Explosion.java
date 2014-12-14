@@ -124,7 +124,9 @@ public class Explosion {
     }
     
     public Explosion incTime() {
-        return new Explosion(pin, time +1);
+        return new Explosion(pin, time + 1);
+    }
+    
+
     }
    
-}

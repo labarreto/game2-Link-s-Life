@@ -97,9 +97,11 @@ public class Enemy {
 
         int halfEWidth = e.width / 2;
         int halfEHeight = e.height / 2;
+        int halfW = width/2;
+        int halfH = height/2;
 
-        if (Math.abs(a - b) < (halfEWidth)
-                && (Math.abs(c - d) < (halfEHeight))) {
+        if (Math.abs(a - b) < (halfEWidth + halfW)
+                && (Math.abs(c - d) < (halfEHeight + halfH))) {
             return true;
         } else {
             return false;

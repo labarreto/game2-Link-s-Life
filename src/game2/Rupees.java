@@ -54,8 +54,8 @@ public class Rupees {
         int halfRupWidth = width / 2;
         int halfRupHeight = height / 2;
 
-        if (Math.abs(a - b) < (halfHeroWidth )
-                && (Math.abs(c - d) < (halfHeroHeight))) {
+        if (Math.abs(a - b) < (halfHeroWidth + halfRupWidth )
+                && (Math.abs(c - d) < (halfHeroHeight + halfRupHeight))) {
             return true;
         } else {
             return false;

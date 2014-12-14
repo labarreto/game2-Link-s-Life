@@ -47,11 +47,10 @@ public class Bomb {
     }
     
     public boolean canIExplode() {
-        if (time > 15) {
+        if (time > 10) {
             return true;
         } else {
             return false;
-            
         }
     }
     

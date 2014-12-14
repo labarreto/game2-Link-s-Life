@@ -66,9 +66,11 @@ public class Boss {
 
         int halfHeroWidth = hero.width / 2;
         int halfHeroHeight = hero.height / 2;
+        int halfBossW = width/2;
+        int halfBossH = height/2;
 
-        if (Math.abs(a - b) < (halfHeroWidth)
-                && (Math.abs(c - d) < (halfHeroHeight))) {
+        if (Math.abs(a - b) < (halfHeroWidth + halfBossW)
+                && (Math.abs(c - d) < (halfHeroHeight + halfBossH))) {
             return true;
         } else {
             return false;

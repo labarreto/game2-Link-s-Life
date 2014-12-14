@@ -93,7 +93,7 @@ public class Game2 extends World {
     }
 
     public World onKeyEvent(String ke) {
-
+        
         Iterator<Enemy> en = enemies.listIterator(0);
 
         if (ke.equals("up") || ke.equals("left") || ke.equals("right") || ke.equals("down")) {
@@ -101,8 +101,8 @@ public class Game2 extends World {
             boolean canMove = true;
             Hero extra = this.hero.moveLink(ke);
 
-            while (en.hasNext()) {
-                if (en.next().collisionHuh(hero) && en.next().collisionHuh(extra)) {
+            while (en.hasNext() && enemies.size() > 0) {
+                if (en.next().collisionHuh(extra)) {
                     canMove = false;
                 }
 
@@ -138,8 +138,6 @@ public class Game2 extends World {
         LinkedList<Explosion> nExplosionList = new LinkedList();
         LinkedList<Bomb> bb = new LinkedList();
 
-        boolean deadEnemy = false;
-
         Enemy enemy = new Enemy();
         Rupees rupee = new Rupees();
         
@@ -153,7 +151,7 @@ public class Game2 extends World {
             Bomb b = bi.next();
             Bomb s = b.incTime();
             newBombList.add(b.incTime());
-            System.out.println("incTime is: " + s.time);
+            
         }
         
         Iterator<Bomb> nbi = newBombList.listIterator(0);
@@ -164,29 +162,20 @@ public class Game2 extends World {
             if (b.canIExplode()) {
                 
                 //Posn bp = bombList.removeFirst().pin;
+                
+                
                 nExplosionList.add(new Explosion(b.pin)); 
                 
             } else
                 bb.add(b);
         }
-        // remove explosions that have been sticking around for too long
-        while ((explosionList.size() > 0) && (explosionList.element().time >= 5)) {
-            explosionList.removeFirst();
-        }
-
-        ei = explosionList.listIterator(0);
-
-        while (ei.hasNext()) {
-            Explosion exp = ei.next();
-
-        }
+       
         ei = explosionList.listIterator(0);
         bi = bombList.listIterator(0);
         LinkedList<Bomb> nBombList = new LinkedList();
         ei = explosionList.listIterator(0);
 
-        // increase each bomb's timer and check if each bomb overlaps with any explosion
-        // in which case it creates a bomb that will immediately explodes
+
         while (bi.hasNext()) {
             Bomb bomb0 = bi.next();
             nBombList.add(bomb0.incTime());
@@ -213,7 +202,6 @@ public class Game2 extends World {
             Enemy newEn = yay.next().moveEnemy();
             enList.add(newEn);
 
-            //moves through list. 
         }
 
         yay = enList.listIterator(0);
@@ -232,7 +220,7 @@ public class Game2 extends World {
             while (ei.hasNext()) {
                 Explosion e = ei.next();
                 if (enn.explodingHuh(e)) {
-                    deadEnemy = true;
+                 
                     kills++;
                     score++;
                     EnemyList.remove(enn);
@@ -241,13 +229,6 @@ public class Game2 extends World {
             }
             ei = explosionList.listIterator(0);
 
-//            if (enn.collisionHuh(hero)) {
-//                lives--;
-//            }
-//            if (enn.explodingHuh(ei.next())) {
-//                kills++;
-//                yay.remove(); //don't want to use remove. it'll be harder during testing
-//            }
         }
 
         while (rup.hasNext()) {
@@ -258,11 +239,17 @@ public class Game2 extends World {
             } else {
                 rupList.add(r);
             }
+            
+            
+        }
+        
+        while (nExplosionList.size() > 0 && (nExplosionList.element().time >= 5)) {
+            nExplosionList.removeFirst();
         }
         return new Game2(this.lives,
                 this.score, this.money, this.kills, this.hero, enList, rupList, bb, nExplosionList);
 
-        // if pin.x > 1000, return bosslevel
+        // if pin.x > 1000 && key collected, return bosslevel
     }
 
     public WorldImage makeImage() {
@@ -344,7 +331,7 @@ public class Game2 extends World {
         yayRupees.add(new Rupees());
         Game2 game = new Game2(15, 0, 0, 0,
                 new Hero(new Posn(screenWIDTH / 2, screenHEIGHT / 2), "linkDOWN.png"), yayEn, yayRupees, yayBombs, yayExplosions);
-        game.bigBang(screenWIDTH, screenHEIGHT, 0.2);
+        game.bigBang(screenWIDTH, screenHEIGHT, 0.1);
     }
 
 }

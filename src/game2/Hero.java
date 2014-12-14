@@ -64,19 +64,19 @@ public class Hero {
 //
 //        Hero link = new Hero(new Posn(Utility.randInt(0, width), Utility.randInt(0, height)), "linkDOWN.png");
 
-        if (ke.equals("right") && ((this.pin.x + 10) <= outBoundsRight)) {
-            this.pin = new Posn(this.pin.x + 10, this.pin.y);
+        if (ke.equals("right") && ((this.pin.x + 20) <= outBoundsRight)) {
+            this.pin = new Posn(this.pin.x + 20, this.pin.y);
 
             return new Hero(this.pin, "linkRIGHT.png");
 
-        } else if (ke.equals("left") && ((this.pin.x - 10) >= outBoundsLeft)) {
-            this.pin = new Posn(this.pin.x - 10, this.pin.y);
+        } else if (ke.equals("left") && ((this.pin.x - 20) >= outBoundsLeft)) {
+            this.pin = new Posn(this.pin.x - 20, this.pin.y);
             return new Hero(this.pin, "linkLEFT.png");
-        } else if (ke.equals("up") && ((this.pin.y - 10) >= outBoundsUp)) {
-            this.pin = new Posn(this.pin.x, this.pin.y - 10);
+        } else if (ke.equals("up") && ((this.pin.y - 20) >= outBoundsUp)) {
+            this.pin = new Posn(this.pin.x, this.pin.y - 20);
             return new Hero(this.pin, "linkUP.png");
-        } else if (ke.equals("down") && ((this.pin.y + 10) <= outBoundsDown)) {
-            this.pin = new Posn(this.pin.x, this.pin.y + 10);
+        } else if (ke.equals("down") && ((this.pin.y + 20) <= outBoundsDown)) {
+            this.pin = new Posn(this.pin.x, this.pin.y + 20);
             return new Hero(this.pin, "linkDOWN.png");
         } else {
             return this;
@@ -94,10 +94,12 @@ public class Hero {
         
         int halfEnemyWidth = enemy.width/2;
         int halfEnemyHeight = enemy.height/2;
+        int halfHW = width/2;
+        int halfHH = height/2;
 
         
-        if (Math.abs(a - b) < (halfEnemyWidth)
-                && (Math.abs(c - d) < (halfEnemyHeight))) {
+        if (Math.abs(a - b) < (halfEnemyWidth + halfHW)
+                && (Math.abs(c - d) < (halfEnemyHeight+ halfHH))) {
 
             return true;
         } else {
