@@ -136,6 +136,7 @@ public class Game2 extends World {
         LinkedList<Enemy> nEnemyList = new LinkedList();
         Iterator<Enemy> en = enemies.listIterator(0);
         LinkedList<Explosion> nExplosionList = new LinkedList();
+        LinkedList<Bomb> bb = new LinkedList();
 
         boolean deadEnemy = false;
 
@@ -164,9 +165,9 @@ public class Game2 extends World {
                 
                 //Posn bp = bombList.removeFirst().pin;
                 nExplosionList.add(new Explosion(b.pin)); 
-                newBombList.remove(b);
                 
-            }
+            } else
+                bb.add(b);
         }
         // remove explosions that have been sticking around for too long
         while ((explosionList.size() > 0) && (explosionList.element().time >= 5)) {
@@ -259,7 +260,7 @@ public class Game2 extends World {
             }
         }
         return new Game2(this.lives,
-                this.score, this.money, this.kills, this.hero, enList, rupList, newBombList, this.explosions);
+                this.score, this.money, this.kills, this.hero, enList, rupList, bb, nExplosionList);
 
         // if pin.x > 1000, return bosslevel
     }
