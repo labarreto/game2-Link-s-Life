@@ -18,7 +18,7 @@ import java.awt.Color;
 public class Bomb {
 
     Posn pin;
-    WorldImage bomb = new FromFileImage(pin, "bomb.png");
+    WorldImage bomb;
     Hero hero;
     int width;
     int height;
@@ -27,6 +27,7 @@ public class Bomb {
     public Bomb(Posn pin, int time) {
         this.time = time;
         this.pin = pin;
+        this.bomb = new FromFileImage(pin, "bomb.png");
         this.width = bomb.getWidth();
         this.height = bomb.getHeight();
     }
@@ -42,7 +43,7 @@ public class Bomb {
     }
     
     public WorldImage bombImage() {
-        return new FromFileImage(pin, "bomb.png");
+        return bomb.getMovedTo(pin);
     }
     
     public boolean canIExplode() {
