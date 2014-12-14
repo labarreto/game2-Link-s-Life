@@ -39,7 +39,7 @@ public class Bomb {
 
     
     public Bomb incTime() {
-        return new Bomb(pin, time+1);
+        return new Bomb(pin, time + 1);
     }
     
     public WorldImage bombImage() {

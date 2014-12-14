@@ -53,7 +53,7 @@ public class Game2 extends World {
 
     }
 
-    public Game2(int score, int lives, Hero hero,
+    public Game2(Hero hero,
             LinkedList<Enemy> enemies, LinkedList<Rupees> rupees,
             LinkedList<Bomb> bombs, LinkedList<Explosion> explosions) {
         this.hero = hero;
@@ -61,8 +61,8 @@ public class Game2 extends World {
         this.bombs = bombs;
         this.explosions = explosions;
         this.enemies = enemies;
-        this.score = score;
-        this.lives = lives;
+        this.score = 0;
+        this.lives = 15;
         this.money = 0;
         this.kills = 0;
         this.bombN = 15;
@@ -84,6 +84,7 @@ public class Game2 extends World {
         this.explosions = explosions;
         this.rupees = rupees;
         this.enemies = enemies;
+        this.lives = lives;
         this.score = score;
         this.money = money;
         this.kills = kills;
@@ -135,30 +136,51 @@ public class Game2 extends World {
         LinkedList<Enemy> nEnemyList = new LinkedList();
         Iterator<Enemy> en = enemies.listIterator(0);
         LinkedList<Explosion> nExplosionList = new LinkedList();
-        
+
         boolean deadEnemy = false;
 
         Enemy enemy = new Enemy();
         Rupees rupee = new Rupees();
-
-        if ((bombList.size() > 0) && (bombList.element().canIExplode())) {
-            Posn bp = bombList.removeFirst().pin;
-
-            // center explosion always happens
+        
+        Iterator<Bomb> bi = bombs.listIterator(0);
+        Iterator<Explosion> ei = explosions.listIterator(0);
+        LinkedList<Bomb> newBombList = new LinkedList();
+        
+        
+        while (bi.hasNext()) {
+            
+            Bomb b = bi.next();
+            Bomb s = b.incTime();
+            newBombList.add(b.incTime());
+            System.out.println("incTime is: " + s.time);
         }
+        
+        Iterator<Bomb> nbi = newBombList.listIterator(0);
+         
+        while (nbi.hasNext()) {
+            Bomb b = nbi.next();
 
+            if (b.canIExplode()) {
+                
+                //Posn bp = bombList.removeFirst().pin;
+                nExplosionList.add(new Explosion(b.pin)); 
+                newBombList.remove(b);
+                
+            }
+        }
         // remove explosions that have been sticking around for too long
         while ((explosionList.size() > 0) && (explosionList.element().time >= 5)) {
             explosionList.removeFirst();
         }
-        Iterator<Explosion> ei = explosionList.listIterator(0);
+
+        ei = explosionList.listIterator(0);
+
         while (ei.hasNext()) {
             Explosion exp = ei.next();
 
         }
         ei = explosionList.listIterator(0);
-
-        Iterator<Bomb> bi = bombList.listIterator(0);
+        bi = bombList.listIterator(0);
         LinkedList<Bomb> nBombList = new LinkedList();
         ei = explosionList.listIterator(0);
 
@@ -216,8 +238,8 @@ public class Game2 extends World {
 
                 }
             }
-             ei =  explosionList.listIterator(0);
-             
+            ei = explosionList.listIterator(0);
+
 //            if (enn.collisionHuh(hero)) {
 //                lives--;
 //            }
@@ -225,7 +247,6 @@ public class Game2 extends World {
 //                kills++;
 //                yay.remove(); //don't want to use remove. it'll be harder during testing
 //            }
-
         }
 
         while (rup.hasNext()) {
@@ -238,7 +259,7 @@ public class Game2 extends World {
             }
         }
         return new Game2(this.lives,
-                this.score, this.money, this.kills, this.hero, enList, rupList, this.bombs, this.explosions);
+                this.score, this.money, this.kills, this.hero, enList, rupList, newBombList, this.explosions);
 
         // if pin.x > 1000, return bosslevel
     }
@@ -271,13 +292,13 @@ public class Game2 extends World {
             world = new OverlayImages(world,
                     rup.next().rupeeImage());
         }
-        
-        while(b.hasNext()) {
+
+        while (b.hasNext()) {
             world = new OverlayImages(world,
                     b.next().bombImage());
         }
-        
-        while(e.hasNext()) {
+
+        while (e.hasNext()) {
             world = new OverlayImages(world,
                     e.next().explosionImage());
         }
@@ -300,7 +321,7 @@ public class Game2 extends World {
                                     new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2 + 20),
                                             "Final Score:   " + score,
                                             20, 1, new Black()))));
-            
+
         } else {
             return new WorldEnd(false, this.makeImage());
         }
