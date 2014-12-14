@@ -27,7 +27,6 @@ public class Bomb {
     public Bomb(Posn pin, int time) {
         this.time = time;
         this.pin = pin;
-        this.bomb = new FromFileImage(pin, "bomb.png");
         this.width = bomb.getWidth();
         this.height = bomb.getHeight();
     }
