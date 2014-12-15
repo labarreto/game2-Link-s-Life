@@ -92,7 +92,7 @@ public class BossLevel extends World {
         return this;
     }
 
-    public BossLevel onTick() {
+    public World onTick() {
         LinkedList<Heart> heartList = new LinkedList();
 
         LinkedList<Explosion> nExplosionList = new LinkedList();
@@ -206,12 +206,33 @@ public class BossLevel extends World {
 //       if (hero.pin.x >= outBoundsRight && keyGrabbed) {
 //           return new BossLevel(. . . .to be filled out soon);
 //       } else { 
+        LinkedList Enemies = new LinkedList();
+        Enemies.add(new Enemy());
+        LinkedList Hearts = new LinkedList();
+        LinkedList Bombs = new LinkedList();
+        LinkedList Explosions = new LinkedList();
+        LinkedList Key = new LinkedList();
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
 
-        return new BossLevel(this.lives, this.score, this.bosslives, this.boss,
-                this.hero, heartList, newBombList, nExplosionList, k,
-                makeMoreHearts, this.shouldKeyAppear, this.keyGrabbed);
+        if (hero.pin.x < 0 && keyGrabbed) {
+            return new Game2(this.lives, this.score, 0, hero,
+                    Enemies, Hearts, Bombs, Explosions, Key, false, false, true);
+        } else {
 
-        // if pin.x > 1000 && key collected, return bosslevel
+            return new BossLevel(this.lives, this.score, this.bosslives, this.boss,
+                    this.hero, heartList, newBombList, nExplosionList, k,
+                    makeMoreHearts, this.shouldKeyAppear, this.keyGrabbed);
+
+        }
     }
 
     public WorldImage makeImage() {
@@ -225,13 +246,21 @@ public class BossLevel extends World {
                         new TextImage(new Posn(50, 20), "Lives:  " + lives,
                                 20, new Black()),
                         new OverlayImages(
-                                new TextImage(new Posn(200, 20), "Score:  "
+                                new TextImage(new Posn(150, 20), "Score:  "
                                         + score, 20, new Black()),
                                 new OverlayImages(
-                                        new TextImage(new Posn(350, 20), "Has Key:  " + keyGrabbed, 20, new Black()),
+                                        new TextImage(new Posn(250, 20),
+                                                "Has Key:  " + keyGrabbed,
+                                                20, new Black()),
                                         new OverlayImages(
-                                                new TextImage(new Posn(500, 20), "Kills:  " + kills, 20, new Black()),
-                                                hero.linkImage())))));
+                                                new TextImage(new Posn(350, 20),
+                                                        "Kills:  " + kills,
+                                                        20, new Black()),
+                                                new OverlayImages(
+                                                        new TextImage(new Posn(450, 20),
+                                                                "BossLives:  " + bosslives,
+                                                                20, new Black()),
+                                                        hero.linkImage()))))));
 
         world = new OverlayImages(world,
                 boss.bossImage());
@@ -259,6 +288,22 @@ public class BossLevel extends World {
         world = new OverlayImages(world, hero.linkImage());
 
         return world;
+    }
+
+    public WorldEnd worldEnds() {
+        if (lives < 1) {
+            System.out.println("lives:  " + lives);
+            return new WorldEnd(true,
+                    new OverlayImages(background,
+                            new OverlayImages(new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
+                                            "GAME OVER!!!!", 30, 1, new Black()),
+                                    new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2 + 20),
+                                            "Final Score:   " + score,
+                                            20, 1, new Black()))));
+
+        } else {
+            return new WorldEnd(false, this.makeImage());
+        }
     }
 
 }

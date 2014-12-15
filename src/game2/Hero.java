@@ -58,9 +58,9 @@ public class Hero {
 
     public Hero moveLink(String ke) {
         int outBoundsRight = 710;
-        int outBoundsLeft = link.getWidth();
-        int outBoundsUp = link.getHeight();
-        int outBoundsDown = 500 - link.getHeight();
+        int outBoundsLeft = -10;
+        int outBoundsUp = 0;
+        int outBoundsDown = 500;
 //
 //        Hero link = new Hero(new Posn(Utility.randInt(0, width), Utility.randInt(0, height)), "linkDOWN.png");
 

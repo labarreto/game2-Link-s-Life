@@ -41,8 +41,8 @@ public class Game2 extends World {
 
     public Game2(int lives, int score, int kills, Hero hero,
             LinkedList<Enemy> enemies, LinkedList<Heart> hearts,
-            LinkedList<Bomb> bombs, LinkedList<Explosion> explosions, 
-            LinkedList<Key> key,  Boolean makeMoreHearts,
+            LinkedList<Bomb> bombs, LinkedList<Explosion> explosions,
+            LinkedList<Key> key, Boolean makeMoreHearts,
             Boolean keyGrabbed, Boolean shouldKeyAppear) {
 
         this.hero = hero;
@@ -52,17 +52,15 @@ public class Game2 extends World {
         this.explosions = explosions;
         this.lives = lives;
         this.score = score;
-  
+
         this.kills = kills;
         this.bombN = 15;
         this.key = key; //linked list
-  
+
         this.makeMoreHearts = makeMoreHearts;
         this.keyGrabbed = keyGrabbed;
         this.shouldKeyAppear = shouldKeyAppear;
     }
-
-
 
     public World onKeyEvent(String ke) {
 
@@ -92,12 +90,12 @@ public class Game2 extends World {
         } else if (ke.equals("b") && (bombs.size() < bombN)) {
 
             bombs.add(new Bomb(hero.pin));
-            return new Game2(lives, score, kills, hero, enemies, hearts, bombs, explosions, key, makeMoreHearts,keyGrabbed, shouldKeyAppear);
+            return new Game2(lives, score, kills, hero, enemies, hearts, bombs, explosions, key, makeMoreHearts, keyGrabbed, shouldKeyAppear);
         }
         return this;
     }
 
-    public Game2 onTick() {
+    public World onTick() {
 
         LinkedList<Heart> heartList = new LinkedList();
 
@@ -219,35 +217,42 @@ public class Game2 extends World {
         if (kills >= 1 && score >= 1 && shouldKeyAppear) {
 
             shouldKeyAppear = false;
-                k.add( new Key() );
-                System.out.println("created key");
-            
+            k.add(new Key());
+            System.out.println("created key");
+
         }
-        
-        while ( ki.hasNext()) {
+
+        while (ki.hasNext()) {
             Key key0 = ki.next();
-            
-            k.add( key0 );
-            
+
+            k.add(key0);
+
             if (key0.collectedHuh(hero)) {
                 System.out.println("removed key");
                 k.remove(key0);
                 keyGrabbed = true;
             }
-            
-            
 
         }
-//       int outBoundsRight = 700;
-//       if (hero.pin.x >= outBoundsRight && keyGrabbed) {
-//           return new BossLevel(. . . .to be filled out soon);
-//       } else { 
-        return new Game2(this.lives,
-                this.score, this.kills, this.hero,
-                nme, heartList, newBombList, nExplosionList, k, 
-                makeMoreHearts, this.keyGrabbed, this.shouldKeyAppear);
+        int outBoundsRight = 700;
 
-        // if pin.x > 1000 && key collected, return bosslevel
+        LinkedList<Heart> Hearts = new LinkedList();
+        LinkedList<Bomb> Bombs = new LinkedList();
+        LinkedList<Explosion> Explosions = new LinkedList();
+        LinkedList<Key> Key = new LinkedList();
+
+        if (hero.pin.x >= outBoundsRight && keyGrabbed) {
+
+            return new BossLevel(this.lives, this.score, 10, new Boss(), hero,
+                    Hearts, Bombs, Explosions, Key, false, true, false);
+        } else {
+            return new Game2(this.lives,
+                    this.score, this.kills, this.hero,
+                    nme, heartList, newBombList, nExplosionList, k,
+                    makeMoreHearts, this.keyGrabbed, this.shouldKeyAppear);
+
+            // if pin.x > 1000 && key collected, return bosslevel
+        }
     }
 
     public WorldImage makeImage() {
@@ -291,7 +296,7 @@ public class Game2 extends World {
         }
 
         while (k.hasNext()) {
-            world = new OverlayImages(world, 
+            world = new OverlayImages(world,
                     k.next().keyImage());
         }
 
