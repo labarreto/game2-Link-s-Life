@@ -26,8 +26,10 @@ public class Game2 extends World {
     int money;
     int kills;
     int bombN;
-    Boolean keyAppear;
+
+    Boolean shouldKeyAppear;
     Boolean makeMoreHearts;
+    Boolean keyGrabbed;
     WorldImage background = new FromFileImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2), backFileName);
     ;
     WorldImage background2;
@@ -39,7 +41,9 @@ public class Game2 extends World {
 
     public Game2(int lives, int score, int money, int kills, Hero hero,
             LinkedList<Enemy> enemies, LinkedList<Heart> hearts,
-            LinkedList<Bomb> bombs, LinkedList<Explosion> explosions, LinkedList<Key> key, Boolean keyAppear, Boolean makeMoreHearts) {
+            LinkedList<Bomb> bombs, LinkedList<Explosion> explosions, 
+            LinkedList<Key> key,  Boolean makeMoreHearts,
+            Boolean keyGrabbed, Boolean shouldKeyAppear) {
 
         this.hero = hero;
         this.hearts = hearts;
@@ -52,9 +56,10 @@ public class Game2 extends World {
         this.kills = kills;
         this.bombN = 15;
         this.key = key; //linked list
-        this.keyAppear = keyAppear;
+  
         this.makeMoreHearts = makeMoreHearts;
-
+        this.keyGrabbed = keyGrabbed;
+        this.shouldKeyAppear = shouldKeyAppear;
     }
 
     public Game2(Hero hero,
@@ -68,8 +73,10 @@ public class Game2 extends World {
             int kills,
             int bombN,
             LinkedList<Key> key,
-            Boolean keyAppear,
-            Boolean makeMoreHearts) {
+          
+            Boolean makeMoreHearts,
+            Boolean keyGrabbed,
+            Boolean shouldKeyAppear) {
 
         this.hero = hero;
         this.bombs = bombs;
@@ -82,8 +89,10 @@ public class Game2 extends World {
         this.kills = kills;
         this.bombN = bombN;
         this.key = key;
-        this.keyAppear = keyAppear;
+      
         this.makeMoreHearts = makeMoreHearts;
+        this.keyGrabbed = keyGrabbed;
+        this.shouldKeyAppear = shouldKeyAppear;
 
     }
 
@@ -107,7 +116,7 @@ public class Game2 extends World {
                 return new Game2(this.lives,
                         this.score, this.money, this.kills, extra/*hero.moveLink(ke)*/,
                         this.enemies, hearts, this.bombs, this.explosions, this.key,
-                        this.keyAppear, this.makeMoreHearts);
+                        this.makeMoreHearts, this.keyGrabbed, this.shouldKeyAppear);
             } else {
                 return this;
             }
@@ -116,7 +125,7 @@ public class Game2 extends World {
 
             bombs.add(new Bomb(hero.pin));
             return new Game2(hero, bombs, explosions, hearts, enemies,
-                    lives, score, money, kills, bombN, key, keyAppear, makeMoreHearts);
+                    lives, score, money, kills, bombN, key, makeMoreHearts,keyGrabbed, shouldKeyAppear);
         }
         return this;
     }
@@ -140,7 +149,6 @@ public class Game2 extends World {
 
         LinkedList<Key> k = new LinkedList();
         Iterator<Key> ki = key.listIterator(0);
-        Key ke = new Key();
         //iterating through "bombs" linked list to increase the time on them. 
         while (bi.hasNext()) {
 
@@ -241,28 +249,33 @@ public class Game2 extends World {
 
         }
 
-        if (kills >= 1 && score >= 1) {
-            keyAppear = true;
-            if (!(k.size() > 0)) {
-                k.add(ke);
+        if (kills >= 1 && score >= 1 && shouldKeyAppear) {
 
-            }
+            shouldKeyAppear = false;
+                k.add( new Key() );
+                System.out.println("created key");
+            
         }
-
-        while (ki.hasNext()) {
+        
+        while ( ki.hasNext()) {
             Key key0 = ki.next();
-
+            
+            k.add( key0 );
+            
             if (key0.collectedHuh(hero)) {
-
+                System.out.println("removed key");
                 k.remove(key0);
+                keyGrabbed = true;
             }
+            
+            
 
         }
 
         return new Game2(this.lives,
                 this.score, this.money, this.kills, this.hero,
-                nme, heartList, newBombList, nExplosionList, k, keyAppear,
-                makeMoreHearts);
+                nme, heartList, newBombList, nExplosionList, k, 
+                makeMoreHearts, this.keyGrabbed, this.shouldKeyAppear);
 
         // if pin.x > 1000 && key collected, return bosslevel
     }
@@ -308,7 +321,8 @@ public class Game2 extends World {
         }
 
         while (k.hasNext()) {
-            world = new OverlayImages(world, k.next().keyImage());
+            world = new OverlayImages(world, 
+                    k.next().keyImage());
         }
 
         world = new OverlayImages(world, hero.linkImage());
@@ -352,7 +366,7 @@ public class Game2 extends World {
         Game2 game = new Game2(15, 0, 0, 0,
                 new Hero(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
                         "linkDOWN.png"), Enemies, Hearts, Bombs,
-                Explosions, Key, false, false);
+                Explosions, Key, false, false, true);
 
         game.bigBang(screenWIDTH, screenHEIGHT, 0.1);
     }
