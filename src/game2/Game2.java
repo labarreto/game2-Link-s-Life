@@ -238,10 +238,14 @@ public class Game2 extends World {
 
   
 
-        if (hero.pin.x >= outBoundsRight && keyGrabbed) {
+        if ( hero.pin.x >= outBoundsRight && keyGrabbed ) {
 
             return new BossLevel(this.lives, this.score, 10, new Boss(), new Hero(new Posn(10, screenHEIGHT/2)),
-                    new LinkedList(), new LinkedList(), new LinkedList(), new LinkedList(), false, true, false);
+                    new LinkedList(), // hearts
+                    new LinkedList(), // bombs
+                    new LinkedList(), // explosions
+                    new LinkedList(), // key
+                    false, true, false);
         } else {
             return new Game2(this.lives,
                     this.score, this.kills, this.hero,

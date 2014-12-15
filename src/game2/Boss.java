@@ -21,12 +21,29 @@ public class Boss {
     int height;
     static int SCREENWIDTH = 700;
     static int SCREENHEIGHT = 500;
+    
+    // completely to the right 
+    // pi/4
+    // pi/2
+    // 3pi/4
+    // pi
+    // 5pi/4
+    // 3pi/2
+    // 7pi/4
 
     public Boss() {
         this(new Posn(SCREENWIDTH / 2 + 100, SCREENHEIGHT / 2 + 100));
     }
 
     public Boss(Posn pin) {
+        this.pin = pin;
+        bossFileName = "boss.png";
+        boss = new FromFileImage(pin, bossFileName);
+        this.width = boss.getWidth();
+        this.height = boss.getHeight();
+    }
+    
+        public Boss(Posn pin, int lastmove) {
         this.pin = pin;
         bossFileName = "boss.png";
         boss = new FromFileImage(pin, bossFileName);

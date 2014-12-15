@@ -105,7 +105,11 @@ public class BossLevel extends World {
             Hearts.add(new Heart());
 
             return new Game2(this.lives, this.score, 0, hero,
-                    Enemies, Hearts, new LinkedList(), new LinkedList(), new LinkedList(), false, false, true);
+                    Enemies, Hearts, 
+                    new LinkedList(), // bombs
+                    new LinkedList(), // explosions
+                    new LinkedList(), // key
+                    false, false, true);
         }
         return this;
     }
@@ -221,7 +225,7 @@ public class BossLevel extends World {
 
         }
 
-        return new BossLevel(this.lives, this.score, this.bosslives, this.boss,
+        return new BossLevel(this.lives, this.score, this.bosslives, this.boss.randomMove(50),
                 this.hero, heartList, newBombList, nExplosionList, k,
                 makeMoreHearts, this.shouldKeyAppear, this.keyGrabbed);
 
@@ -233,8 +237,11 @@ public class BossLevel extends World {
         Iterator<Bomb> b = bombs.listIterator(0);
         Iterator<Explosion> e = explosions.listIterator(0);
         Iterator<Key> k = key.listIterator(0);
-        WorldImage world = new OverlayImages(background,
-                new OverlayImages(
+        //WorldImage world = background;
+        WorldImage world = new RectangleImage( new Posn( 0, 0 ), 1000, 1000, new White() );
+           
+        
+        world = new OverlayImages(
                         new TextImage(new Posn(50, 20), "Lives:  " + lives,
                                 20, new Black()),
                         new OverlayImages(
@@ -250,7 +257,7 @@ public class BossLevel extends World {
                                                         20, new Black()),
                                                 new TextImage(new Posn(450, 20),
                                                         "BossLives:  " + bosslives,
-                                                        20, new Black()))))));
+                                                        20, new Black())))));
 
         world = new OverlayImages(world,
                 boss.bossImage());
@@ -262,12 +269,16 @@ public class BossLevel extends World {
 
         while (b.hasNext()) {
             world = new OverlayImages(world,
-                    b.next().bombImage());
+                   // b.next().bombImage());
+                    new RectangleImage(new Posn( hero.pin.x, hero.pin.y ),
+                    15, 15, new Red() ) );
         }
 
         while (e.hasNext()) {
             world = new OverlayImages(world,
-                    e.next().explosionImage());
+                    // e.next().explosionImage());
+                    new RectangleImage(new Posn( hero.pin.x, hero.pin.y ),
+                    15, 15, new Blue() ) );
         }
 
         while (k.hasNext()) {
