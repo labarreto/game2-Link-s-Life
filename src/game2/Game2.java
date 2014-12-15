@@ -236,15 +236,12 @@ public class Game2 extends World {
         }
         int outBoundsRight = 700;
 
-        LinkedList<Heart> Hearts = new LinkedList();
-        LinkedList<Bomb> Bombs = new LinkedList();
-        LinkedList<Explosion> Explosions = new LinkedList();
-        LinkedList<Key> Key = new LinkedList();
+  
 
         if (hero.pin.x >= outBoundsRight && keyGrabbed) {
 
             return new BossLevel(this.lives, this.score, 10, new Boss(), new Hero(new Posn(10, screenHEIGHT/2)),
-                    Hearts, Bombs, Explosions, Key, false, true, false);
+                    new LinkedList(), new LinkedList(), new LinkedList(), new LinkedList(), false, true, false);
         } else {
             return new Game2(this.lives,
                     this.score, this.kills, this.hero,

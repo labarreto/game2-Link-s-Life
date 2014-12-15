@@ -209,9 +209,7 @@ public class BossLevel extends World {
         LinkedList Enemies = new LinkedList();
         Enemies.add(new Enemy());
         LinkedList Hearts = new LinkedList();
-        LinkedList Bombs = new LinkedList();
-        LinkedList Explosions = new LinkedList();
-        LinkedList Key = new LinkedList();
+
         Hearts.add(new Heart());
         Hearts.add(new Heart());
         Hearts.add(new Heart());
@@ -225,7 +223,7 @@ public class BossLevel extends World {
 
         if (hero.pin.x < 0 && keyGrabbed) {
             return new Game2(this.lives, this.score, 0, hero,
-                    Enemies, Hearts, Bombs, Explosions, Key, false, false, true);
+                    Enemies, Hearts, new LinkedList(), new LinkedList(), new LinkedList(), false, false, true);
         } else {
 
             return new BossLevel(this.lives, this.score, this.bosslives, this.boss,
