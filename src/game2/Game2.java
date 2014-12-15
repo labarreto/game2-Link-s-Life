@@ -51,29 +51,10 @@ public class Game2 extends World {
         this.money = money;
         this.kills = kills;
         this.bombN = 15;
-        this.key = key;
+        this.key = key; //linked list
         this.keyAppear = keyAppear;
         this.makeMoreHearts = makeMoreHearts;
 
-    }
-
-    public Game2(Hero hero,
-            LinkedList<Enemy> enemies, LinkedList<Heart> hearts,
-            LinkedList<Bomb> bombs, LinkedList<Explosion> explosions,
-            LinkedList<Key>, Boolean keyAppear, Boolean makeMoreHearts) {
-        this.hero = hero;
-        this.hearts = hearts;
-        this.bombs = bombs;
-        this.explosions = explosions;
-        this.enemies = enemies;
-        this.score = 0;
-        this.lives = 15;
-        this.money = 0;
-        this.kills = 0;
-        this.bombN = 15;
-        this.key = key;
-        this.keyAppear = keyAppear;
-        this.makeMoreHearts = makeMoreHearts;
     }
 
     public Game2(Hero hero,
@@ -156,10 +137,10 @@ public class Game2 extends World {
         Heart heart = new Heart();
 
         Iterator<Explosion> ei = explosions.listIterator(0);
-        
+
         LinkedList<Key> k = new LinkedList();
         Iterator<Key> ki = key.listIterator(0);
-
+        Key ke = new Key();
         //iterating through "bombs" linked list to increase the time on them. 
         while (bi.hasNext()) {
 
@@ -236,7 +217,7 @@ public class Game2 extends World {
             }
 
             ei = nExplosionList.listIterator(0);
-            
+
         }
 
         //checking when to add heart to screen
@@ -252,7 +233,7 @@ public class Game2 extends World {
         while (hrt.hasNext()) {
             Heart r = hrt.next();
             if (r.collectedHuh(hero)) {
-        
+
                 lives++;
             } else {
                 heartList.add(r);
@@ -260,23 +241,27 @@ public class Game2 extends World {
 
         }
 
-        if (kills >= 1 && score > 1 && money > 1) {
+        if (kills >= 1 && score >= 1) {
             keyAppear = true;
+            if (!(k.size() > 0)) {
+                k.add(ke);
+
+            }
         }
-        
+
         while (ki.hasNext()) {
             Key key0 = ki.next();
-            
+
             if (key0.collectedHuh(hero)) {
-                
+
                 k.remove(key0);
             }
-            
+
         }
 
         return new Game2(this.lives,
                 this.score, this.money, this.kills, this.hero,
-                nme, heartList, newBombList, nExplosionList, key, keyAppear,
+                nme, heartList, newBombList, nExplosionList, k, keyAppear,
                 makeMoreHearts);
 
         // if pin.x > 1000 && key collected, return bosslevel
