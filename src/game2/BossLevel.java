@@ -20,7 +20,7 @@ public class BossLevel extends World {
     static int screenWIDTH = 700;
     static int screenHEIGHT = 500;
     String backFileName = new String("background.png");
-    WorldImage background;
+    WorldImage background = new FromFileImage(new Posn(screenWIDTH/2, screenHEIGHT/2), backFileName);
     int lives;
     int score;
     int kills;
@@ -164,9 +164,10 @@ public class BossLevel extends World {
                 lives--;
             }
         }
-
-        if (boss.outOfBounds()) {
-            boss = boss.changeDir();
+        Boss newBoss = boss.changeDir();
+        
+        if (boss.outOfBounds() && newBoss.outOfBounds()) {
+            boss = newBoss.changeDir();
         }
         boss = boss.bossMove();
         
