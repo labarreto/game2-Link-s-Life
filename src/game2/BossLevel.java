@@ -182,7 +182,7 @@ public class BossLevel extends World {
 
         }
 
-        if (kills >= 1 && score >= 1 && shouldKeyAppear) {
+        if (bosslives == 0 && shouldKeyAppear) {
 
             shouldKeyAppear = false;
             k.add(new Key());
@@ -256,11 +256,10 @@ public class BossLevel extends World {
                                                 new TextImage(new Posn(350, 20),
                                                         "Kills:  " + kills,
                                                         20, new Black()),
-                                                new OverlayImages(
+                                                
                                                         new TextImage(new Posn(450, 20),
                                                                 "BossLives:  " + bosslives,
-                                                                20, new Black()),
-                                                        hero.linkImage()))))));
+                                                                20, new Black()))))));
 
         world = new OverlayImages(world,
                 boss.bossImage());
