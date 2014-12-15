@@ -31,7 +31,7 @@ public class Boss {
     // 3pi/2
     // 7pi/4
     public Boss() {
-        this(new Posn(SCREENWIDTH / 2 + 100, SCREENHEIGHT / 2 + 100));
+        this(new Posn(SCREENWIDTH / 2, SCREENHEIGHT / 2 ));
     }
 
     public Boss(Posn pin) {
@@ -52,11 +52,14 @@ public class Boss {
     }
 
     public Boss bossMove() {
-
+        int outBoundsRight = 650;
+        int outBoundsLeft = 50;
+        int outBoundsUp = 50;
+        int outBoundsDown = 450;
 
         int x = this.pin.x;
         int y = this.pin.y;
-        
+       
         if (lastmove == 0) {
             return new Boss(new Posn(x + 25, y), 0);
         } else if (lastmove == 1) {
@@ -74,35 +77,20 @@ public class Boss {
         } else {
             return new Boss(new Posn(x + 15, y + 15), 7);
         }
+        
     }
 
     public Boss changeDir() {
-        if (outOfBounds()) {
         int pickRand = Utility.randInt(0, 7);
-        if (pickRand == 0) {
-            return new Boss(pin, 0);
-        } else if (pickRand == 1) {
-            return new Boss(pin, 1);
-        } else if (pickRand == 2) {
-            return new Boss(pin, 2);
-        } else if (pickRand == 3) {
-            return new Boss(pin, 3);
-        } else if (pickRand == 4) {
-            return new Boss(pin, 4);
-        } else if (pickRand == 5) {
-            return new Boss(pin, 5);
-        } else if (pickRand == 6) {
-            return new Boss(pin, 6);
-        } else {
-            return new Boss(pin, 7);
-        }
-       } else {
-            return this;
-        }
+        Boss newBoss = new Boss(pin, pickRand);
+        if (newBoss.outOfBounds() && pickRand != this.lastmove) {
+            newBoss.changeDir();
+        } 
+        return newBoss;   
     }
 
     public boolean outOfBounds() {
-        return (this.pin.x > 650 || this.pin.x <= 50 || this.pin.y > 450 || this.pin.y <= 50);
+        return (this.pin.x >= 650 || this.pin.x <= 50 || this.pin.y >= 450 || this.pin.y <= 50);
 
     }
 

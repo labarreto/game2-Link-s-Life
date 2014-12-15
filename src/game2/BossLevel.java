@@ -88,7 +88,8 @@ public class BossLevel extends World {
             return new BossLevel(lives, score, bosslives, boss, hero,
                     hearts, bombs, explosions, key, makeMoreHearts, keyGrabbed,
                     shouldKeyAppear);
-        } else if (ke.equals("s")) {
+            
+        } else if (ke.equals("s") && keyGrabbed) {
             LinkedList Enemies = new LinkedList();
             Enemies.add(new Enemy());
             LinkedList Hearts = new LinkedList();
@@ -163,13 +164,12 @@ public class BossLevel extends World {
                 lives--;
             }
         }
-        
-        if (boss.outOfBounds()){
+
+        if (boss.outOfBounds()) {
             boss = boss.changeDir();
-            
-        } else {
-        boss = boss.bossMove();
         }
+        boss = boss.bossMove();
+        
         System.out.println("Boss posn: (" + boss.pin.x + ", " + boss.pin.y + ")");
         //set explosion iterator back to 0 index
         ei = nExplosionList.listIterator(0);
