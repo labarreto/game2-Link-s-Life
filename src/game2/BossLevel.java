@@ -163,8 +163,14 @@ public class BossLevel extends World {
                 lives--;
             }
         }
-        Boss newBoss = boss.randomMove(50);
-
+        
+        if (boss.outOfBounds()){
+            boss = boss.changeDir();
+            
+        } else {
+        boss = boss.bossMove();
+        }
+        System.out.println("Boss posn: (" + boss.pin.x + ", " + boss.pin.y + ")");
         //set explosion iterator back to 0 index
         ei = nExplosionList.listIterator(0);
 
@@ -225,7 +231,7 @@ public class BossLevel extends World {
 
         }
 
-        return new BossLevel(this.lives, this.score, this.bosslives, this.boss.randomMove(50),
+        return new BossLevel(this.lives, this.score, this.bosslives, boss,
                 this.hero, heartList, newBombList, nExplosionList, k,
                 makeMoreHearts, this.shouldKeyAppear, this.keyGrabbed);
 

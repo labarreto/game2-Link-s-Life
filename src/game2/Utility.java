@@ -42,7 +42,11 @@ public class Utility {
         int side = randomInts.nextInt();
         Math.abs(side);
         int remainder = side % numSides;
-        return remainder;
+        return (Math.abs(remainder));
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(dieRoll(8));
     }
 
     
