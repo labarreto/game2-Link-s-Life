@@ -23,7 +23,7 @@ public class Boss {
     static int SCREENHEIGHT = 500;
 
     public Boss() {
-        this(new Posn(SCREENWIDTH / 2, SCREENHEIGHT / 2));
+        this(new Posn(SCREENWIDTH / 2 + 100, SCREENHEIGHT / 2 + 100));
     }
 
     public Boss(Posn pin) {

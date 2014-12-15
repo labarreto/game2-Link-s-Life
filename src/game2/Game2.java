@@ -23,7 +23,7 @@ public class Game2 extends World {
     Hero hero;
     int lives;
     int score;
-    int money;
+
     int kills;
     int bombN;
 
@@ -39,7 +39,7 @@ public class Game2 extends World {
     LinkedList<Explosion> explosions;
     LinkedList<Key> key; // should only ever be size 1 or 0. 
 
-    public Game2(int lives, int score, int money, int kills, Hero hero,
+    public Game2(int lives, int score, int kills, Hero hero,
             LinkedList<Enemy> enemies, LinkedList<Heart> hearts,
             LinkedList<Bomb> bombs, LinkedList<Explosion> explosions, 
             LinkedList<Key> key,  Boolean makeMoreHearts,
@@ -52,7 +52,7 @@ public class Game2 extends World {
         this.explosions = explosions;
         this.lives = lives;
         this.score = score;
-        this.money = money;
+  
         this.kills = kills;
         this.bombN = 15;
         this.key = key; //linked list
@@ -62,39 +62,7 @@ public class Game2 extends World {
         this.shouldKeyAppear = shouldKeyAppear;
     }
 
-    public Game2(Hero hero,
-            LinkedList<Bomb> bombs,
-            LinkedList<Explosion> explosions,
-            LinkedList<Heart> hearts,
-            LinkedList<Enemy> enemies,
-            int lives,
-            int score,
-            int money,
-            int kills,
-            int bombN,
-            LinkedList<Key> key,
-          
-            Boolean makeMoreHearts,
-            Boolean keyGrabbed,
-            Boolean shouldKeyAppear) {
 
-        this.hero = hero;
-        this.bombs = bombs;
-        this.explosions = explosions;
-        this.hearts = hearts;
-        this.enemies = enemies;
-        this.lives = lives;
-        this.score = score;
-        this.money = money;
-        this.kills = kills;
-        this.bombN = bombN;
-        this.key = key;
-      
-        this.makeMoreHearts = makeMoreHearts;
-        this.keyGrabbed = keyGrabbed;
-        this.shouldKeyAppear = shouldKeyAppear;
-
-    }
 
     public World onKeyEvent(String ke) {
 
@@ -114,7 +82,7 @@ public class Game2 extends World {
             if (canMove) {
                 // hero = hero.moveLink(ke); //avoiding mutation
                 return new Game2(this.lives,
-                        this.score, this.money, this.kills, extra/*hero.moveLink(ke)*/,
+                        this.score, this.kills, extra/*hero.moveLink(ke)*/,
                         this.enemies, hearts, this.bombs, this.explosions, this.key,
                         this.makeMoreHearts, this.keyGrabbed, this.shouldKeyAppear);
             } else {
@@ -124,8 +92,7 @@ public class Game2 extends World {
         } else if (ke.equals("b") && (bombs.size() < bombN)) {
 
             bombs.add(new Bomb(hero.pin));
-            return new Game2(hero, bombs, explosions, hearts, enemies,
-                    lives, score, money, kills, bombN, key, makeMoreHearts,keyGrabbed, shouldKeyAppear);
+            return new Game2(lives, score, kills, hero, enemies, hearts, bombs, explosions, key, makeMoreHearts,keyGrabbed, shouldKeyAppear);
         }
         return this;
     }
@@ -271,9 +238,12 @@ public class Game2 extends World {
             
 
         }
-
+//       int outBoundsRight = 700;
+//       if (hero.pin.x >= outBoundsRight && keyGrabbed) {
+//           return new BossLevel(. . . .to be filled out soon);
+//       } else { 
         return new Game2(this.lives,
-                this.score, this.money, this.kills, this.hero,
+                this.score, this.kills, this.hero,
                 nme, heartList, newBombList, nExplosionList, k, 
                 makeMoreHearts, this.keyGrabbed, this.shouldKeyAppear);
 
@@ -292,12 +262,12 @@ public class Game2 extends World {
                         new TextImage(new Posn(50, 20), "Lives:  " + lives,
                                 20, new Black()),
                         new OverlayImages(
-                                new TextImage(new Posn(150, 20), "Score:  "
+                                new TextImage(new Posn(200, 20), "Score:  "
                                         + score, 20, new Black()),
                                 new OverlayImages(
-                                        new TextImage(new Posn(250, 20), "Money:  " + money, 20, new Black()),
+                                        new TextImage(new Posn(350, 20), "Has Key:  " + keyGrabbed, 20, new Black()),
                                         new OverlayImages(
-                                                new TextImage(new Posn(350, 20), "Kills:  " + kills, 20, new Black()),
+                                                new TextImage(new Posn(500, 20), "Kills:  " + kills, 20, new Black()),
                                                 hero.linkImage())))));
 
         while (en.hasNext()) {
@@ -363,7 +333,7 @@ public class Game2 extends World {
         Hearts.add(new Heart());
         Hearts.add(new Heart());
         Hearts.add(new Heart());
-        Game2 game = new Game2(15, 0, 0, 0,
+        Game2 game = new Game2(15, 0, 0,
                 new Hero(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
                         "linkDOWN.png"), Enemies, Hearts, Bombs,
                 Explosions, Key, false, false, true);

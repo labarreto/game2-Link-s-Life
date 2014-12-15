@@ -32,7 +32,7 @@ public class Key {
     }
     
     public Key() {
-        this(new Posn(Utility.randInt(10, 450), Utility.randInt(10, 690)));
+        this(new Posn(Utility.randInt(55, 650), Utility.randInt(55, 450)));
     }
     
     public WorldImage keyImage() {

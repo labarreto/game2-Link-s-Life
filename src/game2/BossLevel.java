@@ -20,58 +20,245 @@ public class BossLevel extends World {
     static int screenWIDTH = 700;
     static int screenHEIGHT = 500;
     String backFileName = new String("background.png");
-    Hero hero;
-    Key key;
+    WorldImage background;
     int lives;
     int score;
-    int money;
     int kills;
+    int bosslives;
+    int bombN;
 
     Boss boss;
-    int bosslives;
+    Hero hero;
 
-    WorldImage background;
-    LinkedList<Heart> rupees;
+    LinkedList<Heart> hearts;
     LinkedList<Enemy> enemies;
     LinkedList<Bomb> bombs;
+    LinkedList<Explosion> explosions;
+    LinkedList<Key> key;
 
-    public BossLevel(int width, int height, int lives, int bosslives, int score, Hero hero,
-            Boss boss, LinkedList<Heart> rupees) {
-        this.boss = boss;
-        this.screenWIDTH = width;
-        this.screenHEIGHT = height;
+    Boolean makeMoreHearts;
+
+    Boolean shouldKeyAppear;
+    Boolean keyGrabbed;
+
+    public BossLevel(int lives, int score, int bosslives, Boss boss, Hero hero,
+            LinkedList<Heart> hearts, LinkedList<Bomb> bombs,
+            LinkedList<Explosion> explosions, LinkedList<Key> key,
+            Boolean makeMoreHearts, Boolean shouldKeyAppear, Boolean keyGrabbed) {
+
         this.lives = lives;
         this.score = score;
-        this.hero = hero;
-        this.boss = boss;
         this.bosslives = bosslives;
-        this.rupees = rupees;
+        this.boss = boss;
+        this.hero = hero;
+        this.hearts = hearts;
+        this.bombs = bombs;
+        this.explosions = explosions;
+        this.key = key;
+        this.makeMoreHearts = makeMoreHearts;
+        this.shouldKeyAppear = shouldKeyAppear;
+        this.keyGrabbed = keyGrabbed;
     }
-    
-   
 
     public World onKeyEvent(String ke) {
+
         if (ke.equals("up") || ke.equals("left") || ke.equals("right") || ke.equals("down")) {
 
             boolean canMove = true;
             Hero extra = this.hero.moveLink(ke);
-            
+
             if (boss.collisionHuh(extra)) {
-                canMove = false; 
-                extra = this.hero;
+                canMove = false;
+
             }
-            
             if (canMove) {
-                return new BossLevel(this.screenWIDTH, this.screenHEIGHT,
-                this.lives, this.bosslives, this.score, extra, this.boss, this.rupees);
-            } else
+                // hero = hero.moveLink(ke); //avoiding mutation
+
+                return new BossLevel(this.lives, this.score, this.bosslives,
+                        boss, extra, hearts, bombs, explosions, key,
+                        makeMoreHearts, keyGrabbed, shouldKeyAppear);
+
+            } else {
                 return this;
-        } else
-            return this;
+            }
+
+        } else if (ke.equals("b") && (bombs.size() < bombN)) {
+
+            bombs.add(new Bomb(hero.pin));
+            return new BossLevel(lives, score, bosslives, boss, hero,
+                    hearts, bombs, explosions, key, makeMoreHearts, keyGrabbed,
+                    shouldKeyAppear);
+        }
+        return this;
+    }
+
+    public BossLevel onTick() {
+        LinkedList<Heart> heartList = new LinkedList();
+
+        LinkedList<Explosion> nExplosionList = new LinkedList();
+
+        LinkedList<Bomb> newBombList = new LinkedList();
+        Iterator<Bomb> bi = bombs.listIterator(0);
+
+        Iterator<Heart> hrt = hearts.listIterator(0);
+        Heart heart = new Heart();
+
+        Iterator<Explosion> ei = explosions.listIterator(0);
+
+        LinkedList<Key> k = new LinkedList();
+        Iterator<Key> ki = key.listIterator(0);
+        //iterating through "bombs" linked list to increase the time on them. 
+        while (bi.hasNext()) {
+
+            Bomb b = bi.next();
+
+            if (b.canIExplode()) {
+                nExplosionList.add(new Explosion(b.pin));
+
+            } else {
+
+                newBombList.add(b.incTime());
+            }
+        }
+
+        bi = bombs.listIterator(0);
+
+        while (ei.hasNext()) {
+            Explosion explosion0 = ei.next();
+            // increase the time of the explosion so that once the time is greater
+            // than 20, the explosion will disappear in the while loop following
+            // this while loop. 
+            nExplosionList.add(explosion0.incTime());
+        }
+
+        while (nExplosionList.size() > 0 && (nExplosionList.element().time >= 15)) {
+            nExplosionList.removeFirst();
+        }
+
+        ei = nExplosionList.listIterator(0);
+        while (ei.hasNext()) {
+            if (ei.next().explodingHero(hero)) {
+                lives--;
+            }
+        }
+        Boss newBoss = boss.randomMove(50);
+
+        //set explosion iterator back to 0 index
+        ei = nExplosionList.listIterator(0);
+
+        if (boss.collisionHuh(hero)) {
+            lives--;
+        }
+        while (ei.hasNext()) {
+            Explosion e = ei.next();
+            if (e.explodingBoss(boss)) {
+
+                kills++;
+                score++;
+                bosslives--;
+            }
+        }
+
+        ei = nExplosionList.listIterator(0);
+
+        //checking when to add heart to screen
+        if ((kills % 25 == 0) && (kills != 0)) {
+            //if num of kills is divisible by 10, add a heart
+            makeMoreHearts = true;
+            if (Utility.biasCoinToss()) {
+                heartList.add(heart);
+            }
+        }
+        makeMoreHearts = false;
+
+        while (hrt.hasNext()) {
+            Heart r = hrt.next();
+            if (r.collectedHuh(hero)) {
+
+                lives++;
+            } else {
+                heartList.add(r);
+            }
+
+        }
+
+        if (kills >= 1 && score >= 1 && shouldKeyAppear) {
+
+            shouldKeyAppear = false;
+            k.add(new Key());
+            System.out.println("created key");
+
+        }
+
+        while (ki.hasNext()) {
+            Key key0 = ki.next();
+
+            k.add(key0);
+
+            if (key0.collectedHuh(hero)) {
+                System.out.println("removed key");
+                k.remove(key0);
+                keyGrabbed = true;
+            }
+
+        }
+//       int outBoundsRight = 700;
+//       if (hero.pin.x >= outBoundsRight && keyGrabbed) {
+//           return new BossLevel(. . . .to be filled out soon);
+//       } else { 
+
+        return new BossLevel(this.lives, this.score, this.bosslives, this.boss,
+                this.hero, heartList, newBombList, nExplosionList, k,
+                makeMoreHearts, this.shouldKeyAppear, this.keyGrabbed);
+
+        // if pin.x > 1000 && key collected, return bosslevel
     }
 
     public WorldImage makeImage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        Iterator<Heart> hrt = hearts.listIterator(0);
+        Iterator<Bomb> b = bombs.listIterator(0);
+        Iterator<Explosion> e = explosions.listIterator(0);
+        Iterator<Key> k = key.listIterator(0);
+        WorldImage world = new OverlayImages(background,
+                new OverlayImages(
+                        new TextImage(new Posn(50, 20), "Lives:  " + lives,
+                                20, new Black()),
+                        new OverlayImages(
+                                new TextImage(new Posn(200, 20), "Score:  "
+                                        + score, 20, new Black()),
+                                new OverlayImages(
+                                        new TextImage(new Posn(350, 20), "Has Key:  " + keyGrabbed, 20, new Black()),
+                                        new OverlayImages(
+                                                new TextImage(new Posn(500, 20), "Kills:  " + kills, 20, new Black()),
+                                                hero.linkImage())))));
+
+        world = new OverlayImages(world,
+                boss.bossImage());
+
+        while (hrt.hasNext()) {
+            world = new OverlayImages(world,
+                    hrt.next().heartImage());
+        }
+
+        while (b.hasNext()) {
+            world = new OverlayImages(world,
+                    b.next().bombImage());
+        }
+
+        while (e.hasNext()) {
+            world = new OverlayImages(world,
+                    e.next().explosionImage());
+        }
+
+        while (k.hasNext()) {
+            world = new OverlayImages(world,
+                    k.next().keyImage());
+        }
+
+        world = new OverlayImages(world, hero.linkImage());
+
+        return world;
     }
 
 }
