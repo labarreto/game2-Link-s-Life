@@ -21,7 +21,6 @@ public class Game2 extends World {
     static int screenHEIGHT = 500;
     String backFileName = new String("background.png");
     Hero hero;
-    Key key;
     int lives;
     int score;
     int money;
@@ -36,10 +35,11 @@ public class Game2 extends World {
     LinkedList<Enemy> enemies;
     LinkedList<Bomb> bombs;
     LinkedList<Explosion> explosions;
+    LinkedList<Key> key; // should only ever be size 1 or 0. 
 
     public Game2(int lives, int score, int money, int kills, Hero hero,
             LinkedList<Enemy> enemies, LinkedList<Heart> hearts,
-            LinkedList<Bomb> bombs, LinkedList<Explosion> explosions, Key key, Boolean keyAppear, Boolean makeMoreHearts) {
+            LinkedList<Bomb> bombs, LinkedList<Explosion> explosions, LinkedList<Key> key, Boolean keyAppear, Boolean makeMoreHearts) {
 
         this.hero = hero;
         this.hearts = hearts;
@@ -59,7 +59,8 @@ public class Game2 extends World {
 
     public Game2(Hero hero,
             LinkedList<Enemy> enemies, LinkedList<Heart> hearts,
-            LinkedList<Bomb> bombs, LinkedList<Explosion> explosions, Key key, Boolean keyAppear, Boolean makeMoreHearts) {
+            LinkedList<Bomb> bombs, LinkedList<Explosion> explosions,
+            LinkedList<Key>, Boolean keyAppear, Boolean makeMoreHearts) {
         this.hero = hero;
         this.hearts = hearts;
         this.bombs = bombs;
@@ -85,7 +86,7 @@ public class Game2 extends World {
             int money,
             int kills,
             int bombN,
-            Key key,
+            LinkedList<Key> key,
             Boolean keyAppear,
             Boolean makeMoreHearts) {
 
@@ -155,6 +156,9 @@ public class Game2 extends World {
         Heart heart = new Heart();
 
         Iterator<Explosion> ei = explosions.listIterator(0);
+        
+        LinkedList<Key> k = new LinkedList();
+        Iterator<Key> ki = key.listIterator(0);
 
         //iterating through "bombs" linked list to increase the time on them. 
         while (bi.hasNext()) {
@@ -232,7 +236,7 @@ public class Game2 extends World {
             }
 
             ei = nExplosionList.listIterator(0);
-
+            
         }
 
         //checking when to add heart to screen
@@ -248,7 +252,7 @@ public class Game2 extends World {
         while (hrt.hasNext()) {
             Heart r = hrt.next();
             if (r.collectedHuh(hero)) {
-                money++;
+        
                 lives++;
             } else {
                 heartList.add(r);
@@ -258,6 +262,16 @@ public class Game2 extends World {
 
         if (kills >= 1 && score > 1 && money > 1) {
             keyAppear = true;
+        }
+        
+        while (ki.hasNext()) {
+            Key key0 = ki.next();
+            
+            if (key0.collectedHuh(hero)) {
+                
+                k.remove(key0);
+            }
+            
         }
 
         return new Game2(this.lives,
@@ -270,10 +284,11 @@ public class Game2 extends World {
 
     public WorldImage makeImage() {
 
-        Iterator<Enemy> yay = enemies.listIterator(0);
+        Iterator<Enemy> en = enemies.listIterator(0);
         Iterator<Heart> hrt = hearts.listIterator(0);
         Iterator<Bomb> b = bombs.listIterator(0);
         Iterator<Explosion> e = explosions.listIterator(0);
+        Iterator<Key> k = key.listIterator(0);
         WorldImage world = new OverlayImages(background,
                 new OverlayImages(
                         new TextImage(new Posn(50, 20), "Lives:  " + lives,
@@ -287,9 +302,9 @@ public class Game2 extends World {
                                                 new TextImage(new Posn(350, 20), "Kills:  " + kills, 20, new Black()),
                                                 hero.linkImage())))));
 
-        while (yay.hasNext()) {
+        while (en.hasNext()) {
             world = new OverlayImages(world,
-                    yay.next().enemyImage());
+                    en.next().enemyImage());
         }
 
         while (hrt.hasNext()) {
@@ -306,11 +321,12 @@ public class Game2 extends World {
             world = new OverlayImages(world,
                     e.next().explosionImage());
         }
-        world = new OverlayImages(world, hero.linkImage());
 
-        if (keyAppear) {
-            world = new OverlayImages(world, key.keyImage());
+        while (k.hasNext()) {
+            world = new OverlayImages(world, k.next().keyImage());
         }
+
+        world = new OverlayImages(world, hero.linkImage());
 
         return world;
     }
@@ -332,23 +348,27 @@ public class Game2 extends World {
     }
 
     public static void main(String[] args) {
-        LinkedList yayEn = new LinkedList();
-        yayEn.add(new Enemy());
-        LinkedList yayHearts = new LinkedList();
-        LinkedList yayBombs = new LinkedList();
-        LinkedList yayExplosions = new LinkedList();
-        yayHearts.add(new Heart());
-        yayHearts.add(new Heart());
-        yayHearts.add(new Heart());
-        yayHearts.add(new Heart());
-        yayHearts.add(new Heart());
-        yayHearts.add(new Heart());
-        yayHearts.add(new Heart());
-        yayHearts.add(new Heart());
+        LinkedList Enemies = new LinkedList();
+        Enemies.add(new Enemy());
+        LinkedList Hearts = new LinkedList();
+        LinkedList Bombs = new LinkedList();
+        LinkedList Explosions = new LinkedList();
+        LinkedList Key = new LinkedList();
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
         Game2 game = new Game2(15, 0, 0, 0,
                 new Hero(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
-                        "linkDOWN.png"), yayEn, yayHearts, yayBombs,
-                yayExplosions, new Key(), false, false);
+                        "linkDOWN.png"), Enemies, Hearts, Bombs,
+                Explosions, Key, false, false);
+
         game.bigBang(screenWIDTH, screenHEIGHT, 0.1);
     }
 
