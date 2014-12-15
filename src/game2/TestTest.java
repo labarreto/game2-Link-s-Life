@@ -26,7 +26,7 @@ public class TestTest {
     public LinkedList<Enemy> enemiesMT = new LinkedList();
     public LinkedList<Bomb> bombsMT = new LinkedList();
     public LinkedList<Explosion> explosionMT = new LinkedList();
-    public LinkedList<Rupees> rupeesMT = new LinkedList();
+    public LinkedList<Heart> rupeesMT = new LinkedList();
     
     public static Posn randPosn() {
         return new Posn(Utility.randInt(10, 690), Utility.randInt(10,490));

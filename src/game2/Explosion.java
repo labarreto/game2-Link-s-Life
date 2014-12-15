@@ -55,7 +55,7 @@ public class Explosion {
         }
     }
     
-    boolean explodingRupees(Rupees rup) {
+    boolean explodingRupees(Heart rup) {
             int a = this.pin.x;
         int b = rup.pin.x;
         int c = this.pin.y;

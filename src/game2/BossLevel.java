@@ -31,12 +31,12 @@ public class BossLevel extends World {
     int bosslives;
 
     WorldImage background;
-    LinkedList<Rupees> rupees;
+    LinkedList<Heart> rupees;
     LinkedList<Enemy> enemies;
     LinkedList<Bomb> bombs;
 
     public BossLevel(int width, int height, int lives, int bosslives, int score, Hero hero,
-            Boss boss, LinkedList<Rupees> rupees) {
+            Boss boss, LinkedList<Heart> rupees) {
         this.boss = boss;
         this.screenWIDTH = width;
         this.screenHEIGHT = height;

@@ -16,27 +16,27 @@ import java.awt.Color;
  *
  * @author ldbruby95
  */
-public class Rupees {
+public class Heart {
     Posn pin;
-    WorldImage rupees;
+    WorldImage hearts;
     int width;
     int height;
     int time;
     
-        public Rupees(int time) {
+        public Heart(int time) {
         this.time = time;
         this.pin = new Posn(Utility.randInt(10,690), Utility.randInt(10,490));
-        this.rupees = new FromFileImage(pin, "blueRupee.png");
-        this.width = rupees.getWidth();
-        this.height = rupees.getHeight();
+        this.hearts = new FromFileImage(pin, "heart.png");
+        this.width = hearts.getWidth();
+        this.height = hearts.getHeight();
     }
 
-    public Rupees() {
+    public Heart() {
         this(15);
     }
     
-    public WorldImage rupeeImage() {
-        return new FromFileImage(pin, "blueRupee.png");
+    public WorldImage heartImage() {
+        return new FromFileImage(pin, "heart.png");
     }
     
     public Posn getPin( ) {
@@ -51,11 +51,11 @@ public class Rupees {
 
         int halfHeroWidth = hero.width / 2;
         int halfHeroHeight = hero.height / 2;
-        int halfRupWidth = width / 2;
-        int halfRupHeight = height / 2;
+        int halfHWidth = width / 2;
+        int halfHHeight = height / 2;
 
-        if (Math.abs(a - b) < (halfHeroWidth + halfRupWidth )
-                && (Math.abs(c - d) < (halfHeroHeight + halfRupHeight))) {
+        if (Math.abs(a - b) < (halfHeroWidth + halfHWidth )
+                && (Math.abs(c - d) < (halfHeroHeight + halfHHeight))) {
             return true;
         } else {
             return false;

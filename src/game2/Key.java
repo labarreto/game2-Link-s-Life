@@ -19,11 +19,11 @@ public class Key {
     WorldImage key;
     int width;
     int height;
-    boolean canAppear;
+
     int screenWidth = 700;
     int screenHeight = 500;
     
-    public Key(Posn pin, boolean canAppear) {
+    public Key(Posn pin) {
         this.pin = pin;
         this.key = new FromFileImage(pin, "key.png");
         this.width = key.getWidth();
@@ -32,8 +32,7 @@ public class Key {
     }
     
     public Key() {
-        this(new Posn(Utility.randInt(10, 450), Utility.randInt(10, 690)),
-                true);
+        this(new Posn(Utility.randInt(10, 450), Utility.randInt(10, 690)));
     }
     
     public WorldImage keyImage() {

@@ -67,7 +67,7 @@ public class Enemy {
             if (this.firstCallHuh) {
                 return new Enemy(new Posn(x, y + 20), false);
             } else {
-                return new Enemy(new Posn(x + 20, y), true);
+                return new Enemy(new Posn(x+ 20, y), true);
             }
         }
     }
@@ -83,6 +83,7 @@ public class Enemy {
 
         if (Math.abs(a - b) < (halfHeroWidth)
                 && (Math.abs(c - d) < (halfHeroHeight))) {
+            
             return true;
         } else {
             return false;
@@ -99,13 +100,8 @@ public class Enemy {
         int halfEHeight = e.height / 2;
         int halfW = width/2;
         int halfH = height/2;
-
-        if (Math.abs(a - b) < (halfEWidth + halfW)
-                && (Math.abs(c - d) < (halfEHeight + halfH))) {
-            return true;
-        } else {
-            return false;
-        }
+        return Math.abs(a - b) < (halfEWidth + halfW)
+                && (Math.abs(c - d) < (halfEHeight + halfH));
     }
 
 }
