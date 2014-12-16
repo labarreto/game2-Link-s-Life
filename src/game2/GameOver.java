@@ -48,7 +48,7 @@ public class GameOver extends World {
 
     public World onKeyEvent(String ke) {
         
-        
+        // key press for starting game over
         if (ke.equals("s")) {
             LinkedList Enemies = new LinkedList();
             Enemies.add(new Enemy());

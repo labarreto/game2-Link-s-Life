@@ -334,21 +334,21 @@ public class Game2 extends World {
         return world;
     }
 
-    public WorldEnd worldEnds() {
-        if (lives < 1) {
-            System.out.println("lives:  " + lives);
-            return new WorldEnd(true,
-                    new OverlayImages(background,
-                            new OverlayImages(new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
-                                            "GAME OVER!!!!", 30, 1, new Black()),
-                                    new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2 + 20),
-                                            "Final Score:   " + score,
-                                            20, 1, new Black()))));
-
-        } else {
-            return new WorldEnd(false, this.makeImage());
-        }
-    }
+//    public WorldEnd worldEnds() {
+//        if (lives < 1) {
+//            System.out.println("lives:  " + lives);
+//            return new WorldEnd(true,
+//                    new OverlayImages(background,
+//                            new OverlayImages(new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
+//                                            "GAME OVER!!!!", 30, 1, new Black()),
+//                                    new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2 + 20),
+//                                            "Final Score:   " + score,
+//                                            20, 1, new Black()))));
+//
+//        } else {
+//            return new WorldEnd(false, this.makeImage());
+//        }
+//    }
 
     public static void main(String[] args) {
         LinkedList Enemies = new LinkedList();
