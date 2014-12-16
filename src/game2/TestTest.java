@@ -118,4 +118,14 @@ public class TestTest {
         return true;
     }
     
+    // test to see if link is able to change worlds
+    public boolean changingWorlds(Tester t) {
+        return true;
+    }
+    
+    // test to see if the size of BombList is always less than the BombNum indicated. 
+    public boolean sizeofBombList(Tester t) {
+        return true;
+    }
+    
 }
