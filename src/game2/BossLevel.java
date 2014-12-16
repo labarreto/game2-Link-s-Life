@@ -19,8 +19,8 @@ public class BossLevel extends World {
 
     static int screenWIDTH = 700;
     static int screenHEIGHT = 500;
-    String backFileName = new String("background.png");
-    WorldImage background = new FromFileImage(new Posn(screenWIDTH/2, screenHEIGHT/2), backFileName);
+    String backFileName = "background.png";
+    WorldImage background2 = new FromFileImage(new Posn(screenWIDTH/2, screenHEIGHT/2), backFileName);
     int lives;
     int score;
     int kills;
@@ -44,7 +44,7 @@ public class BossLevel extends World {
     public BossLevel(int lives, int score, int bosslives, Boss boss, Hero hero,
             LinkedList<Heart> hearts, LinkedList<Bomb> bombs,
             LinkedList<Explosion> explosions, LinkedList<Key> key,
-            Boolean makeMoreHearts, Boolean shouldKeyAppear, Boolean keyGrabbed) {
+            Boolean makeMoreHearts, Boolean keyGrabbed, Boolean shouldKeyAppear) {
 
         this.lives = lives;
         this.score = score;
@@ -89,7 +89,8 @@ public class BossLevel extends World {
                     hearts, bombs, explosions, key, makeMoreHearts, keyGrabbed,
                     shouldKeyAppear);
             
-        } else if (ke.equals("s") && keyGrabbed) {
+        } else if (keyGrabbed)
+            if (ke.equals("s")) {
             LinkedList Enemies = new LinkedList();
             Enemies.add(new Enemy());
             LinkedList Hearts = new LinkedList();
@@ -111,8 +112,7 @@ public class BossLevel extends World {
                     new LinkedList(), // explosions
                     new LinkedList(), // key
                     false, false, true);
-        }
-        return this;
+        } return this;
     }
 
     public World onTick() {
@@ -153,8 +153,8 @@ public class BossLevel extends World {
             // this while loop. 
             nExplosionList.add(explosion0.incTime());
         }
-
-        while (nExplosionList.size() > 0 && (nExplosionList.element().time >= 15)) {
+        // makes it so that the explosion lasts 1 tick, so even trickier to hit the boss!
+        while (nExplosionList.size() > 0 && (nExplosionList.element().time >= 1)) {
             nExplosionList.removeFirst();
         }
 
@@ -230,15 +230,16 @@ public class BossLevel extends World {
 
             if (key0.collectedHuh(hero)) {
                 System.out.println("removed key");
-                k.remove(key0);
                 keyGrabbed = true;
+                k.remove(key0);
+                
             }
 
         }
 
         return new BossLevel(this.lives, this.score, this.bosslives, boss,
                 this.hero, heartList, newBombList, nExplosionList, k,
-                makeMoreHearts, this.shouldKeyAppear, this.keyGrabbed);
+                makeMoreHearts, keyGrabbed, shouldKeyAppear);
 
     }
 
@@ -259,14 +260,14 @@ public class BossLevel extends World {
                                 new TextImage(new Posn(150, 20), "Score:  "
                                         + score, 20, new Black()),
                                 new OverlayImages(
-                                        new TextImage(new Posn(250, 20),
+                                        new TextImage(new Posn(275, 20),
                                                 "Has Key:  " + keyGrabbed,
                                                 20, new Black()),
                                         new OverlayImages(
-                                                new TextImage(new Posn(350, 20),
+                                                new TextImage(new Posn(375, 20),
                                                         "Kills:  " + kills,
                                                         20, new Black()),
-                                                new TextImage(new Posn(450, 20),
+                                                new TextImage(new Posn(600, 20),
                                                         "BossLives:  " + bosslives,
                                                         20, new Black())))));
 
@@ -306,7 +307,7 @@ public class BossLevel extends World {
         if (lives < 1) {
 
             return new WorldEnd(true,
-                    new OverlayImages(background,
+                    new OverlayImages(background2,
                             new OverlayImages(new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
                                             "GAME OVER!!!!", 30, 1, new Black()),
                                     new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2 + 20),
@@ -316,7 +317,7 @@ public class BossLevel extends World {
         } else if (bosslives < 1) {
 
             return new WorldEnd(true,
-                    new OverlayImages(background,
+                    new OverlayImages(background2,
                             new OverlayImages(new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
                                             "YOU WIN! CONGRATS! ", 30, 1, new Black()),
                                     new OverlayImages(

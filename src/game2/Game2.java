@@ -235,16 +235,37 @@ public class Game2 extends World {
 
         }
         int outBoundsRight = 700;
-
+        
+       
+        LinkedList Hearts = new LinkedList();
+        LinkedList Bombs = new LinkedList();
+        LinkedList Explosions = new LinkedList();
+        LinkedList Key = new LinkedList();
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
   
 
         if ( hero.pin.x >= outBoundsRight && keyGrabbed ) {
 
-            return new BossLevel(this.lives, this.score, 10, new Boss(), new Hero(new Posn(10, screenHEIGHT/2)),
-                    new LinkedList(), // hearts
-                    new LinkedList(), // bombs
-                    new LinkedList(), // explosions
-                    new LinkedList(), // key
+//            return new BossLevel(this.lives, this.score, 10, new Boss(), new Hero(new Posn(10, screenHEIGHT/2)),
+//                    new LinkedList(), // hearts
+//                    new LinkedList(), // bombs
+//                    new LinkedList(), // explosions
+//                    new LinkedList(), // key
+//                    false, true, false);
+                        return new BossLevel(this.lives, this.score, 10, new Boss(), new Hero(new Posn(10, screenHEIGHT/2)),
+                    Hearts, // hearts
+                    Bombs, // bombs
+                    Explosions, // explosions
+                    Key, // key
                     false, true, false);
         } else {
             return new Game2(this.lives,

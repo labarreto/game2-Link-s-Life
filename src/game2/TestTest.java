@@ -60,4 +60,62 @@ public class TestTest {
 							heroDOWN, "test hero move down" + "\n");
     }
     
+    //test that the Boss does not move out of bounds
+    public boolean testBossOutofBounds(Tester t) {
+        return true; 
+    }
+    
+    // test that the heart list increases when kills is divisible by certain amount
+    public boolean heartIncList(Tester t) {
+        return true;
+    }
+    
+    // test that the bomb's timer increases on tick
+    public boolean bombIncTest(Tester t) {
+        return true;
+    }
+    // test that the explosion's timer increases on tick
+    public boolean explIncTest(Tester t) {
+        return true;
+    }
+    
+    // test that the enemy list increases on tick when not being killed
+    public boolean enemyList1(Tester t) {
+        return true;
+    }
+    // test that the enemy list decreases when being killed
+    public boolean enemyList2(Tester t) {
+        return true;
+    }
+    
+    // test that lives decrease when hitting an enemy
+    public boolean livesDecEn(Tester t) {
+        return true;
+    }
+    
+    // test that lives decrease when hitting a boss
+    public boolean livesDecBo(Tester t) {
+        return true;
+    }
+    
+    //test that lives increase when collecting a heart
+    public boolean livesIncHeart(Tester t) {
+        return true;
+    }
+    
+    // test that boolean keyGrab is set to true when hero collects key
+    public boolean keyGrab(Tester t) {
+        return true;
+    } 
+    
+    // test that the boss changes direction when hitting a wall
+    public boolean bossChange(Tester t) {
+        return true;
+    }
+    
+    // test that the bosslives decrease when hit by a bomb; 
+    public boolean bossLives(Tester t) {
+        return true;
+    }
+    
 }
