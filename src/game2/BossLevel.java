@@ -58,6 +58,7 @@ public class BossLevel extends World {
         this.makeMoreHearts = makeMoreHearts;
         this.shouldKeyAppear = shouldKeyAppear;
         this.keyGrabbed = keyGrabbed;
+        this.bombN = 15;
     }
 
     public World onKeyEvent(String ke) {
@@ -82,14 +83,18 @@ public class BossLevel extends World {
                 return this;
             }
 
-        } else if (ke.equals("b") && (bombs.size() < bombN)) {
-
+        } else if (ke.equals("b")) {
+            if ((bombs.size() < bombN)) {
             bombs.add(new Bomb(hero.pin));
             return new BossLevel(lives, score, bosslives, boss, hero,
                     hearts, bombs, explosions, key, makeMoreHearts, keyGrabbed,
                     shouldKeyAppear);
+            } else {
+                System.out.println("tried to drop a bomb, but " + bombs.size() + " is not < " + bombN);
+                return this;
+            }
             
-        } else if (keyGrabbed)
+        } else if (keyGrabbed) {
             if (ke.equals("s")) {
             LinkedList Enemies = new LinkedList();
             Enemies.add(new Enemy());
@@ -112,7 +117,12 @@ public class BossLevel extends World {
                     new LinkedList(), // explosions
                     new LinkedList(), // key
                     false, false, true);
-        } return this;
+        } else {
+            return this;
+        }
+    } else {
+            return this;
+        }
     }
 
     public World onTick() {
@@ -154,7 +164,7 @@ public class BossLevel extends World {
             nExplosionList.add(explosion0.incTime());
         }
         // makes it so that the explosion lasts 1 tick, so even trickier to hit the boss!
-        while (nExplosionList.size() > 0 && (nExplosionList.element().time >= 1)) {
+        while (nExplosionList.size() > 0 && (nExplosionList.element().time >= 3)) {
             nExplosionList.removeFirst();
         }
 
@@ -175,7 +185,7 @@ public class BossLevel extends World {
         
         
         
-        System.out.println("Boss posn: (" + boss.pin.x + ", " + boss.pin.y + ")");
+       // System.out.println("Boss posn: (" + boss.pin.x + ", " + boss.pin.y + ")");
         //set explosion iterator back to 0 index
         ei = nExplosionList.listIterator(0);
 
@@ -189,20 +199,24 @@ public class BossLevel extends World {
                 kills++;
                 score++;
                 bosslives--;
-            }
+                makeMoreHearts = true;
+                if (Utility.biasCoinToss()) {
+                    heartList.add(heart);
+                }
+            } makeMoreHearts = false;
         }
 
         ei = nExplosionList.listIterator(0);
 
-        //checking when to add heart to screen
-        if ((kills % 25 == 0) && (kills != 0)) {
-            //if num of kills is divisible by 10, add a heart
-            makeMoreHearts = true;
-            if (Utility.biasCoinToss()) {
-                heartList.add(heart);
-            }
-        }
-        makeMoreHearts = false;
+//        //checking when to add heart to screen
+//        if ((kills % 25 == 0) && (kills != 0)) {
+//            //if num of kills is divisible by 10, add a heart
+//            makeMoreHearts = true;
+//            if (Utility.biasCoinToss()) {
+//                heartList.add(heart);
+//            }
+//        }
+//        makeMoreHearts = false;
 
         while (hrt.hasNext()) {
             Heart r = hrt.next();
@@ -236,11 +250,21 @@ public class BossLevel extends World {
             }
 
         }
+        
+        
+        String string;
+        if (lives < 1) {
+            string = "GAME OVER!";
+            return new GameOver(this.score, this.lives, this.hero, string);
+        } else if (bosslives < 1) {
+            string = "YOU WIN! CONGRATS!";
+            return new GameOver(this.score, this.lives, this.hero, string);
+        } else {
 
         return new BossLevel(this.lives, this.score, this.bosslives, boss,
                 this.hero, heartList, newBombList, nExplosionList, k,
                 makeMoreHearts, keyGrabbed, shouldKeyAppear);
-
+        }
     }
 
     public WorldImage makeImage() {
@@ -249,11 +273,11 @@ public class BossLevel extends World {
         Iterator<Bomb> b = bombs.listIterator(0);
         Iterator<Explosion> e = explosions.listIterator(0);
         Iterator<Key> k = key.listIterator(0);
-        //WorldImage world = background;
-        WorldImage world = new RectangleImage( new Posn( 0, 0 ), 1000, 1000, new White() );
+        WorldImage world = background2;
+        //WorldImage world = new RectangleImage( new Posn( 0, 0 ), 1000, 1000, new White() );
            
         
-        world = new OverlayImages(
+        world = new OverlayImages( world, new OverlayImages(
                         new TextImage(new Posn(50, 20), "Lives:  " + lives,
                                 20, new Black()),
                         new OverlayImages(
@@ -269,7 +293,7 @@ public class BossLevel extends World {
                                                         20, new Black()),
                                                 new TextImage(new Posn(600, 20),
                                                         "BossLives:  " + bosslives,
-                                                        20, new Black())))));
+                                                        20, new Black()))))));
 
         world = new OverlayImages(world,
                 boss.bossImage());
@@ -281,16 +305,16 @@ public class BossLevel extends World {
 
         while (b.hasNext()) {
             world = new OverlayImages(world,
-                   // b.next().bombImage());
-                    new RectangleImage(new Posn( hero.pin.x, hero.pin.y ),
-                    15, 15, new Red() ) );
+                    b.next().bombImage());
+                    //new RectangleImage(new Posn( hero.pin.x, hero.pin.y ),
+                    //15, 15, new Red() ) );
         }
 
         while (e.hasNext()) {
             world = new OverlayImages(world,
-                    // e.next().explosionImage());
-                    new RectangleImage(new Posn( hero.pin.x, hero.pin.y ),
-                    15, 15, new Blue() ) );
+                    e.next().explosionImage());
+                    //new RectangleImage(new Posn( hero.pin.x, hero.pin.y ),
+                    //15, 15, new Blue() ) );
         }
 
         while (k.hasNext()) {
@@ -302,35 +326,43 @@ public class BossLevel extends World {
 
         return world;
     }
+    
+    
 
-    public WorldEnd worldEnds() {
-        if (lives < 1) {
-
-            return new WorldEnd(true,
-                    new OverlayImages(background2,
-                            new OverlayImages(new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
-                                            "GAME OVER!!!!", 30, 1, new Black()),
-                                    new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2 + 20),
-                                            "Final Score:   " + score,
-                                            20, 1, new Black()))));
-
-        } else if (bosslives < 1) {
-
-            return new WorldEnd(true,
-                    new OverlayImages(background2,
-                            new OverlayImages(new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
-                                            "YOU WIN! CONGRATS! ", 30, 1, new Black()),
-                                    new OverlayImages(
-                                            new TextImage(
-                                                    new Posn(screenWIDTH/2, screenHEIGHT/2 +20),
-                                                    "press S to start over! ", 30, 1, new Black()),
-                                            new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2 + 50),
-                                            "Final Score:   " + score,
-                                            20, 1, new Black())))));
-
-        } else {
-            return new WorldEnd(false, this.makeImage());
-        }
-    }
+//    public WorldEnd worldEnds() {
+//        
+//        String string;
+//        if (lives < 1) {
+//            string = "GAME OVER!!!!";
+//            return new WorldEnd(true,
+//                    new OverlayImages(background2,
+//                            new OverlayImages(new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
+//                                            string, 30, 1, new Black()),
+//                                    new OverlayImages(
+//                                            new TextImage(
+//                                                    new Posn(screenWIDTH/2, screenHEIGHT/2 +25),
+//                                                    "press S to start over! ", 30, 1, new Black()),
+//                                            new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2 + 50),
+//                                            "Final Score:   " + score,
+//                                            20, 1, new Black())))));
+//
+//        } else if (bosslives < 1) {
+//            string = "YOU WIN! CONGRATS!!!";
+//            return new WorldEnd(true,
+//                    new OverlayImages(background2,
+//                            new OverlayImages(new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
+//                                            string, 30, 1, new Black()),
+//                                    new OverlayImages(
+//                                            new TextImage(
+//                                                    new Posn(screenWIDTH/2, screenHEIGHT/2 +25),
+//                                                    "press S to start over! ", 30, 1, new Black()),
+//                                            new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2 + 50),
+//                                            "Final Score:   " + score,
+//                                            20, 1, new Black())))));
+//
+//        } else {
+//            return new WorldEnd(false, this.makeImage());
+//        }
+//    }
 
 }

@@ -23,16 +23,16 @@ public class Heart {
     int height;
     int time;
     
-        public Heart(int time) {
-        this.time = time;
+        public Heart() {
+  
         this.pin = new Posn(Utility.randInt(10,690), Utility.randInt(10,490));
         this.hearts = new FromFileImage(pin, "heart.png");
         this.width = hearts.getWidth();
         this.height = hearts.getHeight();
     }
 
-    public Heart() {
-        this(15);
+    public Heart(Posn pin) {
+
     }
     
     public WorldImage heartImage() {
