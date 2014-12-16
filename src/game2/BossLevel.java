@@ -274,7 +274,7 @@ public class BossLevel extends World {
         Iterator<Explosion> e = explosions.listIterator(0);
         Iterator<Key> k = key.listIterator(0);
         WorldImage world = background2;
-        //WorldImage world = new RectangleImage( new Posn( 0, 0 ), 1000, 1000, new White() );
+       
            
         
         world = new OverlayImages( world, new OverlayImages(
@@ -306,15 +306,13 @@ public class BossLevel extends World {
         while (b.hasNext()) {
             world = new OverlayImages(world,
                     b.next().bombImage());
-                    //new RectangleImage(new Posn( hero.pin.x, hero.pin.y ),
-                    //15, 15, new Red() ) );
+
         }
 
         while (e.hasNext()) {
             world = new OverlayImages(world,
                     e.next().explosionImage());
-                    //new RectangleImage(new Posn( hero.pin.x, hero.pin.y ),
-                    //15, 15, new Blue() ) );
+
         }
 
         while (k.hasNext()) {
@@ -327,42 +325,6 @@ public class BossLevel extends World {
         return world;
     }
     
-    
-
-//    public WorldEnd worldEnds() {
-//        
-//        String string;
-//        if (lives < 1) {
-//            string = "GAME OVER!!!!";
-//            return new WorldEnd(true,
-//                    new OverlayImages(background2,
-//                            new OverlayImages(new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
-//                                            string, 30, 1, new Black()),
-//                                    new OverlayImages(
-//                                            new TextImage(
-//                                                    new Posn(screenWIDTH/2, screenHEIGHT/2 +25),
-//                                                    "press S to start over! ", 30, 1, new Black()),
-//                                            new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2 + 50),
-//                                            "Final Score:   " + score,
-//                                            20, 1, new Black())))));
-//
-//        } else if (bosslives < 1) {
-//            string = "YOU WIN! CONGRATS!!!";
-//            return new WorldEnd(true,
-//                    new OverlayImages(background2,
-//                            new OverlayImages(new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2),
-//                                            string, 30, 1, new Black()),
-//                                    new OverlayImages(
-//                                            new TextImage(
-//                                                    new Posn(screenWIDTH/2, screenHEIGHT/2 +25),
-//                                                    "press S to start over! ", 30, 1, new Black()),
-//                                            new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2 + 50),
-//                                            "Final Score:   " + score,
-//                                            20, 1, new Black())))));
-//
-//        } else {
-//            return new WorldEnd(false, this.makeImage());
-//        }
-//    }
+   
 
 }
