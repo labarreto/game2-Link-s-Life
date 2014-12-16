@@ -82,10 +82,10 @@ public class Boss {
 
     public Boss changeDir() {
         int pickRand = Utility.randInt(0, 7);
-        Boss newBoss = new Boss(pin, pickRand);
-        if (newBoss.outOfBounds() && pickRand != this.lastmove) {
-            newBoss.changeDir();
-        } 
+         Boss newBoss = new Boss(pin, pickRand);
+        if (newBoss.outOfBounds()) {
+            return newBoss.changeDir();
+        }
         return newBoss;   
     }
 
