@@ -164,12 +164,16 @@ public class BossLevel extends World {
                 lives--;
             }
         }
+        
+        
         Boss newBoss = boss.changeDir();
+        boss = boss.bossMove();
         
         if (boss.outOfBounds() && newBoss.outOfBounds()) {
             boss = newBoss.changeDir();
         }
-        boss = boss.bossMove();
+        
+        
         
         System.out.println("Boss posn: (" + boss.pin.x + ", " + boss.pin.y + ")");
         //set explosion iterator back to 0 index
