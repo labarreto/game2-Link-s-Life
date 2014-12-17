@@ -197,10 +197,10 @@ public class BossLevel extends World {
         String string;
         if (lives < 1) {
             string = "GAME OVER!";
-            return new GameOver(this.lives, this.hero, string);
+            return new GameOver(this.score, this.hero, string);
         } else if (bosslives < 1) {
             string = "YOU WIN! CONGRATS!";
-            return new GameOver(this.lives, this.hero, string);
+            return new GameOver(this.score, this.hero, string);
         } else {
 
         return new BossLevel(this.lives, this.score, this.bosslives, boss,

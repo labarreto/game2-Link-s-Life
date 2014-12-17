@@ -215,7 +215,7 @@ public class Game2 extends World {
 
         }
 
-        if (kills >= 1 && score >= 1 && shouldKeyAppear) {
+        if (kills >= 50 && score >= 50 && shouldKeyAppear) {
 
             shouldKeyAppear = false;
             k.add(new Key());

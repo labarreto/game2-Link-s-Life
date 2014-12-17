@@ -5,11 +5,8 @@
  */
 package game2;
 
-import javalib.funworld.*;
-import javalib.colors.*;
 import javalib.worldimages.*;
-import java.util.*;
-import java.awt.Color;
+
 
 public class Boss {
 

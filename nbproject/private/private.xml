@@ -5,13 +5,11 @@
         <group>
             <file>file:/Users/ldbruby95/NetBeansProjects/game2/src/game2/Explosion.java</file>
             <file>file:/Users/ldbruby95/NetBeansProjects/game2/src/game2/Game2.java</file>
-            <file>file:/Users/ldbruby95/NetBeansProjects/game2/src/game2/Hero.java</file>
             <file>file:/Users/ldbruby95/NetBeansProjects/game2/src/game2/Bomb.java</file>
             <file>file:/Users/ldbruby95/NetBeansProjects/game2/src/game2/Boss.java</file>
-            <file>file:/Users/ldbruby95/NetBeansProjects/game2/src/game2/Key.java</file>
             <file>file:/Users/ldbruby95/NetBeansProjects/game2/src/game2/BossLevel.java</file>
             <file>file:/Users/ldbruby95/NetBeansProjects/game2/src/game2/TestTest.java</file>
-            <file>file:/Users/ldbruby95/NetBeansProjects/game2/src/game2/Utility.java</file>
+            <file>file:/Users/ldbruby95/NetBeansProjects/game2/src/game2/GameOver.java</file>
         </group>
     </open-files>
 </project-private>

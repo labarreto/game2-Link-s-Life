@@ -6,37 +6,31 @@
 package game2;
 
 import tester.*;
-import javalib.funworld.*;
-import javalib.colors.*;
 import javalib.worldimages.*;
 import java.util.*;
-import java.awt.Color;
 
 public class TestTest {
+
     int screenWIDTH = 700;
     int screenHEIGHT = 500;
-    
+
     Hero link = new Hero(new Posn(350, 250));
     LinkedList<Enemy> enemiesMT = new LinkedList();
     LinkedList<Bomb> bombsMT = new LinkedList();
     LinkedList<Explosion> explosionMT = new LinkedList();
     LinkedList<Heart> heartsMT = new LinkedList();
     LinkedList<Key> keyMT = new LinkedList();
-    
+
     public Boss randB = randBoss();
-    
+
     public static Posn randPosn() {
         return new Posn(Utility.randInt(50, 650), Utility.randInt(50, 450));
         // to ensure that random position will not be out of bounds
     }
 
-
-
     public static Boss randBoss() {
         return new Boss(randPosn());
     }
-    
-    
 
     public boolean testLinkMove(Tester t) {
         int x = 350;
@@ -51,11 +45,10 @@ public class TestTest {
         Hero hero2 = new Hero(new Posn(x, y));
         Hero hero3 = new Hero(new Posn(x, y));
         Hero hero4 = new Hero(new Posn(x, y));
-        
+
         // hero1 = hero2 = hero3 = hero4. They are all at the center of the screen
         // testing up down left right movement actually moves object and sets value of
         // each to be different. 
-
         Hero heroUP = new Hero(new Posn(x, y - 20), "linkUP.png");
         Hero heroDOWN = new Hero(new Posn(x, y + 20), "linkDOWN.png");
         Hero heroLEFT = new Hero(new Posn(x - 20, y), "linkLEFT.png");
@@ -82,76 +75,65 @@ public class TestTest {
                 && t.checkExpect(hero2.moveLink("left"),
                         hero2, "test hero left out of bounds" + "\n")
                 && t.checkExpect(hero3.moveLink("up"),
-                        hero3, "test hero up out of bounds"+ "\n")
+                        hero3, "test hero up out of bounds" + "\n")
                 && t.checkExpect(hero4.moveLink("down"),
                         hero4, "test hero down out of bounds" + "\n");
     }
-    
-    
+
     //testing laying bombs in Game2 World
     public boolean testLayBomb(Tester t) {
         // link is at 350, 250. 
-        
+
         LinkedList<Bomb> bomblist0 = new LinkedList();
-        Game2 game0 =  new Game2(15, 0, 0, link, enemiesMT, heartsMT, bomblist0, 
-        explosionMT, keyMT, false, false, true);
-        
-        LinkedList<Bomb> bomblist1 = new LinkedList();
-        bomblist1.add(new Bomb(new Posn(350,250)));
-        
-        Game2 game1 = new Game2(15,0,0, link, enemiesMT, heartsMT, bomblist1, 
+        Game2 game0 = new Game2(15, 0, 0, link, enemiesMT, heartsMT, bomblist0,
                 explosionMT, keyMT, false, false, true);
 
+        LinkedList<Bomb> bomblist1 = new LinkedList();
+        bomblist1.add(new Bomb(new Posn(350, 250)));
 
-        return
-                t.checkExpect(game0.onKeyEvent("b"),
-                        game1, "testing bomb drop in Game2" + "\n");
+        Game2 game1 = new Game2(15, 0, 0, link, enemiesMT, heartsMT, bomblist1,
+                explosionMT, keyMT, false, false, true);
+
+        return t.checkExpect(game0.onKeyEvent("b"),
+                game1, "testing bomb drop in Game2" + "\n");
     }
-    
-    
+
     //testing laying bombs in BossLevel World
     public boolean testLayBomb2(Tester t) {
         LinkedList<Bomb> bomblist0 = new LinkedList();
-          BossLevel boss0 = new BossLevel(15, 0, 50, randB, link, heartsMT,
-        bomblist0, explosionMT);
-            LinkedList<Bomb> bomblist1 = new LinkedList();
-        bomblist1.add(new Bomb(new Posn(350,250)));
+        BossLevel boss0 = new BossLevel(15, 0, 50, randB, link, heartsMT,
+                bomblist0, explosionMT);
+        LinkedList<Bomb> bomblist1 = new LinkedList();
+        bomblist1.add(new Bomb(new Posn(350, 250)));
         BossLevel boss1 = new BossLevel(15, 0, 50, randB, link, heartsMT,
-        bomblist1, explosionMT);
-        
-        return
-                t.checkExpect(boss0.onKeyEvent("b"),
-                        boss1, "testing bomb drop in BossLevel" + "\n");
+                bomblist1, explosionMT);
+
+        return t.checkExpect(boss0.onKeyEvent("b"),
+                boss1, "testing bomb drop in BossLevel" + "\n");
     }
-    
-    
 
-
-    
     public boolean testGameOverToGame2(Tester t) {
         GameOver gameOver = new GameOver(15, link, "GAME OVER!");
         LinkedList Enemies = new LinkedList();
-            Enemies.add(new Enemy());
-            LinkedList Hearts = new LinkedList();
+        Enemies.add(new Enemy());
+        LinkedList Hearts = new LinkedList();
 
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            
-        Game2 gameRestart = new Game2(15,0,0,link,Enemies, Hearts, 
-                bombsMT,explosionMT,keyMT, false, false, true);
-        
-        return
-                //checks to see if the keypress returns a game2 instanceof game2
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+
+        Game2 gameRestart = new Game2(15, 0, 0, link, Enemies, Hearts,
+                bombsMT, explosionMT, keyMT, false, false, true);
+
+        return //checks to see if the keypress returns a game2 instanceof game2
                 t.checkExpect(gameOver.onKeyEvent("s") instanceof Game2,
-                        
                         gameRestart instanceof Game2, "test change from game over to game2" + "\n");
         // can't compare the game created by gameOver.onKeyEvent("s") because it 
         // creates two linked lists, one of enemies, and one of hearts, 
@@ -159,79 +141,111 @@ public class TestTest {
         // created will rarely be the same because hearts and enemies are placed randomly
         // on the screen
     }
-    
-
 
     //test that the Boss does not move out of bounds
     public boolean testBossOutofBounds(Tester t) {
-        BossLevel bossL = new BossLevel(10,10,10, randBoss().bossMove(), link, heartsMT, bombsMT,
-        explosionMT);
+        BossLevel bossL = new BossLevel(10, 10, 10, randBoss().bossMove(), link, heartsMT, bombsMT,
+                explosionMT);
         return t.checkExpect(bossL.boss.outOfBounds(),
                 false, "test if boss is out of bounds ever" + "\n");
     }
-    
-    public boolean checkIfCanMakeMoreHearts(Game2 game) {
-        if (game.kills %25 == 0) {
-            return true;
-        } else
-            return false;
-    }
 
+//    public boolean checkIfCanMakeMoreHearts(Game2 game) {
+//        if (game.kills %25 == 0) {
+//            return true;
+//        } else
+//            return false;
+//    }
     // test that the heart list increases when kills is divisible by certain amount
-    
     public boolean heartIncList(Tester t) {
         //making hero be in the corner so there is no possibility for hero to be eating a heart. 
-                Game2 game = new Game2(15,25,25,new Hero(new Posn(0,0)), enemiesMT, heartsMT, 
-                bombsMT,explosionMT,keyMT, false, false, true);
-                // on tick should make the boolean representing makeMoreHearts to 
-                // be true since kills can be divided by 25 with 0 remainder.
-                Game2 game1 = (Game2) game.onTick();      
-        return
-                t.checkOneOf(game.kills%20==0,
-                        game1.makeMoreHearts, "check if make more hearts works" + "\n")
+        Game2 game = new Game2(15, 25, 25, new Hero(new Posn(0, 0)), enemiesMT, heartsMT,
+                bombsMT, explosionMT, keyMT, false, false, true);
+        // on tick should make the boolean representing makeMoreHearts to 
+        // be true since kills can be divided by 25 with 0 remainder.
+        Game2 game1 = (Game2) game.onTick();
+        return t.checkOneOf(game.kills % 20 == 0,
+                game1.makeMoreHearts, "check if make more hearts works" + "\n")
                 && t.checkExpect(game.hearts.size() <= game1.hearts.size(),
                         // list of hearts should either stay the same size or 
                         // increase. It stays the same size with biasCoinToss
                         // is false. 
-                        true, "check if hearts are being added." + "\n");  
+                        true, "check if hearts are being added." + "\n");
     }
 
     // test that the bomb's timer increases on tick
-    public boolean bombIncTest(Tester t) {
+    public boolean bombIncTestGame(Tester t) {
         LinkedList<Bomb> bomblist1 = new LinkedList();
         LinkedList<Bomb> bomblist2 = new LinkedList();
         LinkedList<Bomb> bomblist3 = new LinkedList();
-        
-        Bomb bomb1 = new Bomb(new Posn(100,200), 0);
-        Bomb bomb2 = new Bomb(new Posn(100,200), 1);
-        Bomb bomb3 = new Bomb(new Posn(100,200), 2);
-        Bomb bomb4 = new Bomb(new Posn(100,200), 10);
+
+        Bomb bomb1 = new Bomb(new Posn(100, 200), 0);
+        Bomb bomb2 = new Bomb(new Posn(100, 200), 1);
+        Bomb bomb3 = new Bomb(new Posn(100, 200), 2);
+        Bomb bomb4 = new Bomb(new Posn(100, 200), 10);
         bomblist1.add(bomb1);
         bomblist2.add(bomb2);
         bomblist3.add(bomb3);
-        
+
         LinkedList<Explosion> explosionlist1 = new LinkedList();
         LinkedList<Explosion> explosionlist2 = new LinkedList();
         LinkedList<Explosion> explosionlist3 = new LinkedList();
-        
-        Explosion explosion1 = new Explosion(new Posn(100,200), 0);
-        Explosion explosion2 = new Explosion(new Posn(100,200), 1);
-        Explosion explosion3 = new Explosion(new Posn(100,200), 2);
+
+        Explosion explosion1 = new Explosion(new Posn(100, 200), 0);
+        Explosion explosion2 = new Explosion(new Posn(100, 200), 1);
+        Explosion explosion3 = new Explosion(new Posn(100, 200), 2);
         explosionlist1.add(explosion1);
         explosionlist2.add(explosion2);
         explosionlist3.add(explosion3);
-        
-        Game2 game1 = new Game2(15,0,0,link,enemiesMT, heartsMT, 
-                bomblist1,explosionMT,keyMT, false, false, true);
-        Game2 game2 = new Game2(15,0,0,link,enemiesMT, heartsMT,
-                bomblist2,explosionMT,keyMT,false,false,true);
-                Game2 game3 = new Game2(15,0,0,link,enemiesMT, heartsMT,
-                bomblist3,explosionMT,keyMT,false,false,true);
-        
+
+        Game2 game1 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bomblist1, explosionMT, keyMT, false, false, true);
+        Game2 game2 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bomblist2, explosionMT, keyMT, false, false, true);
+        Game2 game3 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bomblist3, explosionMT, keyMT, false, false, true);
+
         return t.checkExpect(game1.onTick(),
                 game2, "check to see if bomb timer increased ontick" + "\n")
                 && t.checkExpect(game2.onTick(),
                         game3, "check to see if bomb time increased ontick" + "\n");
+    }
+
+    public boolean bombIncTestBL(Tester t) {
+        LinkedList<Bomb> bomblist1 = new LinkedList();
+        LinkedList<Bomb> bomblist2 = new LinkedList();
+        LinkedList<Bomb> bomblist3 = new LinkedList();
+
+        Bomb bomb1 = new Bomb(new Posn(100, 200), 0);
+        Bomb bomb2 = new Bomb(new Posn(100, 200), 1);
+        Bomb bomb3 = new Bomb(new Posn(100, 200), 2);
+        Bomb bomb4 = new Bomb(new Posn(100, 200), 10);
+        bomblist1.add(bomb1);
+        bomblist2.add(bomb2);
+        bomblist3.add(bomb3);
+
+        LinkedList<Explosion> explosionlist1 = new LinkedList();
+        LinkedList<Explosion> explosionlist2 = new LinkedList();
+        LinkedList<Explosion> explosionlist3 = new LinkedList();
+
+        Explosion explosion1 = new Explosion(new Posn(100, 200), 0);
+        Explosion explosion2 = new Explosion(new Posn(100, 200), 1);
+        Explosion explosion3 = new Explosion(new Posn(100, 200), 2);
+        explosionlist1.add(explosion1);
+        explosionlist2.add(explosion2);
+        explosionlist3.add(explosion3);
+
+        BossLevel bl1 = new BossLevel(15, 0, 50, randB, link, heartsMT,
+                bomblist1, explosionMT);
+        BossLevel bl2 = new BossLevel(15, 0, 50, randB, link, heartsMT,
+                bomblist2, explosionMT);
+        BossLevel bl3 = new BossLevel(15, 0, 50, randB, link, heartsMT,
+                bomblist3, explosionMT);
+
+        return t.checkExpect(bl1.onTick(),
+                bl2, "check to see if bomb timer increased ontick" + "\n")
+                && t.checkExpect(bl2.onTick(),
+                        bl3, "check to see if bomb time increased ontick" + "\n");
     }
 
     // test that the explosion's timer increases on tick
@@ -239,52 +253,205 @@ public class TestTest {
         LinkedList<Explosion> explosionlist1 = new LinkedList();
         LinkedList<Explosion> explosionlist2 = new LinkedList();
         LinkedList<Explosion> explosionlist3 = new LinkedList();
-        
-        Explosion explosion1 = new Explosion(new Posn(100,200), 0);
-        Explosion explosion2 = new Explosion(new Posn(100,200), 1);
-        Explosion explosion3 = new Explosion(new Posn(100,200), 2);
+
+        Explosion explosion1 = new Explosion(new Posn(100, 200), 0);
+        Explosion explosion2 = new Explosion(new Posn(100, 200), 1);
+        Explosion explosion3 = new Explosion(new Posn(100, 200), 2);
         explosionlist1.add(explosion1);
         explosionlist2.add(explosion2);
         explosionlist3.add(explosion3);
-        
-                Game2 game1 = new Game2(15,0,0,link,enemiesMT, heartsMT, 
-                bombsMT,explosionlist1,keyMT, false, false, true);
-                Game2 game2 = new Game2(15,0,0,link,enemiesMT, heartsMT,
-                bombsMT,explosionlist2,keyMT,false,false,true);
-                Game2 game3 = new Game2(15,0,0,link,enemiesMT, heartsMT,
-                bombsMT,explosionlist3,keyMT,false,false,true);
-                
-                return t.checkExpect(game1.onTick(),
-                        game2, "check to see if explosion timer increased on tick" + "\n")
-                        && t.checkExpect(game2.onTick(),
-                                game3, "check to see if explosion timer increased on tick" + "\n");
+
+        Game2 game1 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bombsMT, explosionlist1, keyMT, false, false, true);
+        Game2 game2 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bombsMT, explosionlist2, keyMT, false, false, true);
+        Game2 game3 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bombsMT, explosionlist3, keyMT, false, false, true);
+
+        return t.checkExpect(game1.onTick(),
+                game2, "check to see if explosion timer increased on tick" + "\n")
+                && t.checkExpect(game2.onTick(),
+                        game3, "check to see if explosion timer increased on tick" + "\n");
     }
 
-    // test that the enemy list increases on tick when not being killed
+    public boolean explIncTestBL(Tester t) {
+        LinkedList<Bomb> bomblist1 = new LinkedList();
+        LinkedList<Bomb> bomblist2 = new LinkedList();
+        LinkedList<Bomb> bomblist3 = new LinkedList();
 
+        Bomb bomb1 = new Bomb(new Posn(100, 200), 0);
+        Bomb bomb2 = new Bomb(new Posn(100, 200), 1);
+        Bomb bomb3 = new Bomb(new Posn(100, 200), 2);
+        Bomb bomb4 = new Bomb(new Posn(100, 200), 10);
+        bomblist1.add(bomb1);
+        bomblist2.add(bomb2);
+        bomblist3.add(bomb3);
 
+        LinkedList<Explosion> explosionlist1 = new LinkedList();
+        LinkedList<Explosion> explosionlist2 = new LinkedList();
+        LinkedList<Explosion> explosionlist3 = new LinkedList();
+
+        Explosion explosion1 = new Explosion(new Posn(100, 200), 0);
+        Explosion explosion2 = new Explosion(new Posn(100, 200), 1);
+        Explosion explosion3 = new Explosion(new Posn(100, 200), 2);
+        explosionlist1.add(explosion1);
+        explosionlist2.add(explosion2);
+        explosionlist3.add(explosion3);
+
+        BossLevel bl1 = new BossLevel(15, 0, 50, randB, link, heartsMT,
+                bombsMT, explosionlist1);
+        BossLevel bl2 = new BossLevel(15, 0, 50, randB, link, heartsMT,
+                bombsMT, explosionlist2);
+        BossLevel bl3 = new BossLevel(15, 0, 50, randB, link, heartsMT,
+                bombsMT, explosionlist3);
+
+        return t.checkExpect(bl1.onTick(),
+                bl2, "check to see if bomb timer increased ontick" + "\n")
+                && t.checkExpect(bl2.onTick(),
+                        bl3, "check to see if bomb time increased ontick" + "\n");
+    }
+
+    public boolean bombToExplBlTest(Tester t) {
+        LinkedList<Bomb> bomblist1 = new LinkedList();
+        LinkedList<Bomb> bomblist2 = new LinkedList();
+        LinkedList<Bomb> bomblist3 = new LinkedList();
+        LinkedList<Bomb> bomblist4 = new LinkedList();
+
+        Bomb bomb1 = new Bomb(new Posn(100, 200), 0);
+        Bomb bomb2 = new Bomb(new Posn(100, 200), 1);
+        Bomb bomb3 = new Bomb(new Posn(100, 200), 2);
+        Bomb bomb4 = new Bomb(new Posn(100, 200), 10);
+        bomblist1.add(bomb1);
+        bomblist2.add(bomb2);
+        bomblist3.add(bomb3);
+        bomblist4.add(bomb4);
+
+        LinkedList<Explosion> explosionlist1 = new LinkedList();
+
+        LinkedList<Explosion> explosionlist4 = new LinkedList();
+
+        Explosion explosion1 = new Explosion(new Posn(100, 200), 15);
+
+        Explosion explosion4 = new Explosion(new Posn(100, 200), 0);
+        explosionlist1.add(explosion1);
+        explosionlist4.add(explosion4);
+
+        Game2 game1 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bomblist4, explosionMT, keyMT, false, false, true);
+        Game2 game2 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bombsMT, explosionlist4, keyMT, false, false, true);
+        Game2 game3 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bombsMT, explosionlist1, keyMT, false, false, true);
+        Game2 game4 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bombsMT, explosionMT, keyMT, false, false, true);
+
+        BossLevel bl1 = new BossLevel(15, 0, 50, randB, link, heartsMT,
+                bomblist4, explosionMT);
+        BossLevel bl2 = new BossLevel(15, 0, 50, randB, link, heartsMT,
+                bombsMT, explosionlist4);
+        BossLevel bl3 = new BossLevel(15, 0, 50, randB, link, heartsMT,
+                bombsMT, explosionlist1);
+
+        BossLevel bl4 = new BossLevel(15, 0, 50, randB, link, heartsMT,
+                bombsMT, explosionMT);
+        return t.checkExpect(bl1.onTick(),
+                bl2, "test if bomb lists and explosion lists act correctly" + "\n")
+                && t.checkExpect(bl3.onTick(),
+                        bl4, "test if bomb lists and explosion lists act correctly" + "\n");
+    }
+
+    public boolean bombToExplGameTest(Tester t) {
+        LinkedList<Bomb> bomblist1 = new LinkedList();
+        LinkedList<Bomb> bomblist2 = new LinkedList();
+        LinkedList<Bomb> bomblist3 = new LinkedList();
+        LinkedList<Bomb> bomblist4 = new LinkedList();
+
+        Bomb bomb1 = new Bomb(new Posn(100, 200), 0);
+        Bomb bomb2 = new Bomb(new Posn(100, 200), 1);
+        Bomb bomb3 = new Bomb(new Posn(100, 200), 2);
+        Bomb bomb4 = new Bomb(new Posn(100, 200), 10);
+        bomblist1.add(bomb1);
+        bomblist2.add(bomb2);
+        bomblist3.add(bomb3);
+        bomblist4.add(bomb4);
+
+        LinkedList<Explosion> explosionlist1 = new LinkedList();
+
+        LinkedList<Explosion> explosionlist4 = new LinkedList();
+
+        Explosion explosion1 = new Explosion(new Posn(100, 200), 15);
+        Explosion explosion4 = new Explosion(new Posn(100, 200), 0);
+        explosionlist1.add(explosion1);
+        explosionlist4.add(explosion4);
+
+        Game2 game1 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bomblist4, explosionMT, keyMT, false, false, true);
+        Game2 game2 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bombsMT, explosionlist4, keyMT, false, false, true);
+        Game2 game3 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bombsMT, explosionlist1, keyMT, false, false, true);
+        Game2 game4 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bombsMT, explosionMT, keyMT, false, false, true);
+
+        return t.checkExpect(game1.onTick(),
+                game2, "test if bomb lists and explosion lists act correctly" + "\n")
+                && t.checkExpect(game3.onTick(),
+                        game4, "test if bomb lists and explosion lists act correctly" + "\n");
+    }
+
+    // test that the enemy moves on tick
     public boolean enemyList1(Tester t) {
         Enemy enemy1 = new Enemy();
         Enemy enemy2 = enemy1.moveEnemy();
-        
+
         LinkedList<Enemy> enemyList1 = new LinkedList();
         enemyList1.add(enemy1);
         LinkedList<Enemy> enemyList2 = new LinkedList();
         enemyList2.add(enemy2);
 
         Game2 game1 = new Game2(15, 15, 15, link, enemyList1, heartsMT, bombsMT, explosionMT, keyMT,
-        false, false, true);
-        Game2 game2 =  new Game2(15, 15, 15, link, enemyList2, heartsMT, bombsMT, explosionMT, keyMT,
-        false, false, true);
-        
+                false, false, true);
+        Game2 game2 = new Game2(15, 15, 15, link, enemyList2, heartsMT, bombsMT, explosionMT, keyMT,
+                false, false, true);
+
+        return t.checkExpect(game1.onTick(),
+                game2, "testing the movement of an enemy object" + "\n");
+    }
+    
+    public boolean testHeroHitGame(Tester t) {
+        LinkedList<Enemy> enemylist = new LinkedList();
+        Enemy enemy1 = new Enemy(new Posn(350,250), true);
+        enemylist.add(enemy1);
         return
-                t.checkExpect(game1.onTick(),
-                        game2, "testing the movement of an enemy object" + "\n");
+                t.checkExpect(enemylist.getFirst().collisionHuh(link),
+                        true, "checking if collision with enemy is true" +"\n");
+        
+        
+    }
+    
+    public boolean testHeroHitBL(Tester t) {
+        Boss boss = new Boss(new Posn(350,250));
+        return 
+                t.checkExpect(boss.collisionHuh(link),
+                        true, "checking if collision with boss is true" + "\n");
+        
     }
 
     // test that the enemy list decreases when being killed
     public boolean enemyList2(Tester t) {
-        return true;
+        LinkedList<Explosion> explosionL = new LinkedList();
+        Explosion explosion = new Explosion (new Posn (300,200));
+        LinkedList<Enemy> enemyL = new LinkedList();
+        Enemy enemy = new Enemy(new Posn(300,200),true);
+        Boolean enemyCollideExplosion = enemy.explodingHuh(explosion);
+        
+        Game2 game1 = new Game2(15, 15, 15, link, enemyL, heartsMT, bombsMT, explosionL, keyMT,
+                false, false, true);
+        Game2 game2 = new Game2 (15,15,16, link, enemiesMT, heartsMT, bombsMT,explosionL, keyMT,
+                false, false, true);
+        return
+        t.checkExpect((Game2) game1.onTick(),
+                game2, "checking if enemy collision with explosion removes enemy" + "\n");
     }
 
     // test that lives decrease when hitting an enemy
