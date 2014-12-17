@@ -265,65 +265,53 @@ public class TestTest {
         return t.checkExpect(timeB, timeA);
     }
 
-//    public boolean testexplIncBLTest(Tester t)  {
-//        LinkedList<Explosion> explosionlist1 = new LinkedList();
-//
-//        Explosion explosion1 = new Explosion(new Posn(100, 200), 0);
-//
-//        explosionlist1.add(explosion1);
-//
-//        Boss boss = new Boss(new Posn(100, 100));
-//
-//        BossLevel bl = new BossLevel(15, 50, 50, boss, link, heartsMT, bombsMT, explosionlist1);
-//        Explosion expB = bl.explosions.element();
-//        int timeB = expB.time + 1;
-//        Explosion expA = ((BossLevel) bl.onTick()).explosions.element();
-//        int timeA = expA.time;
-//
-//        return t.same(timeB, timeA);
-//    }
 
 
 
-//    public boolean testbombToExplGameTest(Tester t) {
-//        LinkedList<Bomb> bomblist1 = new LinkedList();
-//        LinkedList<Bomb> bomblist2 = new LinkedList();
-//        LinkedList<Bomb> bomblist3 = new LinkedList();
-//        LinkedList<Bomb> bomblist4 = new LinkedList();
-//
-//        Bomb bomb1 = new Bomb(new Posn(100, 200), 0);
-//        Bomb bomb2 = new Bomb(new Posn(100, 200), 1);
-//        Bomb bomb3 = new Bomb(new Posn(100, 200), 2);
-//        Bomb bomb4 = new Bomb(new Posn(100, 200), 10);
-//        bomblist1.add(bomb1);
-//        bomblist2.add(bomb2);
-//        bomblist3.add(bomb3);
-//        bomblist4.add(bomb4);
-//
-//        LinkedList<Explosion> explosionlist4 = new LinkedList();
-//
-//        LinkedList<Explosion> explosionlist1 = new LinkedList();
-//
-//        Explosion explosion4 = new Explosion(new Posn(100, 200), 0);
-//        Explosion explosion1 = new Explosion(new Posn(100, 200), 15);
-//        explosionlist1.add(explosion1);
-//        explosionlist4.add(explosion4);
-//
-//        Game2 game1 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
-//                bomblist4, explosionMT, keyMT, false, false, true);
-//        Game2 game2 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
-//                bombsMT, explosionlist4, keyMT, false, false, true);
-//
-//
-//        return t.checkExpect(game1.onTick(),
-//                game2, "test if bomb lists and explosion lists act correctly" + "\n");
-//    }
+
+    public void testbombToExplGameTest() throws Exception {
+        LinkedList<Bomb> bomblist1 = new LinkedList();
+        LinkedList<Bomb> bomblist2 = new LinkedList();
+        LinkedList<Bomb> bomblist3 = new LinkedList();
+        LinkedList<Bomb> bomblist4 = new LinkedList();
+
+        Bomb bomb1 = new Bomb(new Posn(100, 200), 0);
+        Bomb bomb2 = new Bomb(new Posn(100, 200), 1);
+        Bomb bomb3 = new Bomb(new Posn(100, 200), 2);
+        Bomb bomb4 = new Bomb(new Posn(100, 200), 10);
+        bomblist1.add(bomb1);
+        bomblist2.add(bomb2);
+        bomblist3.add(bomb3);
+        bomblist4.add(bomb4);
+
+        LinkedList<Explosion> explosionlist4 = new LinkedList();
+
+        LinkedList<Explosion> explosionlist1 = new LinkedList();
+
+        Explosion explosion4 = new Explosion(new Posn(100, 200), 0);
+        Explosion explosion1 = new Explosion(new Posn(100, 200), 15);
+        explosionlist1.add(explosion1);
+        explosionlist4.add(explosion4);
+
+        Game2 game1 = new Game2(15, 0, 0, link, enemiesMT, heartsMT,
+                bomblist4, explosionMT, keyMT, false, false, true);
+
+
+
+        if(bomb4.canIExplode()) {
+            if(((Game2)game1.onTick()).explosions.isEmpty()) {
+                throw new Exception ("bomb can explode and in ontick, explosion is still empty");
+            } else {
+                System.out.println("Bomb to Explosion in Game2 Test Successful.");
+            }
+        }
+    }
     
     
     
 
     // test that the enemy moves on tick
-    public boolean testenemyList1(Tester t) {
+    public void testenemyList1() throws Exception{
         Enemy enemy1 = new Enemy();
         Enemy enemy2 = enemy1.moveEnemy();
 
@@ -334,11 +322,13 @@ public class TestTest {
 
         Game2 game1 = new Game2(15, 15, 15, link, enemyList1, heartsMT, bombsMT, explosionMT, keyMT,
                 false, false, true);
-        Game2 game2 = new Game2(15, 15, 15, link, enemyList2, heartsMT, bombsMT, explosionMT, keyMT,
-                false, false, true);
 
-        return t.checkExpect(game1.onTick(),
-                game2, "testing the movement of an enemy object" + "\n");
+
+        if (!(game1.enemies.size() <= (((Game2)game1.onTick()).enemies.size()))) {
+            throw new Exception ("onTick, size of enemylist should either stay the same, or increase");
+        } else {
+            System.out.println("Size of EnemyList onTick in Game2 Test Successful");
+        }
     }
 
     public boolean testHeroHitGame(Tester t) {
@@ -369,17 +359,17 @@ public class TestTest {
 
     }
     
-//    public boolean testBombToExplBL(Tester t) {
-//        LinkedList<Bomb> bomblist1 = new LinkedList();
-//        Bomb bomb1 = new Bomb(new Posn(100, 200), 10);
-//        bomblist1.add(bomb1);
-//        Hero hero = new Hero(new Posn(40,80));
-//
-//        LinkedList<Explosion> explosionlist1 = new LinkedList();
-//        Explosion explosion1 = new Explosion(new Posn(100, 200), 0);
-//        explosionlist1.add(explosion1);
-//
-//        Boss boss = new Boss(new Posn(100, 100));
+    public void testBombToExplBL() throws Exception {
+        LinkedList<Bomb> bomblist1 = new LinkedList();
+        Bomb bomb1 = new Bomb(new Posn(100, 200), 10);
+        bomblist1.add(bomb1);
+        Hero hero = new Hero(new Posn(40,80));
+
+        LinkedList<Explosion> explosionlist1 = new LinkedList();
+        Explosion explosion1 = new Explosion(new Posn(100, 200), 0);
+        explosionlist1.add(explosion1);
+
+        Boss boss = new Boss(new Posn(100, 100));
 //        Boss boss2 = new Boss(new Posn(125, 100), 0);
 //        Boss boss3 = new Boss(new Posn(125, 75), 1);
 //        Boss boss4 = new Boss(new Posn(100, 75), 2);
@@ -388,9 +378,9 @@ public class TestTest {
 //        Boss boss7 = new Boss(new Posn(75, 125), 5);
 //        Boss boss8 = new Boss(new Posn(100, 125), 6);
 //        Boss boss9 = new Boss(new Posn(125, 125), 7);
-//
-//        BossLevel bl = new BossLevel(15, 50, 50, boss, hero, heartsMT, bomblist1, explosionMT);
-//
+
+        BossLevel bl = new BossLevel(15, 50, 50, boss, hero, heartsMT, bomblist1, explosionMT);
+
 //        BossLevel bl0 = new BossLevel(15, 50, 50, boss2, hero, heartsMT,
 //                bombsMT, explosionlist1);
 //
@@ -410,13 +400,18 @@ public class TestTest {
 //                bombsMT, explosionlist1);
 //        BossLevel bl7 = new BossLevel(15, 50, 50, boss9, hero, heartsMT,
 //                bombsMT, explosionlist1);
-//
-//        return t.checkOneOf("check to see if changed to explosion", bl.onTick(),
-//                bl1, bl2, bl3, bl4, bl5, bl6, bl7);
-//    }
+
+        if( bl.bombs.element().canIExplode()) {
+            if (!((BossLevel)bl.onTick()).bombs.isEmpty()) {
+                throw new Exception("bomb can explode but on tick, the list does not become empty");
+            }
+        } else {
+            System.out.println("Bomb to Explosion in BossLevel Test Successful");
+        }
+    }
 
     // test that the enemy list decreases when being killed
-    public boolean testenemyList2(Tester t) {
+    public void testenemyList2() throws Exception {
         LinkedList<Explosion> explosionL = new LinkedList();
         Explosion explosion = new Explosion(new Posn(250, 200));
         LinkedList<Enemy> enemyL = new LinkedList();
@@ -426,24 +421,29 @@ public class TestTest {
         Game2 game1 = new Game2(15, 15, 15, link, enemyL, heartsMT, bombsMT, explosionL, keyMT,
                 false, false, true);
         // also checks that kills and score increases by 1
-        Game2 game2 = new Game2(15, 16, 16, link, enemiesMT, heartsMT, bombsMT, explosionL, keyMT,
-                false, false, true);
-        return t.checkExpect(enemyCollideExplosion, true, "check if colliding enemy and explosion" + "\n")
-                && t.checkExpect(((Game2) game1.onTick()).enemies.size(),
-                        game2.enemies.size(), "checking if enemy collision with explosion removes enemy" + "\n");
+        if (enemyCollideExplosion) {
+            if (game1.enemies.size() == ((Game2)game1.onTick()).enemies.size()) {
+                throw new Exception("enemy being exploded but size of enemy list is the same");
+            }
+        } else {
+            System.out.println("Enemy Size After Dying in Game2 Test Successful");
+        }
+
     }
 
-    public boolean testheartCollectedGame(Tester t) {
+    public void testheartCollectedGame() throws Exception {
+        
         LinkedList<Heart> heartList = new LinkedList();
         Heart heart = new Heart(new Posn(350, 250));
         heartList.add(heart);
         
-        Game2 game1 = new Game2(15, 15, 15, link, enemiesMT, heartList, bombsMT, explosionMT, keyMT,
+        Game2 game1 = new Game2(15, 10, 10, link, enemiesMT, heartList, bombsMT, explosionMT, keyMT,
                 false, false, true);
-        Game2 game2 = new Game2(16, 15, 15, link, enemiesMT, heartsMT, bombsMT, explosionMT, keyMT,
-                false, false, true);
-        return t.checkExpect(((Game2)game1.onTick()).hearts.size(),
-                game2.hearts.size(), "checking if heart was collected" + "\n");
+        if (heart.collectedHuh(link)) {
+            if (game1.lives == ((Game2)game1.onTick()).lives) {
+                throw new Exception ("heart collected but lives stay the same");
+            }
+        }
     }
 
     public static void main(String[] args) {
