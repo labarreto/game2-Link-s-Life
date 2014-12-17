@@ -80,9 +80,11 @@ public class Enemy {
 
         int halfHeroWidth = hero.width / 2;
         int halfHeroHeight = hero.height / 2;
+        int halfEnemyWidth = this.width /2;
+        int halfEnemyHeight = this.height /2;
 
-        if (Math.abs(a - b) < (halfHeroWidth)
-                && (Math.abs(c - d) < (halfHeroHeight))) {
+        if (Math.abs(a - b) < (halfHeroWidth + halfEnemyWidth)
+                && (Math.abs(c - d) < (halfHeroHeight + halfEnemyHeight))) {
             
             return true;
         } else {

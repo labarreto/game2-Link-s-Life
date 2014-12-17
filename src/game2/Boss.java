@@ -60,19 +60,19 @@ public class Boss {
         if (lastmove == 0) {
             return new Boss(new Posn(x + 25, y), 0);
         } else if (lastmove == 1) {
-            return new Boss(new Posn(x + 15, y - 15), 1);
+            return new Boss(new Posn(x + 25, y - 25), 1);
         } else if (lastmove == 2) {
             return new Boss(new Posn(x, y - 25), 2);
         } else if (lastmove == 3) {
-            return new Boss(new Posn(x - 15, y - 15), 3);
+            return new Boss(new Posn(x - 25, y - 25), 3);
         } else if (lastmove == 4) {
             return new Boss(new Posn(x - 25, y), 4);
         } else if (lastmove == 5) {
-            return new Boss(new Posn(x - 15, y + 15), 5);
+            return new Boss(new Posn(x - 25, y + 25), 5);
         } else if (lastmove == 6) {
             return new Boss(new Posn(x, y + 25), 6);
         } else {
-            return new Boss(new Posn(x + 15, y + 15), 7);
+            return new Boss(new Posn(x + 25, y + 25), 7);
         }
         
     }

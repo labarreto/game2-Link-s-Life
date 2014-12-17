@@ -112,7 +112,7 @@ public class Hero {
 //        
 //    }
     
-    public boolean collectingRupees(Heart rupees) {
+    public boolean collectingHeart(Heart rupees) {
         int a = this.pin.x;
         int b = rupees.getPin().x;
         int c = this.pin.y;
