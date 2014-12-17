@@ -32,7 +32,10 @@ public class Heart {
     }
 
     public Heart(Posn pin) {
-
+        this.pin = pin;
+        this.hearts = new FromFileImage(pin, "heart.png");
+        this.width = hearts.getWidth();
+        this.height = hearts.getHeight();
     }
     
     public WorldImage heartImage() {

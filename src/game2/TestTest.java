@@ -146,7 +146,7 @@ public class TestTest {
 
         Game2 game = new Game2(0, 15, 15, link, enemiesMT, heartsMT,
                 bombsMT, explosionMT, keyMT, false, false, true);
-        GameOver gameOver = new GameOver(0, link, "GAME OVER!");
+        GameOver gameOver = new GameOver(15, link, "GAME OVER!");
 
         return t.checkExpect(game.onTick(),
                 gameOver, "test if game over is created with Game2 lose" + "\n");
@@ -175,6 +175,33 @@ public class TestTest {
 
     }
 
+    public boolean testGame2ToBossLevel(Tester t) {
+        Hero hero = new Hero(new Posn(701, 250));
+        LinkedList Hearts = new LinkedList();
+        LinkedList Bombs = new LinkedList();
+        LinkedList Explosions = new LinkedList();
+        LinkedList Key = new LinkedList();
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+        Hearts.add(new Heart());
+
+        Game2 game = new Game2(15, 15, 15, hero, enemiesMT, heartsMT,
+                bombsMT, explosionMT, keyMT, false, true, false);
+        BossLevel bossy = new BossLevel(15, 15, 5, new Boss(), new Hero(new Posn(10, 250)),
+                Hearts, Bombs, Explosions);
+        return //checks to see if the keypress returns a game2 instanceof game2
+                t.checkExpect(game.onTick() instanceof BossLevel,
+                        bossy instanceof BossLevel, "test change from Game2 to " + "\n");
+
+    }
+
     //test that the Boss does not move out of bounds
     public boolean testBossOutofBounds(Tester t) {
         Boss boss = new Boss();
@@ -198,7 +225,7 @@ public class TestTest {
         // on tick should make the boolean representing makeMoreHearts to 
         // be true since kills can be divided by 25 with 0 remainder.
         Game2 game1 = (Game2) game.onTick();
-        return t.checkOneOf(game.kills % 20 == 0,
+        return t.checkOneOf(((game.kills % 25 == 0) && Utility.biasCoinToss()),
                 game1.makeMoreHearts, "check if make more hearts works" + "\n")
                 && t.checkExpect(game.hearts.size() <= game1.hearts.size(),
                         // list of hearts should either stay the same size or 
@@ -240,7 +267,7 @@ public class TestTest {
             if (!(bomb1.time < ((BossLevel) bl.onTick()).bombs.getFirst().time)) {
                 throw new Exception("Bomb is not exploding, but time does not increase");
             } else {
-                System.out.println(" Bomb Timer BossLevel Test Successful");
+                System.out.println("Bomb Timer BossLevel Test Successful");
             }
         }
     }
@@ -279,8 +306,7 @@ public class TestTest {
         }
     }
 
-  
-    public void testenemyList1() throws Exception {
+    public void testenemyList1() throws Exception { //
         Enemy enemy1 = new Enemy();
 
         LinkedList<Enemy> enemyList1 = new LinkedList();
@@ -296,7 +322,7 @@ public class TestTest {
         }
     }
 
-    public boolean testHeroHitGame(Tester t) {
+    public boolean testHeroHitGame(Tester t) { //
         LinkedList<Enemy> enemyList1 = new LinkedList();
         Enemy enemy1 = new Enemy(new Posn(350, 250), true);
         enemyList1.add(enemy1);
@@ -312,7 +338,7 @@ public class TestTest {
                         true, "checking that lives decrease when hero hits enemy" + "\n");
     }
 
-    public boolean testHeroHitBL(Tester t) {
+    public boolean testHeroHitBL(Tester t) { //
         Boss boss = new Boss(new Posn(345, 245));
         BossLevel bl1 = new BossLevel(15, 0, 50, randB, link, heartsMT,
                 bombsMT, explosionMT);
@@ -322,9 +348,9 @@ public class TestTest {
                         true, "checking if lives before tick is more than lives after" + "\n");
 
     }
-    
 
-    public void testBombToExplBL() throws Exception {
+
+    public void testBombToExplBL() throws Exception { //
         LinkedList<Bomb> bomblist1 = new LinkedList();
         Bomb bomb1 = new Bomb(new Posn(100, 200), 10);
         bomblist1.add(bomb1);
@@ -335,47 +361,20 @@ public class TestTest {
         explosionlist1.add(explosion1);
 
         Boss boss = new Boss(new Posn(100, 100));
-//        Boss boss2 = new Boss(new Posn(125, 100), 0);
-//        Boss boss3 = new Boss(new Posn(125, 75), 1);
-//        Boss boss4 = new Boss(new Posn(100, 75), 2);
-//        Boss boss5 = new Boss(new Posn(75, 75), 3);
-//        Boss boss6 = new Boss(new Posn(75, 100), 4);
-//        Boss boss7 = new Boss(new Posn(75, 125), 5);
-//        Boss boss8 = new Boss(new Posn(100, 125), 6);
-//        Boss boss9 = new Boss(new Posn(125, 125), 7);
 
         BossLevel bl = new BossLevel(15, 50, 50, boss, hero, heartsMT, bomblist1, explosionMT);
 
-//        BossLevel bl0 = new BossLevel(15, 50, 50, boss2, hero, heartsMT,
-//                bombsMT, explosionlist1);
-//
-//        BossLevel bl1 = new BossLevel(15, 50, 50, boss3, hero, heartsMT,
-//                bombsMT, explosionlist1);
-//
-//        BossLevel bl2 = new BossLevel(15, 50, 50, boss4, hero, heartsMT,
-//                bombsMT, explosionlist1);
-//
-//        BossLevel bl3 = new BossLevel(15, 50, 50, boss5, hero, heartsMT,
-//                bombsMT, explosionlist1);
-//        BossLevel bl4 = new BossLevel(15, 50, 50, boss6, hero, heartsMT,
-//                bombsMT, explosionlist1);
-//        BossLevel bl5 = new BossLevel(15, 50, 50, boss7, hero, heartsMT,
-//                bombsMT, explosionlist1);
-//        BossLevel bl6 = new BossLevel(15, 50, 50, boss8, hero, heartsMT,
-//                bombsMT, explosionlist1);
-//        BossLevel bl7 = new BossLevel(15, 50, 50, boss9, hero, heartsMT,
-//                bombsMT, explosionlist1);
         if (bl.bombs.element().canIExplode()) {
             if (!((BossLevel) bl.onTick()).bombs.isEmpty()) {
                 throw new Exception("bomb can explode but on tick, the list does not become empty");
-            } 
+            }
         } else {
             System.out.println("Bomb to Explosion in BossLevel Test Successful");
         }
     }
 
     // test that the enemy list decreases when being killed
-    public void testenemyList2() throws Exception {
+    public void testenemyList2() throws Exception { //
         LinkedList<Explosion> explosionL = new LinkedList();
         Explosion explosion = new Explosion(new Posn(250, 200));
         LinkedList<Enemy> enemyL = new LinkedList();
@@ -395,6 +394,98 @@ public class TestTest {
 
     }
 
+    public void testKeyAppear() throws Exception {
+        LinkedList<Key> keyl = new LinkedList();
+        Game2 game1 = new Game2(30, 30, 30, link, enemiesMT, heartsMT, bombsMT, explosionMT, keyMT,
+                false, false, true);
+
+        if (game1.kills >= 30 && game1.score >= 30 && game1.shouldKeyAppear) {
+            if (((Game2) game1.onTick()).key.isEmpty()) {
+                throw new Exception("key list should not be empty once criteria for key appear is met");
+            } else {
+                System.out.println("Test KeyAppear is Successful");
+            }
+        }
+    }
+
+    public void testheartCollectedGame() throws Exception {
+        LinkedList<Heart> heartList = new LinkedList();
+        Heart heart = new Heart(new Posn(350, 250));
+        heartList.add(heart);
+
+        Game2 game1 = new Game2(30, 30, 30, link, enemiesMT, heartList, bombsMT, explosionMT, keyMT,
+                false, false, true);
+
+        if (link.collectingHeart(heart)) {
+            if (game1.lives == (((Game2) game1.onTick()).lives)) {
+                throw new Exception("heart collected but lives stay the same");
+            }
+            System.out.println("Heart Collection tested Successfully");
+        }
+    }
+
+    public void testheartCollectedBL() throws Exception {
+        LinkedList<Heart> heartList = new LinkedList();
+        Heart heart = new Heart(new Posn(350, 250));
+        heartList.add(heart);
+
+        BossLevel bl = new BossLevel(15, 50, 50, new Boss(new Posn(100, 100), 0), link, heartList, bombsMT, explosionMT);
+        if (link.collectingHeart(heart)) {
+            if (bl.lives == (((BossLevel) bl.onTick()).lives)) {
+                throw new Exception("heart collected but lives stay the same");
+            }
+            System.out.println("Heart Collection tested Successfully");
+        }
+    }
+
+    public void testKeyCollectedGame() throws Exception {
+        LinkedList<Key> keyList = new LinkedList();
+        Key key = new Key(new Posn(350, 250));
+        keyList.add(key);
+
+        Game2 game1 = new Game2(30, 30, 30, link, enemiesMT, heartsMT, bombsMT, explosionMT, keyList,
+                false, false, false);
+        if (key.collectedHuh(link)) {
+            if (!(((Game2) game1.onTick()).keyGrabbed)) {
+                throw new Exception("key collected but keyGrabbed boolean stays the same");
+            }
+            System.out.println("Key Collection tested Successfully");
+
+        }
+    }
+
+    public boolean testEnemyMove(Tester t) {
+        Enemy enemy1 = new Enemy(new Posn(150, 150), true);
+
+        Enemy enemyMove1 = new Enemy(new Posn(150, 170), false);
+        Enemy enemyMove2 = new Enemy(new Posn(130, 150), true);
+        Enemy enemyMove3 = new Enemy(new Posn(170, 150), true);
+
+        LinkedList<Enemy> enlist1 = new LinkedList();
+        LinkedList<Enemy> enlistMove1 = new LinkedList();
+        LinkedList<Enemy> enlistMove2 = new LinkedList();
+        LinkedList<Enemy> enlistMove3 = new LinkedList();
+        enlist1.add(enemy1);
+        enlistMove1.add(enemyMove1);
+        enlistMove2.add(enemyMove2);
+        enlistMove3.add(enemyMove3);
+
+        Game2 game1
+                = new Game2(30, 30, 30, link, enlist1, heartsMT, bombsMT, explosionMT, keyMT,
+                        false, false, false);
+        Game2 gameMove1
+                = new Game2(30, 30, 30, link, enlistMove1, heartsMT, bombsMT, explosionMT, keyMT,
+                        false, false, false);
+        Game2 gameMove2
+                = new Game2(30, 30, 30, link, enlistMove2, heartsMT, bombsMT, explosionMT, keyMT,
+                        false, false, false);
+        Game2 gameMove3
+                = new Game2(30, 30, 30, link, enlistMove3, heartsMT, bombsMT, explosionMT, keyMT,
+                        false, false, false);
+        return t.checkOneOf("Checking enemy movement", (Game2) game1.onTick(),
+                gameMove1, gameMove2, gameMove3);
+
+    }
 
 
     public static void main(String[] args) throws Exception {
@@ -407,6 +498,9 @@ public class TestTest {
         testtest.testbombIncTestBL(); // could not open file
         testtest.testBombToExplBL(); // successful
         testtest.testenemyList2();
+        testtest.testKeyAppear();
+        testtest.testheartCollectedGame();
+        testtest.testKeyCollectedGame();
 
     }
 
