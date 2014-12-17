@@ -14,21 +14,21 @@ import java.awt.Color;
 
 public class TestTest {
 
-    public Enemy enemy;
+    Enemy enemy;
 
-    public Boss boss;
-    public int score;
-    public int lives;
-    public int money;
-    public int kills;
-    public int screenWIDTH = 700;
-    public int screenHEIGHT = 500;
-    public Hero link = new Hero(new Posn(350, 250));
-    public LinkedList<Enemy> enemiesMT = new LinkedList();
-    public LinkedList<Bomb> bombsMT = new LinkedList();
-    public LinkedList<Explosion> explosionMT = new LinkedList();
-    public LinkedList<Heart> heartsMT = new LinkedList();
-    public LinkedList<Key> keyMT = new LinkedList();
+    Boss boss;
+    int score;
+    int lives;
+    int money;
+    int kills;
+    int screenWIDTH = 700;
+    int screenHEIGHT = 500;
+    Hero link = new Hero(new Posn(350, 250));
+    LinkedList<Enemy> enemiesMT = new LinkedList();
+    LinkedList<Bomb> bombsMT = new LinkedList();
+    LinkedList<Explosion> explosionMT = new LinkedList();
+    LinkedList<Heart> heartsMT = new LinkedList();
+    LinkedList<Key> keyMT = new LinkedList();
     
     public Boss randB = randBoss();
     
@@ -202,14 +202,36 @@ public class TestTest {
 
     // test that the heart list increases when kills is divisible by certain amount
     public boolean heartIncList(Tester t) {
-                Game2 game = new Game2(15,25,25,link, enemiesMT, heartsMT, 
+        //making hero be in the corner so there is no possibility for hero to be eating a heart. 
+                LinkedList Enemies = new LinkedList();
+            Enemies.add(new Enemy());
+            LinkedList Hearts = new LinkedList();
+
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+                Game2 game = new Game2(15,25,25,new Hero(new Posn(0,0)), Enemies, Hearts, 
                 bombsMT,explosionMT,keyMT, false, false, true);
                 // on tick should make the boolean representing makeMoreHearts to 
                 // be true since kills can be divided by 25 with 0 remainder.
                 Game2 game1 = (Game2) game.onTick();
+                
         return
                 t.checkExpect(checkIfCanMakeMoreHearts(game) == game1.makeMoreHearts,
-                        true, "check if make more hearts works" + "\n");
+                        true, "check if make more hearts works" + "\n")
+                && t.checkExpect(game.hearts.size() <= game1.hearts.size(),
+                        // list of hearts should either stay the same size or 
+                        // increase. It stays the same size with biasCoinToss
+                        // is false. 
+                        true, "check if hearts are being added.");
+        
     }
 
     // test that the bomb's timer increases on tick
