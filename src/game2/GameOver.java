@@ -17,30 +17,13 @@ public class GameOver extends World {
     static int screenHEIGHT = 500;
     String backFileName = "background.png";
     WorldImage background2 = new FromFileImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2), backFileName);
-    int lives;
     int score;
-    int kills;
-    int bosslives;
-    int bombN;
-
     Boss boss;
     Hero hero;
-
-    LinkedList<Heart> hearts;
-    LinkedList<Enemy> enemies;
-    LinkedList<Bomb> bombs;
-    LinkedList<Explosion> explosions;
-    LinkedList<Key> key;
-
-    Boolean makeMoreHearts;
-
-    Boolean shouldKeyAppear;
-    Boolean keyGrabbed;
     String gameOverText;
 
-    public GameOver(int lives, int score, Hero hero, String gameOverText) {
+    public GameOver(int score, Hero hero, String gameOverText) {
 
-        this.lives = lives;
         this.score = score;
         this.hero = hero;
         this.gameOverText = gameOverText;

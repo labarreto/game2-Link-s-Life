@@ -218,8 +218,6 @@ public class Game2 extends World {
 
             shouldKeyAppear = false;
             k.add(new Key());
-            System.out.println("created key");
-
         }
 
         while (ki.hasNext()) {
@@ -228,7 +226,7 @@ public class Game2 extends World {
             k.add(key0);
 
             if (key0.collectedHuh(hero)) {
-                System.out.println("removed key");
+               
                 k.remove(key0);
                 keyGrabbed = true;
             }
@@ -266,13 +264,12 @@ public class Game2 extends World {
               return new BossLevel(this.lives, this.score, 10, new Boss(), new Hero(new Posn(10, screenHEIGHT/2)),
                     Hearts, // hearts
                     Bombs, // bombs
-                    Explosions, // explosions
-                    Key, // key
-                    false, true, false);
+                    Explosions // explosions
+                    );
         } else if (lives < 1) {
             
             string = "GAME OVER!";
-            return new GameOver(this.score, this.lives, this.hero, string);
+            return new GameOver(this.lives, this.hero, string);
             
         } else {
             return new Game2(this.lives,

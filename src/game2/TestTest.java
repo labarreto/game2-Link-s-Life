@@ -15,7 +15,7 @@ import java.awt.Color;
 public class TestTest {
 
     public Enemy enemy;
-    public Hero hero;
+
     public Boss boss;
     public int score;
     public int lives;
@@ -23,38 +23,42 @@ public class TestTest {
     public int kills;
     public int screenWIDTH = 700;
     public int screenHEIGHT = 500;
+    public Hero link = new Hero(new Posn(350, 250));
     public LinkedList<Enemy> enemiesMT = new LinkedList();
     public LinkedList<Bomb> bombsMT = new LinkedList();
     public LinkedList<Explosion> explosionMT = new LinkedList();
-    public LinkedList<Heart> rupeesMT = new LinkedList();
-
+    public LinkedList<Heart> heartsMT = new LinkedList();
+    public LinkedList<Key> keyMT = new LinkedList();
+    
+    public Boss randB = randBoss();
+    
     public static Posn randPosn() {
         return new Posn(Utility.randInt(50, 650), Utility.randInt(50, 450));
         // to ensure that random position will not be out of bounds
     }
 
-    public static Hero randHero() {
-        return new Hero(randPosn());
-    }
 
-    public static Enemy randEnemy() {
-        return new Enemy();
-    }
 
     public static Boss randBoss() {
         return new Boss(randPosn());
     }
 
-    public static Heart randHeart() {
-        return new Heart();
-    }
 
-    public static Key randKey() {
-        return new Key();
-    }
 
-    public static Bomb randBomb() {
-        return new Bomb(randPosn());
+    
+    
+    public Game2 createGame2() {
+        return new Game2(15, 0, 0, new Hero(randPosn()), enemiesMT, heartsMT, bombsMT, 
+        explosionMT, keyMT, false, false, true);
+        
+    }
+    public BossLevel createBossLevel() {
+        return new BossLevel(15, 0, 50, randBoss(), link, heartsMT,
+        bombsMT, explosionMT);
+    }
+    
+    public GameOver createGameOver() {
+        return new GameOver(score, link, "hello");
     }
 
     public boolean testLinkMove(Tester t) {
@@ -70,6 +74,10 @@ public class TestTest {
         Hero hero2 = new Hero(new Posn(x, y));
         Hero hero3 = new Hero(new Posn(x, y));
         Hero hero4 = new Hero(new Posn(x, y));
+        
+        // hero1 = hero2 = hero3 = hero4. They are all at the center of the screen
+        // testing up down left right movement actually moves object and sets value of
+        // each to be different. 
 
         Hero heroUP = new Hero(new Posn(x, y - 20), "linkUP.png");
         Hero heroDOWN = new Hero(new Posn(x, y + 20), "linkDOWN.png");
@@ -101,23 +109,107 @@ public class TestTest {
                 && t.checkExpect(hero4.moveLink("down"),
                         hero4, "test hero down out of bounds" + "\n");
     }
+    
+    
+    //testing laying bombs in Game2 World
+    public boolean testLayBomb(Tester t) {
+        // link is at 350, 250. 
+        
+        LinkedList<Bomb> bomblist0 = new LinkedList();
+        Game2 game0 =  new Game2(15, 0, 0, link, enemiesMT, heartsMT, bomblist0, 
+        explosionMT, keyMT, false, false, true);
+        
+        LinkedList<Bomb> bomblist1 = new LinkedList();
+        bomblist1.add(new Bomb(new Posn(350,250)));
+        
+        Game2 game1 = new Game2(15,0,0, link, enemiesMT, heartsMT, bomblist1, 
+                explosionMT, keyMT, false, false, true);
 
-    public boolean testOnKeyEventGame2(Tester t) {
-        return true;
-    }
 
-    public boolean testOnKeyEventBossLevel(Tester t) {
-        return true;
+        return
+                t.checkExpect(game0.onKeyEvent("b"),
+                        game1, "testing bomb drop in Game2" + "\n");
     }
+    
+    
+    //testing laying bombs in BossLevel World
+    public boolean testLayBomb2(Tester t) {
+        LinkedList<Bomb> bomblist0 = new LinkedList();
+          BossLevel boss0 = new BossLevel(15, 0, 50, randB, link, heartsMT,
+        bomblist0, explosionMT);
+            LinkedList<Bomb> bomblist1 = new LinkedList();
+        bomblist1.add(new Bomb(new Posn(350,250)));
+        BossLevel boss1 = new BossLevel(15, 0, 50, randB, link, heartsMT,
+        bomblist1, explosionMT);
+        
+        return
+                t.checkExpect(boss0.onKeyEvent("b"),
+                        boss1, "testing bomb drop in BossLevel" + "\n");
+    }
+    
+    
+
+
+    
+    public boolean testGameOverToGame2(Tester t) {
+        GameOver gameOver = new GameOver(15, link, "GAME OVER!");
+        LinkedList Enemies = new LinkedList();
+            Enemies.add(new Enemy());
+            LinkedList Hearts = new LinkedList();
+
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            Hearts.add(new Heart());
+            
+        Game2 gameRestart = new Game2(15,0,0,link,Enemies, Hearts, 
+                bombsMT,explosionMT,keyMT, false, false, true);
+        
+        return
+                //checks to see if the keypress returns a game2 instanceof game2
+                t.checkExpect(gameOver.onKeyEvent("s") instanceof Game2,
+                        
+                        gameRestart instanceof Game2, "test change from game over to game2" + "\n");
+        // can't compare the game created by gameOver.onKeyEvent("s") because it 
+        // creates two linked lists, one of enemies, and one of hearts, 
+        // in which the items each time a game is
+        // created will rarely be the same because hearts and enemies are placed randomly
+        // on the screen
+    }
+    
+
 
     //test that the Boss does not move out of bounds
     public boolean testBossOutofBounds(Tester t) {
-        return true;
+        BossLevel bossL = new BossLevel(10,10,10, randBoss().bossMove(), link, heartsMT, bombsMT,
+        explosionMT);
+        return t.checkExpect(bossL.boss.outOfBounds(),
+                false, "test if boss is out of bounds ever" + "\n");
+    }
+    
+    public boolean checkIfCanMakeMoreHearts(Game2 game) {
+        if (game.kills %25 == 0 && Utility.biasCoinToss()) {
+            return true;
+        } else
+            return false;
     }
 
     // test that the heart list increases when kills is divisible by certain amount
     public boolean heartIncList(Tester t) {
-        return true;
+                Game2 game = new Game2(15,25,25,link, enemiesMT, heartsMT, 
+                bombsMT,explosionMT,keyMT, false, false, true);
+                // on tick should make the boolean representing makeMoreHearts to 
+                // be true since kills can be divided by 25 with 0 remainder.
+                Game2 game1 = (Game2) game.onTick();
+        return
+                t.checkExpect(checkIfCanMakeMoreHearts(game) == game1.makeMoreHearts,
+                        true, "check if make more hearts works" + "\n");
     }
 
     // test that the bomb's timer increases on tick
