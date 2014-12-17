@@ -13,16 +13,9 @@ import java.util.*;
 import java.awt.Color;
 
 public class TestTest {
-
-    Enemy enemy;
-
-    Boss boss;
-    int score;
-    int lives;
-    int money;
-    int kills;
     int screenWIDTH = 700;
     int screenHEIGHT = 500;
+    
     Hero link = new Hero(new Posn(350, 250));
     LinkedList<Enemy> enemiesMT = new LinkedList();
     LinkedList<Bomb> bombsMT = new LinkedList();
@@ -42,24 +35,8 @@ public class TestTest {
     public static Boss randBoss() {
         return new Boss(randPosn());
     }
-
-
-
     
     
-    public Game2 createGame2() {
-        return new Game2(15, 0, 0, new Hero(randPosn()), enemiesMT, heartsMT, bombsMT, 
-        explosionMT, keyMT, false, false, true);
-        
-    }
-    public BossLevel createBossLevel() {
-        return new BossLevel(15, 0, 50, randBoss(), link, heartsMT,
-        bombsMT, explosionMT);
-    }
-    
-    public GameOver createGameOver() {
-        return new GameOver(score, link, "hello");
-    }
 
     public boolean testLinkMove(Tester t) {
         int x = 350;
@@ -194,59 +171,115 @@ public class TestTest {
     }
     
     public boolean checkIfCanMakeMoreHearts(Game2 game) {
-        if (game.kills %25 == 0 && Utility.biasCoinToss()) {
+        if (game.kills %25 == 0) {
             return true;
         } else
             return false;
     }
 
     // test that the heart list increases when kills is divisible by certain amount
+    
     public boolean heartIncList(Tester t) {
         //making hero be in the corner so there is no possibility for hero to be eating a heart. 
-                LinkedList Enemies = new LinkedList();
-            Enemies.add(new Enemy());
-            LinkedList Hearts = new LinkedList();
-
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-            Hearts.add(new Heart());
-                Game2 game = new Game2(15,25,25,new Hero(new Posn(0,0)), Enemies, Hearts, 
+                Game2 game = new Game2(15,25,25,new Hero(new Posn(0,0)), enemiesMT, heartsMT, 
                 bombsMT,explosionMT,keyMT, false, false, true);
                 // on tick should make the boolean representing makeMoreHearts to 
                 // be true since kills can be divided by 25 with 0 remainder.
-                Game2 game1 = (Game2) game.onTick();
-                
+                Game2 game1 = (Game2) game.onTick();      
         return
-                t.checkExpect(checkIfCanMakeMoreHearts(game) == game1.makeMoreHearts,
-                        true, "check if make more hearts works" + "\n")
+                t.checkOneOf(game.kills%20==0,
+                        game1.makeMoreHearts, "check if make more hearts works" + "\n")
                 && t.checkExpect(game.hearts.size() <= game1.hearts.size(),
                         // list of hearts should either stay the same size or 
                         // increase. It stays the same size with biasCoinToss
                         // is false. 
-                        true, "check if hearts are being added.");
-        
+                        true, "check if hearts are being added." + "\n");  
     }
 
     // test that the bomb's timer increases on tick
     public boolean bombIncTest(Tester t) {
-        return true;
+        LinkedList<Bomb> bomblist1 = new LinkedList();
+        LinkedList<Bomb> bomblist2 = new LinkedList();
+        LinkedList<Bomb> bomblist3 = new LinkedList();
+        
+        Bomb bomb1 = new Bomb(new Posn(100,200), 0);
+        Bomb bomb2 = new Bomb(new Posn(100,200), 1);
+        Bomb bomb3 = new Bomb(new Posn(100,200), 2);
+        Bomb bomb4 = new Bomb(new Posn(100,200), 10);
+        bomblist1.add(bomb1);
+        bomblist2.add(bomb2);
+        bomblist3.add(bomb3);
+        
+        LinkedList<Explosion> explosionlist1 = new LinkedList();
+        LinkedList<Explosion> explosionlist2 = new LinkedList();
+        LinkedList<Explosion> explosionlist3 = new LinkedList();
+        
+        Explosion explosion1 = new Explosion(new Posn(100,200), 0);
+        Explosion explosion2 = new Explosion(new Posn(100,200), 1);
+        Explosion explosion3 = new Explosion(new Posn(100,200), 2);
+        explosionlist1.add(explosion1);
+        explosionlist2.add(explosion2);
+        explosionlist3.add(explosion3);
+        
+        Game2 game1 = new Game2(15,0,0,link,enemiesMT, heartsMT, 
+                bomblist1,explosionMT,keyMT, false, false, true);
+        Game2 game2 = new Game2(15,0,0,link,enemiesMT, heartsMT,
+                bomblist2,explosionMT,keyMT,false,false,true);
+                Game2 game3 = new Game2(15,0,0,link,enemiesMT, heartsMT,
+                bomblist3,explosionMT,keyMT,false,false,true);
+        
+        return t.checkExpect(game1.onTick(),
+                game2, "check to see if bomb timer increased ontick" + "\n")
+                && t.checkExpect(game2.onTick(),
+                        game3, "check to see if bomb time increased ontick" + "\n");
     }
 
     // test that the explosion's timer increases on tick
     public boolean explIncTest(Tester t) {
-        return true;
+        LinkedList<Explosion> explosionlist1 = new LinkedList();
+        LinkedList<Explosion> explosionlist2 = new LinkedList();
+        LinkedList<Explosion> explosionlist3 = new LinkedList();
+        
+        Explosion explosion1 = new Explosion(new Posn(100,200), 0);
+        Explosion explosion2 = new Explosion(new Posn(100,200), 1);
+        Explosion explosion3 = new Explosion(new Posn(100,200), 2);
+        explosionlist1.add(explosion1);
+        explosionlist2.add(explosion2);
+        explosionlist3.add(explosion3);
+        
+                Game2 game1 = new Game2(15,0,0,link,enemiesMT, heartsMT, 
+                bombsMT,explosionlist1,keyMT, false, false, true);
+                Game2 game2 = new Game2(15,0,0,link,enemiesMT, heartsMT,
+                bombsMT,explosionlist2,keyMT,false,false,true);
+                Game2 game3 = new Game2(15,0,0,link,enemiesMT, heartsMT,
+                bombsMT,explosionlist3,keyMT,false,false,true);
+                
+                return t.checkExpect(game1.onTick(),
+                        game2, "check to see if explosion timer increased on tick" + "\n")
+                        && t.checkExpect(game2.onTick(),
+                                game3, "check to see if explosion timer increased on tick" + "\n");
     }
 
     // test that the enemy list increases on tick when not being killed
+
+
     public boolean enemyList1(Tester t) {
-        return true;
+        Enemy enemy1 = new Enemy();
+        Enemy enemy2 = enemy1.moveEnemy();
+        
+        LinkedList<Enemy> enemyList1 = new LinkedList();
+        enemyList1.add(enemy1);
+        LinkedList<Enemy> enemyList2 = new LinkedList();
+        enemyList2.add(enemy2);
+
+        Game2 game1 = new Game2(15, 15, 15, link, enemyList1, heartsMT, bombsMT, explosionMT, keyMT,
+        false, false, true);
+        Game2 game2 =  new Game2(15, 15, 15, link, enemyList2, heartsMT, bombsMT, explosionMT, keyMT,
+        false, false, true);
+        
+        return
+                t.checkExpect(game1.onTick(),
+                        game2, "testing the movement of an enemy object" + "\n");
     }
 
     // test that the enemy list decreases when being killed

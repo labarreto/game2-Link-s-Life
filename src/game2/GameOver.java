@@ -58,12 +58,7 @@ public class GameOver extends World {
             return this;
         }
     }
-//        return new Game2(this.lives, this.score, 0, hero,
-//                Enemies, Hearts,
-//                new LinkedList(), // bombs
-//                new LinkedList(), // explosions
-//                new LinkedList(), // key
-//                false, false, true);
+
 
     
 

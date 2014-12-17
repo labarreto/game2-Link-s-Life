@@ -239,6 +239,7 @@ public class BossLevel extends World {
         while (hrt.hasNext()) {
             world = new OverlayImages(world,
                     hrt.next().heartImage());
+            
         }
 
         while (b.hasNext()) {

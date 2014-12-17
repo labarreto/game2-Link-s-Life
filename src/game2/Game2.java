@@ -125,6 +125,7 @@ public class Game2 extends World {
             } else {
 
                 newBombList.add(b.incTime());
+                System.out.println(b.time);
             }
         }
 
