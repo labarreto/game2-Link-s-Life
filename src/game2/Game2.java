@@ -206,8 +206,7 @@ public class Game2 extends World {
         makeMoreHearts = false;
         while (hrt.hasNext()) {
             Heart r = hrt.next();
-            if (r.collectedHuh(hero)) {
-
+            if (hero.collectingHeart(r)) {
                 lives++;
             } else {
                 heartList.add(r);
@@ -215,7 +214,7 @@ public class Game2 extends World {
 
         }
 
-        if (kills >= 50 && score >= 50 && shouldKeyAppear) {
+        if (kills >= 30 && score >= 30 && shouldKeyAppear) {
 
             shouldKeyAppear = false;
             k.add(new Key());
@@ -262,7 +261,7 @@ public class Game2 extends World {
 //                    new LinkedList(), // explosions
 //                    new LinkedList(), // key
 //                    false, true, false);
-              return new BossLevel(this.lives, this.score, 10, new Boss(), new Hero(new Posn(10, screenHEIGHT/2)),
+              return new BossLevel(this.lives, this.score, 5, new Boss(), new Hero(new Posn(10, screenHEIGHT/2)),
                     Hearts, // hearts
                     Bombs, // bombs
                     Explosions // explosions
@@ -270,7 +269,7 @@ public class Game2 extends World {
         } else if (lives < 1) {
             
             string = "GAME OVER!";
-            return new GameOver(this.lives, this.hero, string);
+            return new GameOver(this.score, this.hero, string);
             
         } else {
             return new Game2(this.lives,

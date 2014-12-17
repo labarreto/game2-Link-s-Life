@@ -43,42 +43,21 @@ public class Heart {
         return pin;
     }
 
-    boolean collectedHuh(Hero hero) {
-        int a = this.pin.x;
-        int b = hero.pin.x;
-        int c = this.pin.y;
-        int d = hero.pin.y;
-
-        int halfHeroWidth = hero.width / 2;
-        int halfHeroHeight = hero.height / 2;
-        int halfHWidth = width / 2;
-        int halfHHeight = height / 2;
-
-        if (Math.abs(a - b) < (halfHeroWidth + halfHWidth )
-                && (Math.abs(c - d) < (halfHeroHeight + halfHHeight))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    boolean explodingHuh(Explosion explosion) {
-         int a = this.pin.x;
-        int b = explosion.pin.x;
-        int c = this.pin.y;
-        int d = explosion.pin.y;
-
-        int halfEWidth = explosion.width / 2;
-        int halfEHeight = explosion.height / 2;
-        int halfRupWidth = width / 2;
-        int halfRupHeight = height / 2;
-
-        if (Math.abs(a - b) < (halfEWidth )
-                && (Math.abs(c - d) < (halfEHeight))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    boolean collectedHuh(Hero hero) {
+//        int a = this.pin.x;
+//        int b = hero.pin.x;
+//        int c = this.pin.y;
+//        int d = hero.pin.y;
+//
+//        int halfHeroWidth = hero.width / 2;
+//        int halfHeroHeight = hero.height / 2;
+//
+//        if (Math.abs(a - b) < (halfHeroWidth + width)
+//                && (Math.abs(c - d) < (halfHeroHeight +height))) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
     
 }

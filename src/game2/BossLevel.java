@@ -98,7 +98,7 @@ public class BossLevel extends World {
         Iterator<Bomb> bi = bombs.listIterator(0);
 
         Iterator<Heart> hrt = hearts.listIterator(0);
-        Heart heart = new Heart();
+        //Heart heart = new Heart();
 
         Iterator<Explosion> ei = explosions.listIterator(0);
 
@@ -162,7 +162,7 @@ public class BossLevel extends World {
                 kills++;
                 score++;
                 bosslives--;
-                
+                Heart heart = new Heart();
                 if (Utility.biasCoinToss()) {
                     heartList.add(heart);
                 }
@@ -183,8 +183,7 @@ public class BossLevel extends World {
 
         while (hrt.hasNext()) {
             Heart r = hrt.next();
-            if (r.collectedHuh(hero)) {
-
+            if (hero.collectingHeart(r)) {
                 lives++;
             } else {
                 heartList.add(r);
@@ -222,16 +221,12 @@ public class BossLevel extends World {
                         new TextImage(new Posn(50, 20), "Lives:  " + lives,
                                 20, new Black()),
                         new OverlayImages(
-                                new TextImage(new Posn(150, 20), "Score:  "
+                                new TextImage(new Posn(300, 20), "Score:  "
                                         + score, 20, new Black()),
-                                new OverlayImages(
-                                        
-                                                new TextImage(new Posn(375, 20),
-                                                        "Kills:  " + kills,
-                                                        20, new Black()),
-                                                new TextImage(new Posn(600, 20),
+
+                                     new TextImage(new Posn(550, 20),
                                                         "BossLives:  " + bosslives,
-                                                        20, new Black())))));
+                                                        20, new Black()))));
 
         world = new OverlayImages(world,
                 boss.bossImage());

@@ -112,14 +112,14 @@ public class Hero {
 //        
 //    }
     
-    public boolean collectingHeart(Heart rupees) {
+    public boolean collectingHeart(Heart heart) {
         int a = this.pin.x;
-        int b = rupees.getPin().x;
+        int b = heart.getPin().x;
         int c = this.pin.y;
-        int d = rupees.getPin().y;
+        int d = heart.getPin().y;
         
-        int rw = rupees.width / 2;
-        int rh = rupees.height / 2;
+        int rw = heart.width / 2;
+        int rh = heart.height / 2;
         int hw = width / 2 ;
         int hh = height / 2;
         

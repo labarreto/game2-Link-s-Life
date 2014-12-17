@@ -53,39 +53,6 @@ public class Explosion {
         }
     }
     
-    boolean explodingRupees(Heart rup) {
-            int a = this.pin.x;
-        int b = rup.pin.x;
-        int c = this.pin.y;
-        int d = rup.pin.y;
-
-        int halfRupWidth = rup.width / 2;
-        int halfRupHeight = rup.height / 2;
-
-        if (Math.abs(a - b) < (halfRupWidth)
-                && (Math.abs(c - d) < (halfRupHeight))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    boolean explodingEnemies(Enemy enemy) {
-        int a = this.pin.x;
-        int b = enemy.pin.x;
-        int c = this.pin.y;
-        int d = enemy.pin.y;
-
-        int halfEnWidth = enemy.width / 2;
-        int halfEnHeight = enemy.height / 2;
-
-        if (Math.abs(a - b) < (halfEnWidth)
-                && (Math.abs(c - d) < (halfEnHeight))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
     
     boolean explodingBoss(Boss boss) {
         int a = this.pin.x;
@@ -103,23 +70,7 @@ public class Explosion {
             return false;
         }
     }
-    
-    boolean explodingBomb (Bomb bomb) {
-        int a = this.pin.x;
-        int b = bomb.pin.x;
-        int c = this.pin.y;
-        int d = bomb.pin.y;
-
-        int halfBWidth = bomb.width / 2;
-        int halfBHeight = bomb.height / 2;
-
-        if (Math.abs(a - b) < (halfBWidth)
-                && (Math.abs(c - d) < (halfBHeight))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+  
     
     public Explosion incTime() {
         return new Explosion(pin, time + 1);
